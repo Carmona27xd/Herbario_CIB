@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Herbario CIB - Registro</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Estilo para centrar el formulario en la pantalla */
+        .full-screen {
+            height: 100vh; /* Ocupa el 100% de la altura de la pantalla */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f8f9fa; /* Color de fondo opcional */
+        }
+        /* Estilo para el formulario */
+        .form-container {
+            width: 100%;
+            max-width: 400px; /* Ancho máximo del formulario */
+            padding: 20px;
+            background-color: white; /* Fondo blanco para el formulario */
+            border-radius: 10px; /* Bordes redondeados */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+        }
+        .form-container label {
+            display: block; /* Hace que los labels ocupen una línea completa */
+            margin-bottom: 5px; /* Espacio entre el label y el input */
+        }
+        .form-container input {
+            width: 100%; /* Ocupa el 100% del ancho disponible */
+            margin-bottom: 15px; /* Espacio entre los inputs */
+        }
+        .form-container button {
+            width: 100%; /* Ocupa el 100% del ancho disponible */
+        }
+        /* Estilo para los enlaces dentro de los labels */
+        .form-container a {
+            color: #0d6efd; /* Color azul de Bootstrap (btn-primary) */
+            text-decoration: none; /* Quita el subrayado */
+        }
+        .form-container a:hover {
+            text-decoration: underline; /* Subraya al pasar el mouse */
+        }
+        /* Estilo para el checkbox y su label */
+        .form-container .form-check {
+            margin-bottom: 15px; /* Espacio debajo del checkbox */
+        }
+    </style>
+</head>
+<body>
+    <div class="full-screen">
+        <div class="form-container">
+            <h2 class="text-center">Registro</h2>
+            <form id="registerForm">
+                <!-- Campo de nombre -->
+                <div class="mb-3">
+                    <label for="name">Nombres</label>
+                    <input type="text" class="form-control" name="name" id="name" required>
+                </div>
+                <!-- Campo de primer apellido -->
+                <div class="mb-3">
+                    <label for="first_Surname">Primer apellido</label>
+                    <input type="text" class="form-control" name="first_Surname" id="first_Surname" required>
+                </div>
+                <!-- Campo de segundo apellido -->
+                <div class="mb-3">
+                    <label for="second_Surname">Segundo apellido</label>
+                    <input type="text" class="form-control" name="second_Surname" id="second_Surname" required>
+                </div>
+                <!-- Campo de correo electrónico -->
+                <div class="mb-3">
+                    <label for="email">Correo electrónico</label>
+                    <input type="email" class="form-control" name="email" id="email" required>
+                </div>
+                <!-- Campo de contraseña -->
+                <div class="mb-3">
+                    <label for="password">Contraseña</label>
+                    <input type="password" class="form-control" name="password" id="password" required>
+                </div>
+                <!-- Campo de confirmación de contraseña -->
+                <div class="mb-3">
+                    <label for="confirmPassword">Confirmar contraseña</label>
+                    <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" required>
+                </div>
+                <!-- Checkbox para aceptar términos y políticas -->
+                <div class="mb-3 d-flex align-items-center">
+                    <input type="checkbox" class="me-2" id="acceptTerms" required>
+                    <label for="acceptTerms" style="white-space: nowrap;">
+                        Acepto los <a href="#">términos</a> y las <a href="#">políticas de privacidad</a>
+                    </label>
+                </div>
+                <!-- Botón de enviar -->
+                <div class="mb-3">
+                    <button class="btn btn-primary w-100" type="submit">Registrarme</button>
+                </div>
+                <!-- Labels adicionales -->
+                <div class="text-center">
+                    <p>Ya estoy registrado <a href="#">Iniciar sesión</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <p id="message"></p>
+    <script src="registerController.js"></script>
+
+    <!-- Bootstrap JS (opcional, si necesitas funcionalidades de JS) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

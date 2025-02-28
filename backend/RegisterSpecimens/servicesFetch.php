@@ -23,6 +23,14 @@ try {
         $datos['genero'][] = $row; 
     }
 
+    //Metodo de la especie
+    $sql = "SELECT idEspecie, nombre FROM Especie";
+    $result = $conexion->query($sql); 
+
+    while ($row = $result->fetch_assoc()) {
+        $datos['especie'][] = $row; 
+    }
+
     echo json_encode($datos); 
 } catch (Exception $e) {
     echo json_encode(array("error" => $e->getMessage()));

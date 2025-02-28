@@ -1,10 +1,11 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Llenar el combo box de géneros
+    
+    // Combo box de Géneros
     fetch('../../backend/RegisterSpecimens/servicesFetch.php')
         .then(response => response.json())
         .then(data => {
             let select = document.getElementById("genreSelect");
-            // Acceder a la propiedad 'genero' del objeto
+            //Aceder a la propiedad que se desea
             data.genero.forEach(genero => {
                 let option = document.createElement("option");
                 option.value = genero.idGenero; 
@@ -14,12 +15,11 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .catch(error => console.error("Error cargando los géneros:", error));
 
-    // Llenar el combo box de familias
+    // Combo box de Familias
     fetch('../../backend/RegisterSpecimens/servicesFetch.php') 
         .then(response => response.json()) 
         .then(data => {
             let select = document.getElementById("familySelect");
-            // Acceder a la propiedad 'familia' del objeto
             data.familia.forEach(familia => {
                 let option = document.createElement("option");
                 option.value = familia.idFamilia; 
@@ -27,5 +27,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 select.appendChild(option);
             });
         })
-        .catch(error => console.error("Error cargando las familias:", error));
+        .catch(error => console.error("Error cargando las especies:", error));
+    
+    // Combo box de Especies
+    fetch('../../backend/RegisterSpecimens/servicesFetch.php') 
+        .then(response => response.json()) 
+        .then(data => {
+            let select = document.getElementById("speciesSelect");
+            data.especie.forEach(especie => {
+                let option = document.createElement("option");
+                option.value = especie.idEspecie; 
+                option.textContent = especie.nombre; 
+                select.appendChild(option);
+            });
+        })
+        .catch(error => console.error("Error cargando las familias:", error));   
 });

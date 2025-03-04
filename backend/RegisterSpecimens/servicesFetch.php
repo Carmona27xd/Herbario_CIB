@@ -24,11 +24,51 @@ try {
     }
 
     //Metodo de la especie
-    $sql = "SELECT idEspecie, nombre FROM Especie";
+    $sql = "SELECT idEspecie, nombre FROM especie";
     $result = $conexion->query($sql); 
 
     while ($row = $result->fetch_assoc()) {
         $datos['especie'][] = $row; 
+    }
+
+    //Metodo de la forma biologica
+    $sql = "SELECT idFormaBiologica, nombre FROM formabiologica";
+    $result = $conexion->query($sql);
+
+    while ($row = $result->fetch_assoc()){
+        $datos['formabiologica'][] = $row;
+    }
+
+    //Metodo del tipo de vegetacion
+    $sql = "SELECT idTipoVegetacion, nombre FROM tipovegetacion";
+    $result = $conexion->query($sql);
+
+    while ($row = $result->fetch_assoc()){
+        $datos['tipovegetacion'][] = $row;
+    }
+
+    //Metodo del suelo
+    $sql = "SELECT idSuelo, nombre FROM suelo";
+    $result = $conexion->query($sql);
+
+    while ($row = $result->fetch_assoc()){
+        $datos['suelo'][] = $row;
+    }
+
+    //Metodo del fruto
+    $sql = "SELECT idFruto, nombre FROM fruto";
+    $result = $conexion->query($sql);
+
+    while ($row = $result->fetch_assoc()){
+        $datos['fruto'][] = $row;
+    }
+
+    //Metodo de la flor
+    $sql = "SELECT idFlor, nombre FROM flor";
+    $result = $conexion->query($sql);
+
+    while ($row = $result->fetch_assoc()){
+        $datos['flor'][] = $row;
     }
 
     echo json_encode($datos); 

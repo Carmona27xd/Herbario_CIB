@@ -31,6 +31,15 @@
             cursor: pointer;
             background-color: #f8f9fa;
         }
+        .required {
+            color: red;
+            font-weight: bold;
+        }
+        .image-upload img {
+            width: 100%; 
+            height: 100%; 
+            object-fit: contain; 
+        }
     </style>
 </head>
 <body>
@@ -70,8 +79,10 @@
                 <div class="row">
                     <!-- Primera columna -->
                     <div class="col-md-4">
-                        <label class="form-label">Nombre científico</label>
-                        <input type="text" class="form-control">
+                        <label class="form-label" for="scientificName">
+                            <span class="required">*</span> Nombre científico
+                        </label>
+                        <input type="text" class="form-control" id="scientificName" required placeholder="Ingrese el nombre científico">
                         
                         <label class="form-label mt-2">Género</label>
                         <select class="form-select" id="genreSelect">
@@ -79,23 +90,23 @@
                         </select>
 
                         <label class="form-label mt-2">Tipo de vegetación</label>
-                        <select class="form-select">
+                        <select class="form-select" id="typeVegetationSelect">
                             <option>Seleccionar</option>
                         </select>
 
                         <label class="form-label mt-2">Flor</label>
-                        <select class="form-select">
+                        <select class="form-select" id="flowerSelect">
                             <option>Seleccionar</option>
                         </select>
 
                         <label class="form-label mt-2">Determino</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" id="determine" required placeholder="Ingrese quien determino el especimen">
                     </div>
 
                     <!-- Segunda columna -->
                     <div class="col-md-4">
                         <label class="form-label">Especímen ID</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" id="specimenID" required placeholder="Ingrese el ID del especimen">
                         
                         <label class="form-label mt-2">Especie</label>
                         <select class="form-select" id="speciesSelect">
@@ -103,7 +114,7 @@
                         </select>
 
                         <label class="form-label mt-2">Suelo</label>
-                        <select class="form-select">
+                        <select class="form-select" id="soilSelect">
                             <option>Seleccionar</option>
                         </select>
 
@@ -113,7 +124,7 @@
                         </select>
 
                         <label class="form-label mt-2">Nombre local</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" id="localName" required placeholder="Ingrese el nombre local">
                     </div>
 
                     <!-- Tercera columna -->
@@ -123,13 +134,13 @@
                             <option>Seleccionar</option>
                         </select>
 
-                        <label class="form-label mt-2">Forma Biológica</label>
-                        <select class="form-select">
+                        <label class="form-label mt-2">Forma Biologica</label>
+                        <select class="form-select" id="biologicalFormSelect">
                             <option>Seleccionar</option>
                         </select>
 
                         <label class="form-label mt-2">Fruto</label>
-                        <select class="form-select">
+                        <select class="form-select" id="fruitSelect">
                             <option>Seleccionar</option>
                         </select>
 
@@ -139,7 +150,7 @@
                         </select>
 
                         <label class="form-label mt-2">Tamaño</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" id="size" required placeholder="Ingrese el tamaño">
                     </div>
                 </div>
 
@@ -157,15 +168,15 @@
 
                     <div class="col-md-6 d-flex align-items-center justify-content-center">
                         <label class="image-upload">
-                            <input type="file" accept="image/*" hidden>
-                            <img src="https://via.placeholder.com/80" alt="Subir imagen">
+                            <input type="file" accept="image/*" id="imageInput" hidden onchange="previewImage(event)">
+                            <img id="preview" src="/SCEPIB_UV/public/images/uploadImage.png" alt="Subir imagen">
                         </label>
                     </div>
                 </div>
 
                 <!-- Botón Siguiente -->
                 <div class="text-center mt-3">
-                    <button type="submit" class="btn btn-success">Siguiente</button>
+                    <button type="button" class="btn btn-success" id="nextButton">Siguiente</button>
                 </div>
             </form>
         </div>

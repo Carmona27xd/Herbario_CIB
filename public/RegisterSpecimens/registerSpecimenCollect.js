@@ -1,3 +1,5 @@
+//A revisar, el modelo de datos no contiene datos de los municipios, quizas acceder a una API externa
+
 document.addEventListener("DOMContentLoaded", function () {
     // Llamada para obtener los datos de los combo box
     fetch('../../backend/RegisterSpecimens/servicesFetchCollect.php')

@@ -7,7 +7,7 @@ include '../../database/connectionDB.php';
 $datos = array();
 
 try {
-    // Método de la familia
+    // Consulta de la familia
     $sql = "SELECT idFamilia, nombre FROM familia";
     $result = $conexion->query($sql);
 
@@ -15,7 +15,7 @@ try {
         $datos['familia'][] = $row; 
     }
 
-    // Método del género 
+    // Consulta del género 
     $sql = "SELECT idGenero, nombre FROM genero";
     $result = $conexion->query($sql); 
 
@@ -23,7 +23,7 @@ try {
         $datos['genero'][] = $row; 
     }
 
-    //Metodo de la especie
+    // Consulta de la especie
     $sql = "SELECT idEspecie, nombre FROM especie";
     $result = $conexion->query($sql); 
 
@@ -31,7 +31,7 @@ try {
         $datos['especie'][] = $row; 
     }
 
-    //Metodo de la forma biologica
+    // Consulta de la forma biologica
     $sql = "SELECT idFormaBiologica, nombre FROM formabiologica";
     $result = $conexion->query($sql);
 
@@ -39,7 +39,7 @@ try {
         $datos['formabiologica'][] = $row;
     }
 
-    //Metodo del tipo de vegetacion
+    // Consulta del tipo de vegetacion
     $sql = "SELECT idTipoVegetacion, nombre FROM tipovegetacion";
     $result = $conexion->query($sql);
 
@@ -47,7 +47,7 @@ try {
         $datos['tipovegetacion'][] = $row;
     }
 
-    //Metodo del suelo
+    // Consulta del suelo
     $sql = "SELECT idSuelo, nombre FROM suelo";
     $result = $conexion->query($sql);
 
@@ -55,7 +55,7 @@ try {
         $datos['suelo'][] = $row;
     }
 
-    //Metodo del fruto
+    // Consulta del fruto
     $sql = "SELECT idFruto, nombre FROM fruto";
     $result = $conexion->query($sql);
 
@@ -63,7 +63,7 @@ try {
         $datos['fruto'][] = $row;
     }
 
-    //Metodo de la flor
+    // Consulta de la flor
     $sql = "SELECT idFlor, nombre FROM flor";
     $result = $conexion->query($sql);
 

@@ -84,12 +84,16 @@
                         </label>
                         <input type="text" class="form-control" id="scientificName" required placeholder="Ingrese el nombre científico">
                         
-                        <label class="form-label mt-2">Género</label>
+                        <label class="form-label mt-2">
+                            <span class="required">*</span>&nbsp;Género
+                        </label>
                         <select class="form-select" id="genreSelect">
                             <option>Seleccionar</option>
                         </select>
 
-                        <label class="form-label mt-2">Tipo de vegetación</label>
+                        <label class="form-label mt-2">
+                            <span class="required">*</span>&nbsp;Tipo de vegetación
+                        </label>
                         <select class="form-select" id="typeVegetationSelect">
                             <option>Seleccionar</option>
                         </select>
@@ -99,13 +103,17 @@
                             <option>Seleccionar</option>
                         </select>
 
-                        <label class="form-label mt-2">Determino</label>
+                        <label class="form-label" for="determine">
+                            <span class="required">*</span> Determino
+                        </label>
                         <input type="text" class="form-control" id="determine" required placeholder="Ingrese quien determino el especimen">
                     </div>
 
                     <!-- Segunda columna -->
                     <div class="col-md-4">
-                        <label class="form-label">Especímen ID</label>
+                        <label class="form-label" for="specimenID">
+                            <span class="required">*</span> Especímen ID
+                        </label>
                         <input type="text" class="form-control" id="specimenID" required placeholder="Ingrese el ID del especimen">
                         
                         <label class="form-label mt-2">Especie</label>

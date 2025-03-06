@@ -3,15 +3,15 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 $host = "localhost";  
-$usuario = "root";    
+$username = "root";    
 $password = "password";       
-$base_datos = "herbario";  
+$dbname = "herbario";  
 
-$conexion = new mysqli($host, $usuario, $password, $base_datos);
-
-if ($conexion->connect_error) {
-    die("Error en la conexión: " . $conexion->connect_error);
-} else {
-    echo "Conexión exitosa a la base de datos";
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    $pdo ->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    //echo "connected successfully";
+} catch (PDOException $e) {
+    die("Error: " . $e->getMessage());
 }
 ?>

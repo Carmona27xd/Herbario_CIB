@@ -1,18 +1,18 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Llamada para obtener los datos de los combo box
     fetch('../../backend/RegisterSpecimens/servicesFetchRegister.php')
         .then(response => response.json())
         .then(data => {
-            if (!data) {
-                console.error("No se recibieron datos válidos del servidor.");
+            if (!data || Object.keys(data).length === 0) {
+                console.error("El servidor no devolvió datos o la respuesta está vacía.");
                 return;
             }
 
-            // Mapeo de selectores con la propiedad necesarias
+            console.log("Datos recibidos del servidor:", data); 
+
             const selectMap = {
                 "genreSelect": { key: "genero", idKey: "idGenero" },
                 "familySelect": { key: "familia", idKey: "idFamilia" },
-                "speciesSelect": { key: "especie", idKey: "idEspecie" },
+                "specieSelect": { key: "especie", idKey: "idEspecie" },
                 "biologicalFormSelect": { key: "formabiologica", idKey: "idFormaBiologica" },
                 "typeVegetationSelect": { key: "tipovegetacion", idKey: "idTipoVegetacion" },
                 "soilSelect": { key: "suelo", idKey: "idSuelo" },
@@ -20,17 +20,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 "flowerSelect": { key: "flor", idKey: "idFlor" }
             };
 
-            // Llenar los combo boxes con los datos correspondientes
             Object.entries(selectMap).forEach(([selectId, { key, idKey }]) => {
                 const select = document.getElementById(selectId);
                 if (select && data[key]) {
-                    console.log(`Llenando ${selectId} con datos de ${key}`); 
-                    select.innerHTML = '<option value="">Seleccionar</option>'; 
+                    console.log(`Llenando ${selectId} con datos de ${key}`);
+                    select.innerHTML = '<option value="">Seleccionar</option>';
 
                     data[key].forEach(item => {
                         let option = document.createElement("option");
                         option.value = item[idKey];
-                        option.textContent = item.nombre; 
+                        option.textContent = item.nombre;
                         select.appendChild(option);
                     });
                 } else {
@@ -40,20 +39,18 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .catch(error => console.error("Error cargando los datos:", error));
 
-    // Validacion y paso a la siguiente página
     document.getElementById('nextButton').addEventListener('click', function (event) {
         event.preventDefault();
         const fieldsValid = validateFields();
         const selectsValid = validateSelects();
 
         if (fieldsValid && selectsValid) {
-            window.location.href = "registerSpecimenCollect.html"; 
+            window.location.href = "registerSpecimenCollect.html";
         } else {
             alert("Por favor complete todos los campos obligatorios.");
         }
     });
 
-    // Funcion para la validacion de los campos obligatorios
     function validateFields() {
         let isValid = true;
         const requiredFields = ['scientificName', 'specimenID', 'localName', 'determine', 'size'];
@@ -62,19 +59,18 @@ document.addEventListener("DOMContentLoaded", function () {
             const field = document.getElementById(fieldId);
             if (!field.value.trim()) {
                 isValid = false;
-                field.classList.add('is-invalid'); 
+                field.classList.add('is-invalid');
             } else {
-                field.classList.remove('is-invalid'); 
+                field.classList.remove('is-invalid');
             }
         });
 
         return isValid;
     }
 
-    // Funcion para la validacion de los combo box obligatorios
     function validateSelects() {
         let isValid = true;
-        const requiredSelects = ['genreSelect', 'speciesSelect', 'familySelect', 'biologicalFormSelect', 'typeVegetationSelect', 'soilSelect'];
+        const requiredSelects = ['genreSelect', 'specieSelect', 'familySelect', 'biologicalFormSelect', 'typeVegetationSelect', 'soilSelect'];
 
         requiredSelects.forEach(selectId => {
             const select = document.getElementById(selectId);
@@ -89,17 +85,4 @@ document.addEventListener("DOMContentLoaded", function () {
         return isValid;
     }
 
-    // Funcion para la carga de la imagen
-    window.previewImage = function(event) {
-        const input = event.target;
-        const preview = document.getElementById('preview');
-
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                preview.src = e.target.result;
-            };
-            reader.readAsDataURL(input.files[0]);
-        }
-    };
 });

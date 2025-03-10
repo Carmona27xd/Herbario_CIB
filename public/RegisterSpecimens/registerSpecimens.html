@@ -2,195 +2,290 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Registro del Ejemplar</title>
-    <!-- Bootstrap CSS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Ejemplares</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="../../public/RegisterSpecimens/registerSpecimens.js"></script>
     <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .nav-tabs .nav-link.active {
-            background-color: #d9e7f5;
-            border-color: #b0c4de;
-        }
-        .form-container {
+        .card-form {
             background: white;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .image-upload {
-            width: 100px;
-            height: 100px;
-            border: 2px dashed #ccc;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            background-color: #f8f9fa;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         .required {
             color: red;
+        }
+        .bold-label {
             font-weight: bold;
         }
-        .image-upload img {
-            width: 100%; 
-            height: 100%; 
-            object-fit: contain; 
+        .navbar-custom {
+        background-color: #29385e; 
+        }
+        .btn-custom {
+        background-color: #29385e; 
+        color: white; 
+        }
+        .btn-custom:hover {
+        background-color: #29385e; 
         }
     </style>
 </head>
-<body>
-
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
-        <div class="container">
-            <a class="navbar-brand" href="#">Herbario UV</a>
-            <div class="collapse navbar-collapse justify-content-center">
-                <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="#">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link text-success" href="#">Consulta</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Nosotros</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Contacto</a></li>
+<body class="bg-light">
+    <!-- Barra de navegación superior -->
+    <nav class="navbar navbar-expand-lg navbar-light navbar-custom p-3">
+        <div class="container-fluid">
+            <a class="navbar-brand text-white" href="#">Menú</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <button class="nav-link btn btn-custom" onclick="window.location.href='#registro'">Registrar Especimen</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link btn btn-custom" onclick="window.location.href='#etiqueta'">Generar Etiqueta</button>
+                    </li>
                 </ul>
             </div>
-            <a href="#" class="btn btn-success">Login</a>
         </div>
     </nav>
 
-    <!-- Contenedor -->
-    <div class="container mt-4">
-        <!-- Tabs -->
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link active" href="#">Ejemplar</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Colecta</a>
-            </li>
-        </ul>
-
-        <!-- Formulario -->
-        <div class="form-container mt-3">
-            <h4 class="text-center text-primary">Ejemplar</h4>
-            <form>
-                <div class="row">
-                    <!-- Primera columna -->
-                    <div class="col-md-4">
-                        <label class="form-label" for="scientificName">
-                            <span class="required">*</span> Nombre científico
-                        </label>
-                        <input type="text" class="form-control" id="scientificName" required placeholder="Ingrese el nombre científico">
-                        
-                        <label class="form-label mt-2">
-                            <span class="required">*</span>&nbsp;Género
-                        </label>
-                        <select class="form-select" id="genreSelect">
-                            <option>Seleccionar</option>
-                        </select>
-
-                        <label class="form-label mt-2">
-                            <span class="required">*</span>&nbsp;Tipo de vegetación
-                        </label>
-                        <select class="form-select" id="typeVegetationSelect">
-                            <option>Seleccionar</option>
-                        </select>
-
-                        <label class="form-label mt-2">Flor</label>
-                        <select class="form-select" id="flowerSelect">
-                            <option>Seleccionar</option>
-                        </select>
-
-                        <label class="form-label" for="determine">
-                            <span class="required">*</span> Determino
-                        </label>
-                        <input type="text" class="form-control" id="determine" required placeholder="Ingrese quien determino el especimen">
-                    </div>
-
-                    <!-- Segunda columna -->
-                    <div class="col-md-4">
-                        <label class="form-label" for="specimenID">
-                            <span class="required">*</span> Especímen ID
-                        </label>
-                        <input type="text" class="form-control" id="specimenID" required placeholder="Ingrese el ID del especimen">
-                        
-                        <label class="form-label mt-2">Especie</label>
-                        <select class="form-select" id="speciesSelect">
-                            <option>Seleccionar</option>
-                        </select>
-
-                        <label class="form-label mt-2">Suelo</label>
-                        <select class="form-select" id="soilSelect">
-                            <option>Seleccionar</option>
-                        </select>
-
-                        <label class="form-label mt-2">Asociada</label>
-                        <select class="form-select">
-                            <option>Seleccionar</option>
-                        </select>
-
-                        <label class="form-label mt-2">Nombre local</label>
-                        <input type="text" class="form-control" id="localName" required placeholder="Ingrese el nombre local">
-                    </div>
-
-                    <!-- Tercera columna -->
-                    <div class="col-md-4">
-                        <label class="form-label">Familia</label>
-                        <select class="form-select" id="familySelect">
-                            <option>Seleccionar</option>
-                        </select>
-
-                        <label class="form-label mt-2">Forma Biologica</label>
-                        <select class="form-select" id="biologicalFormSelect">
-                            <option>Seleccionar</option>
-                        </select>
-
-                        <label class="form-label mt-2">Fruto</label>
-                        <select class="form-select" id="fruitSelect">
-                            <option>Seleccionar</option>
-                        </select>
-
-                        <label class="form-label mt-2">Ciclo de vida</label>
-                        <select class="form-select">
-                            <option>Seleccionar</option>
-                        </select>
-
-                        <label class="form-label mt-2">Tamaño</label>
-                        <input type="text" class="form-control" id="size" required placeholder="Ingrese el tamaño">
+    <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh; height: 100vh;">
+        <!-- Contenido principal -->
+        <div class="container p-4" style="width: 100%; max-width: 1200px;">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general" type="button" role="tab">Información General</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="detalles-tab" data-bs-toggle="tab" data-bs-target="#detalles" type="button" role="tab">Detalles de Ejemplar</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="colecta-tab" data-bs-toggle="tab" data-bs-target="#colecta" type="button" role="tab">Colecta</button>
+                </li>
+            </ul>
+            <div class="tab-content mt-3">
+                <div class="tab-pane fade show active" id="general" role="tabpanel">
+                    <div class="card-form">
+                        <h2 class="text-center text-primary">Ejemplar</h2>
+                        <form class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Nombre Científico</label>
+                                <input type="text" class="form-control" placeholder="Ingrese el nombre científico">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Especimen ID</label>
+                                <input type="text" class="form-control" placeholder="Ingrese el ID del especimen">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Familia</label>
+                                <select class="form-select" id="familySelect">
+                                    <option selected>Seleccionar</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Género</label>
+                                <select class="form-select" id="genreSelect">
+                                    <option selected>Seleccionar</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Especie</label>
+                                <select class="form-select" id="specieSelect">
+                                    <option selected>Seleccionar</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Forma Biológica</label>
+                                <select class="form-select" id="biologicalFormSelect">
+                                    <option selected>Seleccionar</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Tipo de Vegetación</label>
+                                <select class="form-select" id="typeVegetationSelect">
+                                    <option selected>Seleccionar</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Suelo</label>
+                                <select class="form-select" id="soilSelect">
+                                    <option selected>Seleccionar</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Fruto</label>
+                                <select class="form-select" id="fruitSelect">
+                                    <option selected>Seleccionar</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Flor</label>
+                                <select class="form-select" id="flowerSelect">
+                                    <option selected>Seleccionar</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Asociada</label>
+                                <input type="text" class="form-control" placeholder="Ingrese el nombre asociado">
+                            </div>
+                            <div class="col-12 text-center">
+                                <button type="submit" class="btn btn-success">Siguiente</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-
-                <!-- Sección inferior -->
-                <div class="row mt-3">
-                    <div class="col-md-6">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="protegido">
-                            <label class="form-check-label" for="protegido">Protegido</label>
-                        </div>
-
-                        <label class="form-label mt-2">Otros datos</label>
-                        <textarea class="form-control" rows="2"></textarea>
-                    </div>
-
-                    <div class="col-md-6 d-flex align-items-center justify-content-center">
-                        <label class="image-upload">
-                            <input type="file" accept="image/*" id="imageInput" hidden onchange="previewImage(event)">
-                            <img id="preview" src="/SCEPIB_UV/public/images/uploadImage.png" alt="Subir imagen">
-                        </label>
+                <div class="tab-pane fade" id="detalles" role="tabpanel">
+                    <div class="card-form">
+                        <h2 class="text-center text-primary">Detalles de Ejemplar</h2>
+                        <form class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Ciclo de Vida</label>
+                                <input type="text" class="form-control" placeholder="Ingrese el ciclo de vida">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Determinador</label>
+                                <input type="text" class="form-control" placeholder="Ingrese el determinador">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Nombre Local</label>
+                                <input type="text" class="form-control" placeholder="Ingrese el nombre local">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Tamaño</label>
+                                <input type="text" class="form-control" placeholder="Ingrese el tamaño">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Duplicados/Cantidad</label>
+                                <input type="text" class="form-control" placeholder="Ingrese la cantidad de duplicados">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Clasificación de planta</label>
+                                <select class="form-select" id="primarySecondarySelect">
+                                    <option selected>Seleccionar</option>
+                                    <option value="primario">Primario</option>
+                                    <option value="secundario">Secundario</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Abundancia</label>
+                                <select class="form-select" id="abundanceSelect">
+                                    <option selected>Seleccionar</option>
+                                    <option value="Escasa">Escasa</option>
+                                    <option value="Regular">Regular</option>
+                                    <option value="Abundante">Abundante</option>
+                                    <option value="Muy abundante">Muy abundante</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Protegido</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="protectedCheckbox">
+                                    <label class="form-check-label" for="protectedCheckbox">
+                                        Selecciona si está protegido
+                                    </label>
+                                </div>
+                            </div>
+                            <!-- Campos que se movieron hacia abajo -->
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Otros Datos</label>
+                                <textarea class="form-control" rows="3" placeholder="Ingrese otros datos"></textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Imagen de Ejemplar</label>
+                                <input type="file" class="form-control" accept="image/*">
+                            </div>
+                            <div class="col-12 text-center">
+                                <button type="submit" class="btn btn-success">Siguiente</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-
-                <!-- Botón Siguiente -->
-                <div class="text-center mt-3">
-                    <button type="button" class="btn btn-success" id="nextButton">Siguiente</button>
+                <div class="tab-pane fade" id="colecta" role="tabpanel">
+                    <div class="card-form">
+                        <h2 class="text-center text-primary">Colecta</h2>
+                        <form class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Fecha de la Colecta</label>
+                                <input type="date" class="form-control" id="collectDate">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Número de la Colecta</label>
+                                <input type="text" class="form-control" placeholder="Ingrese el número de colecta" id="collectNumber">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Estado</label>
+                                <select class="form-select" id="stateSelect">
+                                    <option selected>Seleccionar</option>
+                                    <option value="Estado 1">Estado 1</option>
+                                    <option value="Estado 2">Estado 2</option>
+                                    <option value="Estado 3">Estado 3</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Municipio</label>
+                                <select class="form-select" id="municipalitySelect">
+                                    <option selected>Seleccionar</option>
+                                    <option value="Municipio 1">Municipio 1</option>
+                                    <option value="Municipio 2">Municipio 2</option>
+                                    <option value="Municipio 3">Municipio 3</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Localidad</label>
+                                <select class="form-select" id="localitySelect">
+                                    <option selected>Seleccionar</option>
+                                    <option value="Localidad 1">Localidad 1</option>
+                                    <option value="Localidad 2">Localidad 2</option>
+                                    <option value="Localidad 3">Localidad 3</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Latitud</label>
+                                <input type="text" class="form-control" placeholder="Ingrese la latitud" id="latitude">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Longitud</label>
+                                <input type="text" class="form-control" placeholder="Ingrese la longitud" id="longitude">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Altitud</label>
+                                <input type="text" class="form-control" placeholder="Ingrese la altitud" id="altitude">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Colector</label>
+                                <select class="form-select" id="collectorSelect">
+                                    <option selected>Seleccionar</option>
+                                    <option value="Colector 1">Colector 1</option>
+                                    <option value="Colector 2">Colector 2</option>
+                                    <option value="Colector 3">Colector 3</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Imagen de Libreta de Campo</label>
+                                <input type="file" class="form-control" accept="image/*" id="fieldBookImage">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Microhábitat</label>
+                                <select class="form-select" id="microhabitatSelect">
+                                    <option selected>Seleccionar</option>
+                                    <option value="Microhábitat 1">Microhábitat 1</option>
+                                    <option value="Microhábitat 2">Microhábitat 2</option>
+                                    <option value="Microhábitat 3">Microhábitat 3</option>
+                                </select>
+                            </div>
+                            <div class="col-12 text-center">
+                                <button type="submit" class="btn btn-success">Registrar</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
-
-    <!-- Bootstrap JavaScript -->
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

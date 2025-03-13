@@ -29,6 +29,12 @@
         .btn-custom:hover {
         background-color: #29385e; 
         }
+        .tab-pane {
+            display: none;
+        }
+        .tab-pane.active {
+            display: block;
+        }
     </style>
 </head>
 <body class="bg-light">
@@ -73,11 +79,11 @@
                         <form class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label"><span class="required">*</span> Nombre Científico</label>
-                                <input type="text" class="form-control" placeholder="Ingrese el nombre científico">
+                                <input type="text" class="form-control" id="scientificNameText" placeholder="Ingrese el nombre científico">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label"><span class="required">*</span> Especimen ID</label>
-                                <input type="text" class="form-control" placeholder="Ingrese el ID del especimen">
+                                <input type="text" class="form-control" id="specimenIDText" placeholder="Ingrese el ID del especimen">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label"><span class="required">*</span> Familia</label>
@@ -129,10 +135,10 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Asociada</label>
-                                <input type="text" class="form-control" placeholder="Ingrese el nombre asociado">
+                                <input type="text" class="form-control" id="associatedText" placeholder="Ingrese el nombre asociado">
                             </div>
                             <div class="col-12 text-center">
-                                <button type="submit" class="btn btn-success">Siguiente</button>
+                                <button type="button" class="btn btn-success next-button">Siguiente</button>
                             </div>
                         </form>
                     </div>
@@ -143,40 +149,34 @@
                         <form class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label"><span class="required">*</span> Ciclo de Vida</label>
-                                <input type="text" class="form-control" placeholder="Ingrese el ciclo de vida">
+                                <input type="text" class="form-control" id="lifeCycleText" placeholder="Ingrese el ciclo de vida">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label"><span class="required">*</span> Determinador</label>
-                                <input type="text" class="form-control" placeholder="Ingrese el determinador">
+                                <input type="text" class="form-control" id="determinerNameText" placeholder="Ingrese el determinador">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label"><span class="required">*</span> Nombre Local</label>
-                                <input type="text" class="form-control" placeholder="Ingrese el nombre local">
+                                <input type="text" class="form-control" id="localNameText" placeholder="Ingrese el nombre local">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label"><span class="required">*</span> Tamaño</label>
-                                <input type="text" class="form-control" placeholder="Ingrese el tamaño">
+                                <input type="text" class="form-control" id="sizeText" placeholder="Ingrese el tamaño">
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label"><span class="required">*</span> Duplicados/Cantidad</label>
-                                <input type="text" class="form-control" placeholder="Ingrese la cantidad de duplicados">
+                                <label class="form-label"><span class="required">*</span> Duplicados</label>
+                                <input type="text" class="form-control" id="numberDuplicatesText" placeholder="Ingrese la cantidad de duplicados">
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label"><span class="required">*</span> Clasificación de planta</label>
-                                <select class="form-select" id="primarySecondarySelect">
+                                <label class="form-label">Clasificación de planta</label>
+                                <select class="form-select" id="plantClassificationSelect">
                                     <option selected>Seleccionar</option>
-                                    <option value="primario">Primario</option>
-                                    <option value="secundario">Secundario</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label"><span class="required">*</span> Abundancia</label>
+                                <label class="form-label">Abundancia</label>
                                 <select class="form-select" id="abundanceSelect">
                                     <option selected>Seleccionar</option>
-                                    <option value="Escasa">Escasa</option>
-                                    <option value="Regular">Regular</option>
-                                    <option value="Abundante">Abundante</option>
-                                    <option value="Muy abundante">Muy abundante</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
@@ -191,14 +191,14 @@
                             <!-- Campos que se movieron hacia abajo -->
                             <div class="col-md-6">
                                 <label class="form-label"><span class="required">*</span> Otros Datos</label>
-                                <textarea class="form-control" rows="3" placeholder="Ingrese otros datos"></textarea>
+                                <textarea class="form-control" rows="3" id="otherInformationText" placeholder="Ingrese otros datos"></textarea>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label"><span class="required">*</span> Imagen de Ejemplar</label>
-                                <input type="file" class="form-control" accept="image/*">
+                                <input type="file" class="form-control" id="specimenImage" accept="image/*">
                             </div>
                             <div class="col-12 text-center">
-                                <button type="submit" class="btn btn-success">Siguiente</button>
+                                <button type="button" class="btn btn-success next-button">Siguiente</button>
                             </div>
                         </form>
                     </div>
@@ -213,71 +213,56 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label"><span class="required">*</span> Número de la Colecta</label>
-                                <input type="text" class="form-control" placeholder="Ingrese el número de colecta" id="collectNumber">
+                                <input type="text" class="form-control" id="collectNumberText" placeholder="Ingrese el número de colecta">
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label"><span class="required">*</span> Estado</label>
+                                <label class="form-label">Estado</label>
                                 <select class="form-select" id="stateSelect">
                                     <option selected>Seleccionar</option>
-                                    <option value="Estado 1">Estado 1</option>
-                                    <option value="Estado 2">Estado 2</option>
-                                    <option value="Estado 3">Estado 3</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label"><span class="required">*</span> Municipio</label>
+                                <label class="form-label">Municipio</label>
                                 <select class="form-select" id="municipalitySelect">
                                     <option selected>Seleccionar</option>
-                                    <option value="Municipio 1">Municipio 1</option>
-                                    <option value="Municipio 2">Municipio 2</option>
-                                    <option value="Municipio 3">Municipio 3</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label"><span class="required">*</span> Localidad</label>
+                                <label class="form-label">Localidad</label>
                                 <select class="form-select" id="localitySelect">
                                     <option selected>Seleccionar</option>
-                                    <option value="Localidad 1">Localidad 1</option>
-                                    <option value="Localidad 2">Localidad 2</option>
-                                    <option value="Localidad 3">Localidad 3</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label"><span class="required">*</span> Latitud</label>
-                                <input type="text" class="form-control" placeholder="Ingrese la latitud" id="latitude">
+                                <input type="text" class="form-control" id="latitudeText" placeholder="Ingrese la latitud">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label"><span class="required">*</span> Longitud</label>
-                                <input type="text" class="form-control" placeholder="Ingrese la longitud" id="longitude">
+                                <input type="text" class="form-control" id="longitudeText" placeholder="Ingrese la longitud">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label"><span class="required">*</span> Altitud</label>
-                                <input type="text" class="form-control" placeholder="Ingrese la altitud" id="altitude">
+                                <input type="text" class="form-control" id="altitudeText" placeholder="Ingrese la altitud">
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label"><span class="required">*</span> Colector</label>
+                                <label class="form-label">Colector</label>
                                 <select class="form-select" id="collectorSelect">
                                     <option selected>Seleccionar</option>
-                                    <option value="Colector 1">Colector 1</option>
-                                    <option value="Colector 2">Colector 2</option>
-                                    <option value="Colector 3">Colector 3</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label"><span class="required">*</span> Imagen de Libreta de Campo</label>
-                                <input type="file" class="form-control" accept="image/*" id="fieldBookImage">
+                                <input type="file" class="form-control" id="fieldBookImage" accept="image/*">
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label"><span class="required">*</span> Microhábitat</label>
+                                <label class="form-label">Microhábitat</label>
                                 <select class="form-select" id="microhabitatSelect">
                                     <option selected>Seleccionar</option>
-                                    <option value="Microhábitat 1">Microhábitat 1</option>
-                                    <option value="Microhábitat 2">Microhábitat 2</option>
-                                    <option value="Microhábitat 3">Microhábitat 3</option>
                                 </select>
                             </div>
                             <div class="col-12 text-center">
-                                <button type="submit" class="btn btn-success">Registrar</button>
+                                <button type="button" class="btn btn-success" id="registrarBtn">Registrar</button>
                             </div>
                         </form>
                     </div>

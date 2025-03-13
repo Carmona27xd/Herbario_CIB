@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 $host = "localhost";  
 $usuario = "root";    
 $password = "FinalFantasy_7";       
-$base_datos = "herbariouv";  
+$base_datos = "herbario_cib";  
 
 $conexion = new mysqli($host, $usuario, $password, $base_datos);
 

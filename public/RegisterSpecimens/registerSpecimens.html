@@ -76,14 +76,14 @@
                 <div class="tab-pane fade show active" id="general" role="tabpanel">
                     <div class="card-form">
                         <h2 class="text-center text-primary">Ejemplar</h2>
-                        <form class="row g-3">
+                        <form id="formularioEjemplar" enctype="multipart/form-data" class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label"><span class="required">*</span> Nombre Científico</label>
-                                <input type="text" class="form-control" id="scientificNameText" placeholder="Ingrese el nombre científico">
+                                <input type="text" class="form-control" id="scientificNameText" name="scientificName" placeholder="Ingrese el nombre científico">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label"><span class="required">*</span> Especimen ID</label>
-                                <input type="text" class="form-control" id="specimenIDText" placeholder="Ingrese el ID del especimen">
+                                <input type="text" class="form-control" placeholder="Ingrese el ID del especimen">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label"><span class="required">*</span> Familia</label>
@@ -140,13 +140,11 @@
                             <div class="col-12 text-center">
                                 <button type="button" class="btn btn-success next-button">Siguiente</button>
                             </div>
-                        </form>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="detalles" role="tabpanel">
                     <div class="card-form">
                         <h2 class="text-center text-primary">Detalles de Ejemplar</h2>
-                        <form class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label"><span class="required">*</span> Ciclo de Vida</label>
                                 <input type="text" class="form-control" id="lifeCycleText" placeholder="Ingrese el ciclo de vida">
@@ -199,14 +197,12 @@
                             </div>
                             <div class="col-12 text-center">
                                 <button type="button" class="btn btn-success next-button">Siguiente</button>
-                            </div>
-                        </form>
+                            </div>                       
                     </div>
                 </div>
                 <div class="tab-pane fade" id="colecta" role="tabpanel">
                     <div class="card-form">
-                        <h2 class="text-center text-primary">Colecta</h2>
-                        <form class="row g-3">
+                        <h2 class="text-center text-primary">Colecta</h2>                       
                             <div class="col-md-6">
                                 <label class="form-label"><span class="required">*</span> Fecha de la Colecta</label>
                                 <input type="date" class="form-control" id="collectDate">
@@ -269,8 +265,7 @@
                 </div>
             </div>
         </div>
-    </div>
-    
+    </div>   
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -1,17 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Obtener todos los botones de "Siguiente"
     const nextButtons = document.querySelectorAll('.next-button');
 
     nextButtons.forEach(button => {
         button.addEventListener('click', function() {
-            // Obtener el tab actual (el que está activo)
             const currentTab = document.querySelector('.nav-link.active');
             const currentTabId = currentTab.getAttribute('id');
             
-            // Encontrar el siguiente tab
             let nextTab = currentTab.parentElement.nextElementSibling;
 
-            // Si hay un siguiente tab, hacemos clic en él
             if (nextTab) {
                 const nextTabButton = nextTab.querySelector('.nav-link');
                 nextTabButton.click();
@@ -58,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const select = document.getElementById(selectId);
                     if (select && data[key]) {
                         console.log(`Llenando ${selectId} con datos de ${key}`);
-                        select.innerHTML = '<option value="">Seleccionar</option>';
+                        select.innerHTML = '<option value="">Seleccionar</option>'; // Opciones predeterminadas
 
                         data[key].forEach(item => {
                             let option = document.createElement("option");
@@ -77,17 +73,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // Llamar a la función para cargar los datos
     loadSelectData();
 
-    // Evento para el botón de registro
+    //Evento del registro de los ejemplares
     document.getElementById('registrarBtn').addEventListener('click', function() {
-        // Crear un objeto FormData para recoger los datos de todos los campos
-        const formData = new FormData();
+        console.log('Botón de registrar clickeado'); 
+    
+        //Creacion del objeto Form Data
+        const formData = new FormData(document.getElementById('formularioEjemplar'));
 
-        // Recoger los datos de la pestaña de Información General
         formData.append('scientificName', document.getElementById('scientificNameText').value);
-        formData.append('specimenID', document.getElementById('specimenIDText').value);
         formData.append('family', document.getElementById('familySelect').value);
         formData.append('genre', document.getElementById('genreSelect').value);
-        formData.append('specie', document.getElementById('specieSelect').value);
+        formData.append('species', document.getElementById('specieSelect').value);
         formData.append('biologicalForm', document.getElementById('biologicalFormSelect').value);
         formData.append('typeVegetation', document.getElementById('typeVegetationSelect').value);
         formData.append('soil', document.getElementById('soilSelect').value);
@@ -95,7 +91,6 @@ document.addEventListener('DOMContentLoaded', function() {
         formData.append('flower', document.getElementById('flowerSelect').value);
         formData.append('associated', document.getElementById('associatedText').value);
 
-        // Recoger los datos de la pestaña de Detalles de Ejemplar
         formData.append('lifeCycle', document.getElementById('lifeCycleText').value);
         formData.append('determinerName', document.getElementById('determinerNameText').value);
         formData.append('localName', document.getElementById('localNameText').value);
@@ -107,7 +102,6 @@ document.addEventListener('DOMContentLoaded', function() {
         formData.append('otherInformation', document.getElementById('otherInformationText').value);
         formData.append('specimenImage', document.getElementById('specimenImage').files[0]);
 
-        // Recoger los datos de la pestaña de Colecta
         formData.append('collectDate', document.getElementById('collectDate').value);
         formData.append('collectNumber', document.getElementById('collectNumberText').value);
         formData.append('state', document.getElementById('stateSelect').value);
@@ -116,29 +110,28 @@ document.addEventListener('DOMContentLoaded', function() {
         formData.append('latitude', document.getElementById('latitudeText').value);
         formData.append('longitude', document.getElementById('longitudeText').value);
         formData.append('altitude', document.getElementById('altitudeText').value);
-        formData.append('collector', document.getElementById('collectorSelect').value);
+        formData.append('collectors', document.getElementById('collectorSelect').value);
         formData.append('fieldBookImage', document.getElementById('fieldBookImage').files[0]);
         formData.append('microhabitat', document.getElementById('microhabitatSelect').value);
 
-        // Envía los datos al PHP usando fetch
-        fetch('../../backend/RegisterSpecimens/servicesPostRegister.php', {
+        fetch('http://localhost/SCEPIB_UV/backend/RegisterSpecimens/servicesPostRegister.php', {
             method: 'POST',
-            body: formData
+            body: formData,
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Error en la respuesta del servidor");
+            }
+            return response.json();
+        })
         .then(data => {
+            console.log(data); 
             if (data.success) {
-                alert('Registro exitoso!');
-                // Opcional: limpiar el formulario o redirigir
-                document.querySelector('form').reset(); // Limpiar el formulario
+                alert(data.message); 
             } else {
-                alert('Error en el registro: ' + data.message);
+                alert("Error: " + data.error); 
             }
         })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Hubo un problema con la conexión al servidor.');
-        });
+        .catch(error => console.error('Error:', error));
     });
 });
-

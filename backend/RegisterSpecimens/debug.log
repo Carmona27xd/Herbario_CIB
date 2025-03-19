@@ -1,0 +1,35 @@
+Array
+(
+    [associated] => zxczxcz
+    [lifeCycle] => 1
+    [size] => 1.5
+    [numberDuplicates] => 4
+    [otherInformation] => asdasdasd
+    [protected] => 1
+    [typeVegetationID] => 1
+    [soilID] => 1
+    [biologicalFormID] => 1
+    [fruitID] => 1
+    [flowerID] => 2
+    [abundanceID] => 1
+    [plantClassificationID] => 1
+    [determinerName] => asdasd
+    [determinerLastNameP] => Perez
+    [determinerLastNameM] => Reata
+    [determinationDate] => 2025-03-19
+    [collectNumber] => 12
+    [localName] => asdasd
+    [collectDate] => 2025-03-19
+    [microhabitat] => 1
+    [collectors] => 1
+    [stateID] => 1
+    [municipalityID] => 1
+    [localityID] => 
+    [latitude] => 19.432608
+    [longitude] => -99.133209
+    [altitude] => 2250.00
+    [scientificName] => sdasdasdasd
+    [familyID] => 1
+    [genreID] => 1
+    [speciesID] => 1
+)

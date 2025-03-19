@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: application/json'); 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -9,77 +10,143 @@ if (file_exists($conexion_path)) {
     die(json_encode(['success' => false, 'message' => 'Error: No se encontró connectionDB.php']));
 }
 
-// Recoger los datos del POST
-$asociada = $_POST['associated'] ?? null;
-$cicloVida = $_POST['lifeCycle'] ?? null;
-$tamanio = $_POST['size'] ?? null;
-$duplicados = $_POST['numberDuplicates'] ?? null;
-$otrosDatos = $_POST['otherInformation'] ?? null;
-$protegido = $_POST['protected'] ?? null;
+$response = [];
 
-// Verificar imágenes antes de acceder a ellas
-$imagenEjemplar = isset($_FILES['specimenImage']) && $_FILES['specimenImage']['tmp_name'] ? file_get_contents($_FILES['specimenImage']['tmp_name']) : null;
+//Para checar los datos que le llegan al php
+/*file_put_contents('debug_post.txt', print_r($_POST, true));
+file_put_contents('debug_files.txt', print_r($_FILES, true));
 
-$idTipoVegetacion = $_POST['typeVegetation'] ?? null;
-$idSuelo = $_POST['soil'] ?? null;
-$idFormaBiologica = $_POST['biologicalForm'] ?? null;
-$idFruto = $_POST['fruit'] ?? null;
-$idFlor = $_POST['flower'] ?? null;
-$idAbundancia = $_POST['abundance'] ?? null;
-$idClasificacionPlanta = $_POST['plantClassification'] ?? null;
+echo "<pre>";
+print_r($_POST);
+print_r($_FILES);
+echo "</pre>";
+exit();*/
 
-$nombreDet = $_POST['determinerName'] ?? null;
-$apellidoPaternoDet = $_POST['determinerLastNameP'] ?? ""; // Cadena vacía si no hay datos
-$apellidoMaternoDet = $_POST['determinerLastNameM'] ?? ""; // Cadena vacía si no hay datos
-$fechaDetermino = date('Y-m-d'); // Fecha actual si no se envía
+try {
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        throw new Exception('Método no permitido', 405);
+    }
 
-$numeroColecta = $_POST['collectNumber'] ?? null;
-$nombreLocal = $_POST['localName'] ?? null;
-$fechaColecta = $_POST['collectDate'] ?? date('Y-m-d'); // Si no se recibe, usa la fecha de hoy
-$idMicroHabitat = $_POST['microhabitat'] ?? null;
+    if (!isset($_POST['scientificName'])) {
+        throw new Exception('Datos incompletos', 400);
+    }
 
-$imagenLibretaCampo = isset($_FILES['fieldBookImage']) && $_FILES['fieldBookImage']['tmp_name'] ? file_get_contents($_FILES['fieldBookImage']['tmp_name']) : null;
+    $associated = $_POST['associated']; 
+    $lifeCycle = $_POST['lifeCycle']; 
+    $size = $_POST['size']; 
+    $numberDuplicates = $_POST['numberDuplicates']; 
+    $otherInformation = $_POST['otherInformation']; 
+    $protected = isset($_POST['protected']) && $_POST['protected'] === "true" ? 1 : 0;
 
-$colectores = $_POST['collector'] ?? null;
-$idEstado = $_POST['state'] ?? null;
-$idMunicipio = $_POST['municipality'] ?? null;
-$idLocalidad = $_POST['locality'] ?? null;
+    $specimenImageData = isset($_FILES['specimenImage']) && $_FILES['specimenImage']['error'] === 0
+        ? file_get_contents($_FILES['specimenImage']['tmp_name'])
+        : null; 
 
-$latitud = $_POST['latitude'] ?? null;
-$longitud = $_POST['longitude'] ?? null;
-$altitud = $_POST['altitude'] ?? null;
+    $typeVegetationID = $_POST['typeVegetation']; 
+    $soilID = $_POST['soil']; 
+    $biologicalFormID = $_POST['biologicalForm']; 
+    $fruitID = $_POST['fruit']; 
+    $flowerID = $_POST['flower']; 
+    $abundanceID = $_POST['abundance']; 
+    $plantClassificationID = $_POST['plantClassification']; 
 
-$nombreCient = $_POST['scientificName'] ?? null;
-$idFamilia = $_POST['family'] ?? null;
-$idGenero = $_POST['genre'] ?? null;
-$idEspecie = $_POST['specie'] ?? null;
+    $determinerName = $_POST['determinerName']; 
+    $determinerLastNameP = isset($_POST['determinerLastNameP']) ? $_POST['determinerLastNameP'] : 'Perez'; 
+    $determinerLastNameM = isset($_POST['determinerLastNameM']) ? $_POST['determinerLastNameM'] : 'Reata'; 
+    $determinationDate = isset($_POST['determinationDate']) ? $_POST['determinationDate'] : date('Y-m-d'); 
 
-// Preparar la llamada al procedimiento almacenado
-$query = "CALL TP_RegistrarEjemplar(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $collectNumber = $_POST['collectNumber']; 
+    $localName = $_POST['localName']; 
+    $collectDate = $_POST['collectDate']; 
+    $microhabitat = isset($_POST['microhabitat']) && $_POST['microhabitat'] !== "undefined" ? $_POST['microhabitat'] : 1;
+    $fieldBookImageData = isset($_FILES['fieldBookImage']) && $_FILES['fieldBookImage']['error'] === 0
+        ? file_get_contents($_FILES['fieldBookImage']['tmp_name'])
+        : null; 
 
-if ($stmt = $conexion->prepare($query)) {
-    // Vincular parámetros
-    $stmt->bind_param('sidisibiiiiiiissssissibsiiidddsiii', 
-        $asociada, $cicloVida, $tamanio, $duplicados, $otrosDatos, $protegido, 
-        $imagenEjemplar, $idTipoVegetacion, $idSuelo, $idFormaBiologica, 
-        $idFruto, $idFlor, $idAbundancia, $idClasificacionPlanta, 
-        $nombreDet, $apellidoPaternoDet, $apellidoMaternoDet, $fechaDetermino, 
-        $numeroColecta, $nombreLocal, $fechaColecta, $idMicroHabitat, $imagenLibretaCampo, 
-        $colectores, $idEstado, $idMunicipio, $idLocalidad, 
-        $latitud, $longitud, $altitud, $nombreCient, $idFamilia, $idGenero, $idEspecie
+    $collectors = $_POST['collectors']; 
+
+    $stateID = $_POST['state']; 
+    $municipalityID = $_POST['municipality']; 
+    $localityID = $_POST['locality']; 
+
+    $latitude = $_POST['latitude']; 
+    $longitude = $_POST['longitude']; 
+    $altitude = $_POST['altitude']; 
+
+    $scientificName = $_POST['scientificName']; 
+    $familyID = $_POST['family']; 
+    $genreID = $_POST['genre']; 
+    $speciesID = $_POST['species']; 
+
+    /*$logFile = 'debug.log'; 
+    $logData = print_r(array(
+        'associated' => $associated,
+        'lifeCycle' => $lifeCycle,
+        'size' => $size,
+        'numberDuplicates' => $numberDuplicates,
+        'otherInformation' => $otherInformation,
+        'protected' => $protected,
+        'typeVegetationID' => $typeVegetationID,
+        'soilID' => $soilID,
+        'biologicalFormID' => $biologicalFormID,
+        'fruitID' => $fruitID,
+        'flowerID' => $flowerID,
+        'abundanceID' => $abundanceID,
+        'plantClassificationID' => $plantClassificationID,
+        'determinerName' => $determinerName,
+        'determinerLastNameP' => $determinerLastNameP,
+        'determinerLastNameM' => $determinerLastNameM,
+        'determinationDate' => $determinationDate,
+        'collectNumber' => $collectNumber,
+        'localName' => $localName,
+        'collectDate' => $collectDate,
+        'microhabitat' => $microhabitat,
+        'collectors' => $collectors,
+        'stateID' => $stateID,
+        'municipalityID' => $municipalityID,
+        'localityID' => $localityID,
+        'latitude' => $latitude,
+        'longitude' => $longitude,
+        'altitude' => $altitude,
+        'scientificName' => $scientificName,
+        'familyID' => $familyID,
+        'genreID' => $genreID,
+        'speciesID' => $speciesID
+    ), true);
+
+    // Escribir en el archivo de log
+    file_put_contents($logFile, $logData, FILE_APPEND);*/
+
+    $sql = "CALL TP_RegistrarEjemplar(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $stmt = $conexion->prepare($sql);
+
+    $stmt->bind_param("sidisibiiiiiiissssissibsiiidddsiii",
+        $associated, $lifeCycle, $size, $numberDuplicates, $otherInformation, $protected,
+        $specimenImageData, $typeVegetationID, $soilID, $biologicalFormID,
+        $fruitID, $flowerID, $abundanceID, $plantClassificationID,
+        $determinerName, $determinerLastNameP, $determinerLastNameM, $determinationDate,
+        $collectNumber, $localName, $collectDate, $microhabitatID, $fieldBookImageData,
+        $collectors, $stateID, $municipalityID, $localityID, $latitude, $longitude, $altitude,
+        $scientificName, $familyID, $genreID, $speciesID
     );
 
-    // Ejecutar el procedimiento
     if ($stmt->execute()) {
-        echo json_encode(['success' => true, 'message' => 'Registro exitoso']);
+        $response = ["success" => true, "message" => "Ejemplar registrado correctamente."];
     } else {
-        echo json_encode(['success' => false, 'message' => 'Error al registrar los datos: ' . $stmt->error]);
+        throw new Exception("Error al registrar: " . $stmt->error, 500);
     }
 
     $stmt->close();
-} else {
-    echo json_encode(['success' => false, 'message' => 'Error en la preparación de la consulta: ' . $conexion->error]);
+    $conexion->close();
+} catch (Exception $e) {
+    http_response_code($e->getCode() ?: 500);
+    $response = [
+        "success" => false,
+        "error" => $e->getMessage(),
+        "trace" => $e->getTrace() 
+    ];
 }
 
-$conexion->close(); // Cerrar la conexión
+echo json_encode($response);
+exit;
 ?>

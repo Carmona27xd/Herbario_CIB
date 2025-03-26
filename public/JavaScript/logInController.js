@@ -33,7 +33,17 @@ document.getElementById("logInForm").addEventListener("submit", async function (
 
         if (data.jwt) {
             localStorage.setItem("jwt", data.jwt);
-            window.location.href = "dashboard.html";
+            //window.location.href = "dashboard.html";
+
+            console.log("Datos recibidos: ", data);
+            console.log("Tipo de rol: ", typeof data.role);
+            
+            if (parseInt(data.role) === 1) {
+                window.location.href = "dashboard.html";
+                //console.info("Role: ", data.role);
+            } else if (parseInt(data.role) === 2) {
+                window.location.href = "dashBoardAdmin.html";
+            }
         } else {
             document.getElementById("message").textContent = data.error || "Error desconocido";
         }

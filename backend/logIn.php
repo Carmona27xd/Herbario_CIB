@@ -36,7 +36,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // Generar JWT
         $jwt = JWT::encode($payload, $key, 'HS256');
 
-        echo json_encode(["jwt" => $jwt, "message" => "Inicio de sesión exitoso"]);
+        echo json_encode([
+            "jwt" => $jwt,
+            "role" => $user['role_id'],
+            "message" => "Inicio de sesión exitoso"
+        ]);
+        
     } else {
         echo json_encode(["error" => "Correo o contraseña incorrectos"]);
     }

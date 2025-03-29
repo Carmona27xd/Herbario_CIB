@@ -1,3 +1,5 @@
+document.
+
 document.getElementById("registerForm").addEventListener("submit", async function(event) {
     event.preventDefault();
 
@@ -9,25 +11,35 @@ document.getElementById("registerForm").addEventListener("submit", async functio
         password: document.getElementById("password").value.trim()
     };
 
-    try {
-        const response = await fetch("../backend/registerNewUser.php", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json" 
-            },
-            body: JSON.stringify(formData)  
-        });
+    const passwordVerify = {
+        firstPassword: document.getElementById("password"),
+        secondPassword: document.getElementById("confirmPassword")
+    }
 
-        const data = await response.json();
+    if (passwordVerify.firstPassword.value === passwordVerify.secondPassword.value) {
+        try {
+            const response = await fetch("../backend/registerNewUser.php", {
+                method: "POST",
+                headers: { 
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData)
+            });
 
-        if (data.success) {
-            alert("Registro exitoso, redirigiendo a Login...");
-            window.location.href = "logIn.html";
-        } else {
-            alert(data.message);
+            const data = await response.json();
+
+            if (data.success) { 
+                alert("Registro exitoso, redirigiendo a Login...");
+                window.location.href = "logIn.html";
+            } else {
+                alert(data.message);
+            }
+        } catch (error) {
+            console.error("Error: ", error);
+            document.getElementById("message").innerText = "Ocurrió un error al procesar la solicitud";
         }
-    } catch (error) {
-        console.error("Error: ", error);
-        document.getElementById("message").innerText = "Ocurrió un error al procesar la solicitud";
+    } else {
+        alert("Las contraseñas no coinciden.")
+        return;
     }
 });

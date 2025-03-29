@@ -57,17 +57,20 @@
                 <!-- Campo de nombre -->
                 <div class="mb-3">
                     <label for="name">Nombres</label>
-                    <input type="text" class="form-control" name="name" id="name" required>
+                    <input type="text" class="form-control" name="name" id="name"
+                    pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$" required>
                 </div>
                 <!-- Campo de primer apellido -->
                 <div class="mb-3">
                     <label for="first_surname">Primer apellido</label>
-                    <input type="text" class="form-control" name="first_surname" id="first_surname" required>
+                    <input type="text" class="form-control" name="first_surname" id="first_surname" 
+                    pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$" required>
                 </div>
                 <!-- Campo de segundo apellido -->
                 <div class="mb-3">
                     <label for="second_surname">Segundo apellido</label>
-                    <input type="text" class="form-control" name="second_surname" id="second_surname" required>
+                    <input type="text" class="form-control" name="second_surname" id="second_surname" 
+                    pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$" required>
                 </div>
                 <!-- Campo de correo electrónico -->
                 <div class="mb-3">

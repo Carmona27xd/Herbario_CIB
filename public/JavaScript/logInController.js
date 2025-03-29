@@ -44,6 +44,9 @@ document.getElementById("logInForm").addEventListener("submit", async function (
             } else if (parseInt(data.role) === 2) {
                 window.location.href = "dashBoardAdmin.html";
             }
+        } else if (!data.jwt) {
+            alert("Usuario y/o contraseña incorrectos");
+            
         } else {
             document.getElementById("message").textContent = data.error || "Error desconocido";
         }

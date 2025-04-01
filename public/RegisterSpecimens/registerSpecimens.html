@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Ejemplares</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../../public/RegisterSpecimens/registerSpecimens.js"></script>
+    <style>
+        .card-form {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .required {
+            color: red;
+        }
+        .bold-label {
+            font-weight: bold;
+        }
+        .navbar-custom {
+            
+        background-color: #29385e; 
+        }
+        .btn-custom {
+        background-color: #29385e; 
+        color: white; 
+        }
+        .btn-custom:hover {
+        background-color: #29385e; 
+        }
+        .tab-pane {
+            display: none;
+        }
+        .tab-pane.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <!-- Barra de navegación superior -->
+    <nav class="navbar navbar-expand-lg navbar-light navbar-custom p-3">
+        <div class="container-fluid">
+            <a class="navbar-brand text-white" href="#">Menú</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <button class="nav-link btn btn-custom" onclick="window.location.href='../../public/GenerateLabel/generateLabel.html'">Generar Etiqueta</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh; height: 100vh;">
+        <!-- Contenido principal -->
+        <div class="container p-4" style="width: 100%; max-width: 1200px;">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general" type="button" role="tab">Información General</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="caracteristicas-tab" data-bs-toggle="tab" data-bs-target="#caracteristicas" type="button" role="tab">Caracteristicas del Ejemplar</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="otrasCaracteristicas-tab" data-bs-toggle="tab" data-bs-target="#otrasCaracteristicas" type="button" role="tab">Otras Caracteristicas del Ejemplar</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="colecta-tab" data-bs-toggle="tab" data-bs-target="#colecta" type="button" role="tab">Colecta</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="direccionColecta-tab" data-bs-toggle="tab" data-bs-target="#direccionColecta" type="button" role="tab">Direccion de la Colecta</button>
+                </li>
+            </ul>
+            <div class="tab-content mt-3">
+                <div class="tab-pane fade show active" id="general" role="tabpanel">
+                    <div class="card-form">
+                        <h2 class="text-center text-primary">Ejemplar</h2>
+                        <form id="formularioEjemplar" enctype="multipart/form-data" class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Especimen ID</label>
+                                <input type="text" class="form-control" id="especimenIdText" placeholder="Ingrese el ID del especimen">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Nombre Científico</label>
+                                <input type="text" class="form-control" id="scientificNameText" name="scientificName" placeholder="Ingrese el nombre científico">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Familia</label>
+                                <select class="form-select" id="familySelect">
+                                    <option selected>Seleccionar</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Género</label>
+                                <select class="form-select" id="genreSelect">
+                                    <option selected>Seleccionar</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Especie</label>
+                                <select class="form-select" id="specieSelect">
+                                    <option selected>Seleccionar</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Forma Biológica</label>
+                                <select class="form-select" id="biologicalFormSelect">
+                                    <option selected>Seleccionar</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Tipo de Vegetación</label>
+                                <select class="form-select" id="typeVegetationSelect">
+                                    <option selected>Seleccionar</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Suelo</label>
+                                <select class="form-select" id="soilSelect">
+                                    <option selected>Seleccionar</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Fruto</label>
+                                <select class="form-select" id="fruitSelect">
+                                    <option selected>Seleccionar</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Flor</label>
+                                <select class="form-select" id="flowerSelect">
+                                    <option selected>Seleccionar</option>
+                                </select>
+                            </div>                           
+                            <div class="col-12 text-center">
+                                <button type="button" class="btn btn-success next-button">Siguiente</button>
+                            </div>
+                        </form>   
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="caracteristicas" role="tabpanel">
+                    <div class="card-form">
+                        <h2 class="text-center text-primary">Caracteristicas del Ejemplar</h2>
+                        <form class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Ciclo de Vida</label>
+                                <input type="number" class="form-control" id="lifeCycleNumber" placeholder="Ingrese el ciclo de vida" step="1">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Nombre del Determinador</label>
+                                <input type="text" class="form-control" id="determinerNameText" placeholder="Ingrese el nombre">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Apellido Paterno del Determinador</label>
+                                <input type="text" class="form-control" id="determinerLastNameText" placeholder="Ingrese el apellido paterno">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Apellido Materno del Determinador</label>
+                                <input type="text" class="form-control" id="determinerLastName2Text" placeholder="Ingrese el apellido materno">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Tamaño</label>
+                                <input type="number" class="form-control" id="sizeNumber" placeholder="Ingrese el tamaño en metros">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Clasificación de planta</label>
+                                <select class="form-select" id="plantClassificationSelect">
+                                    <option selected>Seleccionar</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"> Asociada</label>
+                                <input type="text" class="form-control" id="asociatedText" placeholder="Ingrese a que esta asociada">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Protegido</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="protectedCheckbox">
+                                    <label class="form-check-label" for="protectedCheckbox">
+                                        Seleccione si el ejemplar está protegido
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Abundancia</label>
+                                <select class="form-select" id="abundanceSelect">
+                                    <option selected>Seleccionar</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Duplicados</label>
+                                <input type="number" class="form-control" id="numberDuplicates" placeholder="Ingrese la cantidad de duplicados" step="1">
+                            </div>                             
+                            <div class="col-12 text-center">
+                                <button type="button" class="btn btn-success next-button">Siguiente</button>
+                            </div>
+                        </form>                       
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="otrasCaracteristicas" role="tabpanel">
+                    <div class="card-form">
+                        <h2 class="text-center text-primary">Otras Caracteristicas del Ejemplar</h2>
+                        <form class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label"> Informacion Ambiental</label>
+                                <textarea class="form-control" rows="3" id="environmentalInformationText" placeholder="Ingrese la informacion ambiental"></textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"> Otros Datos</label>
+                                <textarea class="form-control" rows="3" id="otherInformationText" placeholder="Ingrese otros datos"></textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Imagen de Ejemplar</label>
+                                <input type="file" class="form-control" id="specimenImage" accept="image/*">
+                            </div>
+                            <div class="col-12 text-center">
+                                <button type="button" class="btn btn-success next-button">Siguiente</button>
+                            </div>
+                        </form>                       
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="colecta" role="tabpanel">
+                    <div class="card-form">
+                        <h2 class="text-center text-primary">Colecta</h2> 
+                        <form class="row g-3">                     
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Fecha de la Colecta</label>
+                                <input type="date" class="form-control" id="collectDate">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Número de la Colecta</label>
+                                <input type="number" class="form-control" id="collectNumber" placeholder="Ingrese el número de colecta" step="1">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Microhábitat</label>
+                                <select class="form-select" id="microhabitatSelect">
+                                    <option selected>Seleccionar</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Nombre Local</label>
+                                <input type="text" class="form-control" id="localNameText" placeholder="Ingrese el nombre local">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Colector</label>
+                                <select class="form-select" id="collectorSelect">
+                                    <option selected>Seleccionar</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Imagen de Libreta de Campo</label>
+                                <input type="file" class="form-control" id="fieldBookImage" accept="image/*">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">&nbsp;</label> <!-- Para alinear con los otros labels -->
+                                <button type="button" class="btn btn-primary form-control" id="registrarColectorBtn">Registrar Colector</button>
+                            </div>                        
+                            <div class="col-12 text-center">
+                                <button type="button" class="btn btn-success next-button">Siguiente</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="direccionColecta" role="tabpanel">
+                    <div class="card-form">
+                        <h2 class="text-center text-primary">Direccion de la Colecta</h2>
+                        <form class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Estado</label>
+                                <select class="form-select" id="stateSelect">
+                                    <option selected>Seleccionar</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Municipio</label>
+                                <select class="form-select" id="municipalitySelect">
+                                    <option selected>Seleccionar</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Localidad</label>
+                                <select class="form-select" id="localitySelect">
+                                    <option selected>Seleccionar</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Latitud</label>
+                                <div class="d-flex gap-2">
+                                    <input type="number" class="form-control form-control-sm" placeholder="°" id="latitudeDegreesNumber" min="0" max="180" step="1">
+                                    <input type="number" class="form-control form-control-sm" placeholder="'" id="latitudeMinutesNumber" min="0" max="59" step="1">
+                                    <input type="number" class="form-control form-control-sm" placeholder='"' id="latitudeSecondsNumber" min="0" max="59" step="1">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Longitud</label>
+                                <div class="d-flex gap-2">
+                                    <input type="number" class="form-control form-control-sm" placeholder="°" id="longitudeDegreesNumber" min="0" max="180" step="1">
+                                    <input type="number" class="form-control form-control-sm" placeholder="'" id="longitudeMinutesNumber" min="0" max="59" step="1">
+                                    <input type="number" class="form-control form-control-sm" placeholder='"' id="longitudeSecondsNumber" min="0" max="59" step="1">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"><span class="required">*</span> Altitud</label>
+                                <input type="number" class="form-control" id="altitudeNumber" placeholder="Ingrese la altitud en msnm" step="1">
+                            </div>
+                            <div class="col-12 text-center">
+                                <button type="button" class="btn btn-success" id="registrarBtn">Registrar</button>
+                            </div>
+                        </form>                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>   
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

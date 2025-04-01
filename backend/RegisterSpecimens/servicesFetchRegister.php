@@ -120,7 +120,7 @@ try {
     }
 
     //Consulta para las microhabitats
-    $sql = "SELECT idMicrohabitat, nombre FROM microhabitat";
+    $sql = "SELECT idMicroHabitat, nombre FROM microhabitat";
     $result = $conexion->query($sql);
 
     while ($row = $result->fetch_assoc()){

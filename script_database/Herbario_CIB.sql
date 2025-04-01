@@ -78,25 +78,30 @@ CREATE TABLE ClasificacionPlanta (
     nombre VARCHAR(100) NOT NULL
 );
 
+-- Se quito el not null de los apellidos y se agrego un not null a la fecha
 -- Tabla del Determinador
 CREATE TABLE Determinador (
 	idDeterminador INT PRIMARY KEY AUTO_INCREMENT,
-    nombres VARCHAR(100) NOT NULL,
-    apellidoPaterno VARCHAR(50) NOT NULL,
-    apellidoMaterno VARCHAR(50) NOT NULL,
-    fechaDetermino DATE
+    nombre VARCHAR(100) NOT NULL,
+    apellidoPaterno VARCHAR(50),
+    apellidoMaterno VARCHAR(50),
+    fechaDetermino DATE NOT NULL
 );
 
+-- Se agrego la informaionAmbiental del excel
+-- Se agrego estadoEjemplar para el manejo de su disponibilidad
 -- Tabla de los Ejemplares
 CREATE TABLE Ejemplar (
-	idEjemplar INT PRIMARY KEY AUTO_INCREMENT,
-    asociada VARCHAR(100) NOT NULL,
-    cicloVida INT NOT NULL, 
-    tamanio FLOAT NOT NULL,
+	idEjemplar VARCHAR(30) PRIMARY KEY, -- Cambiado de int a varchar
+    estadoEjemplar BOOLEAN NOT NULL, -- Agregado
+    asociada VARCHAR(100),
+    cicloVida INT, 
+    tamanio FLOAT,
     duplicados INT NOT NULL,
-    otrosDatos VARCHAR(200) NOT NULL,
-    protegido BOOLEAN,
-    imagenEjemplar BLOB,
+    otrosDatos VARCHAR(400),
+    protegido BOOLEAN NOT NULL,
+    informacionAmbiental VARCHAR(400), -- Agregado
+    imagenEjemplar VARCHAR(255),
     idTipoVegetacion INT,
     idSuelo INT,
     idFormaBiologica INT, 
@@ -117,21 +122,22 @@ CREATE TABLE Ejemplar (
 CREATE TABLE DeterminadoresEjemplares (
     idDeterminadoresEjemplares INT PRIMARY KEY AUTO_INCREMENT,
     idDeterminador INT,
-    idEjemplar INT,
+    idEjemplar VARCHAR(15),
     FOREIGN KEY (idDeterminador) REFERENCES Determinador(idDeterminador) ON DELETE CASCADE,
     FOREIGN KEY (idEjemplar) REFERENCES Ejemplar(idEjemplar) ON DELETE CASCADE
 );
 
+-- Se cambiaron a not null el genero y la especie
 -- Tabla de los Nombres Cientificos
 CREATE TABLE NombreCientifico (
 	idNombreCientifico INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(100) NOT NULL,
     esActual BOOLEAN NOT NULL,
-    fechaAsignacion DATE,
-    idEjemplar INT NOT NULL,
+    fechaAsignacion DATE NOT NULL,
+    idEjemplar VARCHAR(15) NOT NULL,
     idFamilia INT NOT NULL,
-    idGenero INT NOT NULL,
-    idEspecie INT NOT NULL,
+    idGenero INT,
+    idEspecie INT,
     FOREIGN KEY (idEjemplar) REFERENCES Ejemplar(idEjemplar) ON DELETE CASCADE,
     FOREIGN KEY (idFamilia) REFERENCES Familia(idFamilia) ON DELETE CASCADE,
     FOREIGN KEY (idGenero) REFERENCES Genero(idGenero) ON DELETE CASCADE,
@@ -147,10 +153,11 @@ CREATE TABLE MicroHabitat (
 -- Tabla Colecta
 CREATE TABLE Colecta (
 	idColecta INT PRIMARY KEY AUTO_INCREMENT,
-    numeroColecta INT, 
-    nombreLocal VARCHAR(100) NOT NULL,
-    fechaColecta DATE,
-    idEjemplar INT,
+    numeroColecta INT NOT NULL, 
+    nombreLocal VARCHAR(100),
+    fechaColecta DATE NOT NULL,
+    imagenLibretaCampo VARCHAR(255),
+    idEjemplar VARCHAR(15) NOT NULL,
     idMicroHabitat INT,
     FOREIGN KEY (idEjemplar) REFERENCES Ejemplar(idEjemplar) ON DELETE CASCADE,
     FOREIGN KEY (idMicroHabitat) REFERENCES MicroHabitat(idMicroHabitat) ON DELETE CASCADE
@@ -159,27 +166,40 @@ CREATE TABLE Colecta (
 -- Tabla Colector
 CREATE TABLE Colector (
 	idColector INT PRIMARY KEY AUTO_INCREMENT,
-    nombres VARCHAR(100) NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
     apellidoPaterno VARCHAR(100) NOT NULL,
     apellidoMaterno VARCHAR(100) NOT NULL,
     permisoColecta LONGBLOB,
     prefijo VARCHAR(10),
-    esAsociado BOOLEAN,
+    esAsociado BOOLEAN
+);
+
+-- Tabla de la relacion entre Colactas y Colectores
+CREATE TABLE ColectaColector (
+	idColectaColector INT PRIMARY KEY AUTO_INCREMENT,
     idColecta INT,
-    FOREIGN KEY (idColecta) REFERENCES Colecta(idColecta) ON DELETE CASCADE
+    idColector INT
+);
+
+-- Se creo la tabla de pais, pero no se si se utilizara, todos son de mexico
+CREATE TABLE Pais (
+	idPais INT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(50)
 );
 
 -- Tabla Estado
 CREATE TABLE Estado (
 	idEstado INT PRIMARY KEY AUTO_INCREMENT,
-    nombre VARCHAR(100) NOT NULL
+    nombre VARCHAR(100) NOT NULL,
+    idPais INT NOT NULL, -- Se agrego
+    FOREIGN KEY (idPais) REFERENCES Pais(idPais) ON DELETE CASCADE
 );
 
 -- Tabla Municipio
 CREATE TABLE Municipio (
 	idMunicipio INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(100) NOT NULL,
-    idEstado INT,
+    idEstado INT NOT NULL,
     FOREIGN KEY (idEstado) REFERENCES Estado(idEstado) ON DELETE CASCADE
 );
 
@@ -187,7 +207,7 @@ CREATE TABLE Municipio (
 CREATE TABLE Localidad (
 	idLocalidad INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(100) NOT NULL,
-    idMunicipio INT,
+    idMunicipio INT NOT NULL,
     FOREIGN KEY (idMunicipio) REFERENCES Municipio(idMunicipio) ON DELETE CASCADE
 );
 
@@ -195,6 +215,7 @@ CREATE TABLE Localidad (
 CREATE TABLE DireccionColecta (
 	idDireccionColecta INT PRIMARY KEY AUTO_INCREMENT,
     idColecta INT, 
+    idPais INT,
     idEstado INT,
     idMunicipio INT,
     idLocalidad INT,
@@ -207,9 +228,22 @@ CREATE TABLE DireccionColecta (
 -- Tabla de las Coordenadas
 CREATE TABLE Coordenadas (
 	idCoordenadas INT PRIMARY KEY AUTO_INCREMENT,
-    latitud DECIMAL(10, 6) NOT NULL,
-    longitud DECIMAL(10, 6) NOT NULL,
-    altitud DECIMAL(10, 2) NULL
+    latitud DECIMAL(10, 6),
+    longitud DECIMAL(10, 6),
+    altitud DECIMAL(10, 2), 
+    idDireccionColecta INT, -- Agregado
+    FOREIGN KEY (idDireccionColecta) REFERENCES DireccionColecta(idDireccionColecta) ON DELETE CASCADE
 );
 
-
+-- Tabla para las coordenadas en GMS
+CREATE TABLE CoordenadasGMS (
+	idCoordenadasGMS INT PRIMARY KEY AUTO_INCREMENT,
+    longGrados INT,
+    longMin INT,
+    longSegundos INT,
+    latGrados INT,
+    latMin INT,
+    latSegundos INT,
+    idDireccionColecta INT,
+    FOREIGN KEY (idDireccionColecta) REFERENCES DireccionColecta(idDireccionColecta) ON DELETE CASCADE
+);

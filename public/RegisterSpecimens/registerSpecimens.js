@@ -80,6 +80,24 @@ document.addEventListener('DOMContentLoaded', function() {
         //Creacion del objeto Form Data
         const formData = new FormData(document.getElementById('formularioEjemplar'));
 
+        //Funcion para la convercion de las coordenadas en decimal
+        function convertGMSToDecimal(degrees, minutes, seconds) {
+            let decimal = parseFloat(degrees) + (parseFloat(minutes) / 60) + (parseFloat(seconds) / 3600);
+            return parseFloat(decimal.toFixed(6)); 
+        }
+
+        let latitudeDegrees = document.getElementById('latitudeDegreesNumber').value;
+        let latitudeMinutes = document.getElementById('latitudeMinutesNumber').value;
+        let latitudeSeconds = document.getElementById('latitudeSecondsNumber').value;
+        let longitudeDegrees = document.getElementById('longitudeDegreesNumber').value;
+        let longitudeMinutes = document.getElementById('longitudeMinutesNumber').value;
+        let longitudeSeconds = document.getElementById('longitudeSecondsNumber').value;
+
+        let latitudeDecimal = convertGMSToDecimal(latitudeDegrees, latitudeMinutes, latitudeSeconds);
+        let longitudeDecimal = convertGMSToDecimal(longitudeDegrees, longitudeMinutes, longitudeSeconds);
+
+        //Tab de los datos generales del ejemplar
+        formData.append('ejemplarId', document.getElementById('especimenIdText').value);
         formData.append('scientificName', document.getElementById('scientificNameText').value);
         formData.append('family', document.getElementById('familySelect').value);
         formData.append('genre', document.getElementById('genreSelect').value);
@@ -89,32 +107,53 @@ document.addEventListener('DOMContentLoaded', function() {
         formData.append('soil', document.getElementById('soilSelect').value);
         formData.append('fruit', document.getElementById('fruitSelect').value);
         formData.append('flower', document.getElementById('flowerSelect').value);
-        formData.append('associated', document.getElementById('associatedText').value);
-
-        formData.append('lifeCycle', document.getElementById('lifeCycleText').value);
+        
+        //Tab de las caracteristicas del ejemplar
+        formData.append('lifeCycle', document.getElementById('lifeCycleNumber').value);
         formData.append('determinerName', document.getElementById('determinerNameText').value);
-        formData.append('localName', document.getElementById('localNameText').value);
-        formData.append('size', document.getElementById('sizeText').value);
-        formData.append('numberDuplicates', document.getElementById('numberDuplicatesText').value);
+        formData.append('determinerLastName', document.getElementById('determinerLastNameText').value);
+        formData.append('determinerLastName2', document.getElementById('determinerLastName2Text').value); 
+        formData.append('size', document.getElementById('sizeNumber').value);
         formData.append('plantClassification', document.getElementById('plantClassificationSelect').value);
-        formData.append('abundance', document.getElementById('abundanceSelect').value);
+        formData.append('associated', document.getElementById('asociatedText').value);
         formData.append('protected', document.getElementById('protectedCheckbox').checked);
+        formData.append('abundance', document.getElementById('abundanceSelect').value);
+        formData.append('numberDuplicates', document.getElementById('numberDuplicates').value);
+
+        //Tab de otras caracteristicas del ejemplar
+        formData.append('environmentalInformation', document.getElementById('environmentalInformationText').value);
         formData.append('otherInformation', document.getElementById('otherInformationText').value);
         formData.append('specimenImage', document.getElementById('specimenImage').files[0]);
 
+        //Tab de la colecta
         formData.append('collectDate', document.getElementById('collectDate').value);
-        formData.append('collectNumber', document.getElementById('collectNumberText').value);
+        formData.append('collectNumber', document.getElementById('collectNumber').value);
+        formData.append('microhabitat', document.getElementById('microhabitatSelect').value);
+        formData.append('localName', document.getElementById('localNameText').value);
+        formData.append('collectors', document.getElementById('collectorSelect').value);
+        formData.append('fieldBookImage', document.getElementById('fieldBookImage').files[0]);
+  
+        //Tab de la direccion de la colecta
         formData.append('state', document.getElementById('stateSelect').value);
         formData.append('municipality', document.getElementById('municipalitySelect').value);
         formData.append('locality', document.getElementById('localitySelect').value);
-        formData.append('latitude', document.getElementById('latitudeText').value);
-        formData.append('longitude', document.getElementById('longitudeText').value);
-        formData.append('altitude', document.getElementById('altitudeText').value);
-        formData.append('collectors', document.getElementById('collectorSelect').value);
-        formData.append('fieldBookImage', document.getElementById('fieldBookImage').files[0]);
-        formData.append('microhabitat', document.getElementById('microhabitatSelect').value);
+        formData.append('latitudeDegrees', document.getElementById('latitudeDegreesNumber').value);
+        formData.append('latitudeMinutes', document.getElementById('latitudeMinutesNumber').value);
+        formData.append('latitudeSeconds', document.getElementById('latitudeSecondsNumber').value);
+        formData.append('longitudeDegrees', document.getElementById('longitudeDegreesNumber').value);
+        formData.append('longitudeMinutes', document.getElementById('longitudeMinutesNumber').value);
+        formData.append('longitudeSeconds', document.getElementById('longitudeSecondsNumber').value);
+        formData.append('altitude', document.getElementById('altitudeNumber').value);
 
-        fetch('http://localhost/SCEPIB_UV/backend/RegisterSpecimens/servicesPostRegister.php', {
+        //Coordenadas convertidas
+        formData.append('latitude', latitudeDecimal);
+        formData.append('longitude', longitudeDecimal);
+
+        for (let pair of formData.entries()) {
+            console.log(pair[0] + ': ' + pair[1]);
+        }
+        
+        fetch('../../backend/RegisterSpecimens/servicesPostRegister.php', {
             method: 'POST',
             body: formData,
         })

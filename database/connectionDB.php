@@ -9,7 +9,11 @@ $base_datos = "herbario_cib";
 
 $conexion = new mysqli($host, $usuario, $password, $base_datos);
 
-if ($conexion->connect_error) {
-    die("Error en la conexión: " . $conexion->connect_error);
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    $pdo ->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    //echo "connected successfully";
+} catch (PDOException $e) {
+    die("Error: " . $e->getMessage());
 }
 ?>

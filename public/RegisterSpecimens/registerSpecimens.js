@@ -29,37 +29,37 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.error("El servidor no devolvió datos o la respuesta está vacía.");
                     return;
                 }
-
+    
                 console.log("Datos recibidos del servidor:", data);
-
+    
                 const selectMap = {
-                    "genreSelect": { key: "genero", idKey: "idGenero" },
-                    "familySelect": { key: "familia", idKey: "idFamilia" },
-                    "specieSelect": { key: "especie", idKey: "idEspecie" },
-                    "biologicalFormSelect": { key: "formabiologica", idKey: "idFormaBiologica" },
-                    "typeVegetationSelect": { key: "tipovegetacion", idKey: "idTipoVegetacion" },
-                    "soilSelect": { key: "suelo", idKey: "idSuelo" },
-                    "fruitSelect": { key: "fruto", idKey: "idFruto" },
-                    "flowerSelect": { key: "flor", idKey: "idFlor" },
-                    "plantClassificationSelect": { key: "clasificacionplanta", idKey: "idClasificacionPlanta" },
-                    "abundanceSelect": { key: "abundancia", idKey: "idAbundancia" },
-                    "stateSelect": { key: "estado", idKey: "idEstado" },
-                    "municipalitySelect": { key: "municipio", idKey: "idMunicipio" },
-                    "localitySelect": { key: "localidad", idKey: "idLocalidad" },
-                    "collectorSelect": { key: "colector", idKey: "idColector" },
-                    "microhabitatSelect": { key: "microhabitat", idKey: "idMicroHabitat" }
+                    "genreSelect": { key: "genus", idKey: "idGenus" },
+                    "familySelect": { key: "family", idKey: "idFamily" },
+                    "specieSelect": { key: "species", idKey: "idSpecies" },
+                    "biologicalFormSelect": { key: "biologicalForm", idKey: "idBiologicalForm" },
+                    "typeVegetationSelect": { key: "vegetationType", idKey: "idVegetationType" },
+                    "soilSelect": { key: "soil", idKey: "idSoil" },
+                    "fruitSelect": { key: "fruit", idKey: "idFruit" },
+                    "flowerSelect": { key: "flower", idKey: "idFlower" },
+                    "plantClassificationSelect": { key: "plantClassification", idKey: "idPlantClassification" },
+                    "abundanceSelect": { key: "abundance", idKey: "idAbundance" },
+                    "stateSelect": { key: "state", idKey: "idState" },
+                    "municipalitySelect": { key: "municipality", idKey: "idMunicipality" },
+                    "localitySelect": { key: "locality", idKey: "idLocality" },
+                    "collectorSelect": { key: "collector", idKey: "id_collector" },
+                    "microhabitatSelect": { key: "microhabitat", idKey: "idMicrohabitat" }
                 };
-
+    
                 Object.entries(selectMap).forEach(([selectId, { key, idKey }]) => {
                     const select = document.getElementById(selectId);
                     if (select && data[key]) {
                         console.log(`Llenando ${selectId} con datos de ${key}`);
-                        select.innerHTML = '<option value="">Seleccionar</option>'; // Opciones predeterminadas
-
+                        select.innerHTML = '<option value="">Seleccionar</option>'; 
+    
                         data[key].forEach(item => {
                             let option = document.createElement("option");
                             option.value = item[idKey];
-                            option.textContent = item.nombre;
+                            option.textContent = key === "collector" ? item.names : item.name;
                             select.appendChild(option);
                         });
                     } else {
@@ -69,18 +69,80 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => console.error("Error cargando los datos:", error));
     }
-
-    // Llamar a la función para cargar los datos
+    
     loadSelectData();
 
     //Evento del registro de los ejemplares
     document.getElementById('registrarBtn').addEventListener('click', function() {
         console.log('Botón de registrar clickeado'); 
-    
-        //Creacion del objeto Form Data
+
+        //Validacion de los campos
+        const fieldsToValidate = [
+            { id: 'familySelect' },
+            { id: 'plantClassificationSelect' },
+            { id: 'abundanceSelect' },
+            { id: 'stateSelect' },
+            { id: 'municipalitySelect' },
+            { id: 'localitySelect' },
+            { id: 'especimenIdText' },
+            { id: 'scientificNameText' },
+            { id: 'lifeCycleNumber' },
+            { id: 'determinerNameText' },
+            { id: 'determinerLastNameText' },
+            { id: 'determinerLastName2Text' },
+            { id: 'sizeNumber' },
+            { id: 'numberDuplicates' },
+            { id: 'specimenImage' },
+            { id: 'collectDate' },
+            { id: 'collectNumber' },
+            { id: 'localNameText' },
+            { id: 'fieldBookImage' },
+            { id: 'latitudeDegreesNumber' },
+            { id: 'latitudeMinutesNumber' },
+            { id: 'latitudeSecondsNumber' },
+            { id: 'longitudeDegreesNumber' },
+            { id: 'longitudeMinutesNumber' },
+            { id: 'longitudeSecondsNumber' },
+            { id: 'altitudeNumber' },
+        ];
+
+        const validateFields = () => {
+            let isValid = true;  // Variable para saber si todo es válido
+            let invalidFields = []; // Arreglo para almacenar los campos inválidos
+
+            fieldsToValidate.forEach(field => {
+                const element = document.getElementById(field.id);
+
+                if (element.tagName === 'SELECT' && !element.value) {
+                    element.style.borderColor = 'red';  
+                    invalidFields.push(field.id);  
+                    isValid = false;  
+                } else if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                    if (!element.value.trim()) {  
+                        element.style.borderColor = 'red';  
+                        invalidFields.push(field.id);  
+                        isValid = false;  
+                    } else {
+                        element.style.borderColor = '';  
+                    }
+                } else {
+                    element.style.borderColor = '';
+                }
+            });
+
+            if (!isValid) {
+                alert("Faltan campos por completar. Por favor, revisa los campos resaltados.");
+            }
+
+            return isValid;
+        };
+
+        if (!validateFields()) {
+            return;  
+        }
+
         const formData = new FormData(document.getElementById('formularioEjemplar'));
 
-        //Funcion para la convercion de las coordenadas en decimal
         function convertGMSToDecimal(degrees, minutes, seconds) {
             let decimal = parseFloat(degrees) + (parseFloat(minutes) / 60) + (parseFloat(seconds) / 3600);
             return parseFloat(decimal.toFixed(6)); 

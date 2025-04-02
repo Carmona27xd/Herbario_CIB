@@ -1,9 +1,9 @@
-USE herbario_CIB;
+USE herbarium_CIB;
 
 DELIMITER $$
 CREATE PROCEDURE TP_RegistrarEjemplar(
 
-	-- Datos del ejemplar
+    -- Datos del ejemplar
     IN p_idEjemplar VARCHAR(30),
     IN p_asociada VARCHAR(100),
     IN p_cicloVida INT,
@@ -77,9 +77,9 @@ BEGIN
     SELECT 'Paso 1' AS Mensaje;
 
     -- 1. Insertar el ejemplar con el ID proporcionado por el usuario
-    INSERT INTO Ejemplar (
-        idEjemplar, estadoEjemplar, asociada, cicloVida, tamanio, duplicados, otrosDatos, protegido, informacionAmbiental, 
-        imagenEjemplar, idTipoVegetacion, idSuelo, idFormaBiologica, idFruto, idFlor, idAbundancia, idClasificacionPlanta
+    INSERT INTO Specimen (
+        idSpecimen, specimenState, associated, lifeCycle, size, duplicates, additionalData, protected, environmentalInformation, 
+        specimenImage, idVegetationType, idSoil, idBiologicalForm, idFruit, idFlower, idAbundance, idPlantClassification
         )
     VALUES (
         p_idEjemplar, TRUE, p_asociada, p_cicloVida, p_tamanio, p_duplicados, p_otrosDatos, 
@@ -89,15 +89,15 @@ BEGIN
     SELECT 'Paso 2' AS Mensaje;
     
     -- 2. Insertar o recuperar el determinador
-    SELECT idDeterminador INTO v_idDeterminador
-    FROM Determinador
-    WHERE nombre = p_nombreDet AND apellidoPaterno = p_apellidoPaternoDet AND apellidoMaterno = p_apellidoMaternoDet
+    SELECT idDeterminer INTO v_idDeterminador
+    FROM Determiner
+    WHERE firstName = p_nombreDet AND lastNameP = p_apellidoPaternoDet AND lastNameM = p_apellidoMaternoDet
     LIMIT 1;
     
     SELECT 'Paso 3' AS Mensaje;
 
     IF v_idDeterminador IS NULL THEN
-        INSERT INTO Determinador (nombre, apellidoPaterno, apellidoMaterno, fechaDetermino)
+        INSERT INTO Determiner (firstName, lastNameP, lastNameM, determinationDate)
         VALUES (p_nombreDet, p_apellidoPaternoDet, p_apellidoMaternoDet, CURRENT_DATE);
         SET v_idDeterminador = LAST_INSERT_ID();
     END IF;
@@ -105,13 +105,13 @@ BEGIN
     SELECT 'Paso 4' AS Mensaje;
 
     -- 3. Asociar el determinador con el ejemplar
-    INSERT INTO DeterminadoresEjemplares (idDeterminador, idEjemplar)
+    INSERT INTO DeterminersSpecimens (idDeterminer, idSpecimen)
     VALUES (v_idDeterminador, p_idEjemplar);
     
     SELECT 'Paso 5' AS Mensaje;
 
     -- 4. Insertar la colecta
-    INSERT INTO Colecta (numeroColecta, nombreLocal, fechaColecta, imagenLibretaCampo, idEjemplar, idMicroHabitat)
+    INSERT INTO Collection (collectionNumber, localName, collectionDate, fieldNotebookImage, idSpecimen, idMicrohabitat)
     VALUES (p_numeroColecta, p_nombreLocal, p_fechaColecta, p_imagenLibretaCampo, p_idEjemplar, p_idMicroHabitat);
     
     SELECT 'Paso 6' AS Mensaje;
@@ -122,14 +122,14 @@ BEGIN
 
     -- 5. Asociar colectores a la colecta
     IF p_colectores IS NOT NULL AND p_colectores != '' THEN
-        INSERT INTO ColectaColector (idColecta, idColector)
-        SELECT v_idColecta, idColector FROM Colector WHERE FIND_IN_SET(idColector, p_colectores);
+        INSERT INTO CollectionCollector (idCollection, id_collector)
+        SELECT v_idColecta, id_collector FROM Collector WHERE FIND_IN_SET(id_collector, p_colectores);
     END IF;
     
     SELECT 'Paso 8' AS Mensaje;
 
     -- 6. Insertar la dirección de colecta
-    INSERT INTO DireccionColecta (idColecta, idPais, idEstado, idMunicipio, idLocalidad)
+    INSERT INTO CollectionAddress (idCollection, idCountry, idState, idMunicipality, idLocality)
     VALUES (v_idColecta, 1, p_idEstado, p_idMunicipio, p_idLocalidad);
     
     SELECT 'Paso 9' AS Mensaje;
@@ -139,19 +139,19 @@ BEGIN
     SELECT 'Paso 10' AS Mensaje;
 
     -- 7. Insertar las coordenadas en formato decimal
-    INSERT INTO Coordenadas (latitud, longitud, altitud, idDireccionColecta)
+    INSERT INTO Coordinates (latitude, longitude, altitude, idCollectionAddress)
     VALUES (p_latitud, p_longitud, p_altitud, v_idDireccionColecta);
     
     SELECT 'Paso 11' AS Mensaje;
 
     -- 8. Insertar las coordenadas en formato GMS
-    INSERT INTO CoordenadasGMS (longGrados, longMin, longSegundos, latGrados, latMin, latSegundos, idDireccionColecta)
+    INSERT INTO GMSCoordinates (longDegrees, longMinutes, longSeconds, latDegrees, latMinutes, latSeconds, idCollectionAddress)
     VALUES (p_longGrados, p_longMin, p_longSegundos, p_latGrados, p_latMin, p_latSegundos, v_idDireccionColecta);
     
     SELECT 'Paso 12' AS Mensaje;
 
     -- 9. Insertar el nombre científico
-    INSERT INTO NombreCientifico (nombre, esActual, fechaAsignacion, idEjemplar, idFamilia, idGenero, idEspecie)
+    INSERT INTO ScientificName (name, isCurrent, assignmentDate, idSpecimen, idFamily, idGenus, idSpecies)
     VALUES (p_nombreCient, TRUE, CURRENT_DATE, p_idEjemplar, p_idFamilia, p_idGenero, p_idEspecie);
     
     SELECT 'Paso 13' AS Mensaje;
@@ -160,15 +160,14 @@ BEGIN
 END $$
 DELIMITER ;
 
--- Vistas
 CREATE VIEW VistaEjemplarDetalles AS
 SELECT 
-    e.idEjemplar,
-    nc.nombre AS NombreCientifico,
-    cp.nombre AS ClasificacionPlanta,
-    a.nombre AS Abundancia
-FROM Ejemplar e
-JOIN NombreCientifico nc ON e.idEjemplar = nc.idEjemplar
-JOIN ClasificacionPlanta cp ON e.idClasificacionPlanta = cp.idClasificacionPlanta
-JOIN Abundancia a ON e.idAbundancia = a.idAbundancia
-WHERE e.estadoEjemplar = 1;
+    s.idSpecimen,
+    sn.name AS ScientificName,
+    pc.name AS PlantClassification,
+    a.name AS Abundance
+FROM Specimen s
+JOIN ScientificName sn ON s.idSpecimen = sn.idSpecimen
+JOIN PlantClassification pc ON s.idPlantClassification = pc.idPlantClassification
+JOIN Abundance a ON s.idAbundance = a.idAbundance
+WHERE s.specimenState = 1;

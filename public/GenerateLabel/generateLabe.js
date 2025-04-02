@@ -32,13 +32,13 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         tablaBody.innerHTML = "";
 
-        data.forEach(ejemplar => {
+        data.forEach(specimen => {
             const row = document.createElement("tr");
             row.innerHTML = `
-                <td data-column="idEjemplar">${ejemplar.idEjemplar}</td>
-                <td data-column="nombreCientifico">${ejemplar.NombreCientifico}</td>
-                <td data-column="clasificacionPlanta">${ejemplar.ClasificacionPlanta}</td>
-                <td data-column="abundancia">${ejemplar.Abundancia}</td>
+                <td data-column="idEjemplar">${specimen.idSpecimen}</td>
+                <td data-column="nombreCientifico">${specimen.ScientificName}</td>
+                <td data-column="clasificacionPlanta">${specimen.PlantClassification}</td>
+                <td data-column="abundancia">${specimen.Abundance}</td>
                 <td><button class="btn btn-success generar-etiqueta">Generar etiqueta</button></td>
             `;
             tablaBody.appendChild(row);

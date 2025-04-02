@@ -19,16 +19,15 @@
         .bold-label {
             font-weight: bold;
         }
-        .navbar-custom {
-            
-        background-color: #29385e; 
+        .navbar-custom {            
+            background-color: #29385e; 
         }
         .btn-custom {
-        background-color: #29385e; 
-        color: white; 
+            background-color: #29385e; 
+            color: white; 
         }
         .btn-custom:hover {
-        background-color: #29385e; 
+            background-color: #29385e; 
         }
         .tab-pane {
             display: none;
@@ -36,6 +35,14 @@
         .tab-pane.active {
             display: block;
         }
+        .invalid {
+            border: 2px solid red;
+        }
+    .error-message {
+        color: red;
+        font-size: 12px;
+        margin-top: 5px;
+    }
     </style>
 </head>
 <body class="bg-light">
@@ -168,7 +175,7 @@
                                 <input type="number" class="form-control" id="sizeNumber" placeholder="Ingrese el tamaño en metros">
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Clasificación de planta</label>
+                                <label class="form-label"><span class="required">*</span> Clasificación de planta</label>
                                 <select class="form-select" id="plantClassificationSelect">
                                     <option selected>Seleccionar</option>
                                 </select>
@@ -187,7 +194,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Abundancia</label>
+                                <label class="form-label"><span class="required">*</span> Abundancia</label>
                                 <select class="form-select" id="abundanceSelect">
                                     <option selected>Seleccionar</option>
                                 </select>

@@ -75,7 +75,72 @@ document.addEventListener('DOMContentLoaded', function() {
     //Evento del registro de los ejemplares
     document.getElementById('registrarBtn').addEventListener('click', function() {
         console.log('Botón de registrar clickeado'); 
-    
+
+        //Validacion de los campos
+        const fieldsToValidate = [
+            { id: 'familySelect' },
+            { id: 'plantClassificationSelect' },
+            { id: 'abundanceSelect' },
+            { id: 'stateSelect' },
+            { id: 'municipalitySelect' },
+            { id: 'localitySelect' },
+            { id: 'especimenIdText' },
+            { id: 'scientificNameText' },
+            { id: 'lifeCycleNumber' },
+            { id: 'determinerNameText' },
+            { id: 'determinerLastNameText' },
+            { id: 'determinerLastName2Text' },
+            { id: 'sizeNumber' },
+            { id: 'numberDuplicates' },
+            { id: 'specimenImage' },
+            { id: 'collectDate' },
+            { id: 'collectNumber' },
+            { id: 'localNameText' },
+            { id: 'fieldBookImage' },
+            { id: 'latitudeDegreesNumber' },
+            { id: 'latitudeMinutesNumber' },
+            { id: 'latitudeSecondsNumber' },
+            { id: 'longitudeDegreesNumber' },
+            { id: 'longitudeMinutesNumber' },
+            { id: 'longitudeSecondsNumber' },
+            { id: 'altitudeNumber' },
+        ];
+
+        const validateFields = () => {
+            let isValid = true;  // Variable para saber si todo es válido
+            let invalidFields = []; // Arreglo para almacenar los campos inválidos
+
+            fieldsToValidate.forEach(field => {
+                const element = document.getElementById(field.id);
+
+                if (element.tagName === 'SELECT' && !element.value) {
+                    element.style.borderColor = 'red';  
+                    invalidFields.push(field.id);  
+                    isValid = false;  
+                } else if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                    if (!element.value.trim()) {  
+                        element.style.borderColor = 'red';  
+                        invalidFields.push(field.id);  
+                        isValid = false;  
+                    } else {
+                        element.style.borderColor = '';  
+                    }
+                } else {
+                    element.style.borderColor = '';
+                }
+            });
+
+            if (!isValid) {
+                alert("Faltan campos por completar. Por favor, revisa los campos resaltados.");
+            }
+
+            return isValid;
+        };
+
+        if (!validateFields()) {
+            return;  
+        }
+
         const formData = new FormData(document.getElementById('formularioEjemplar'));
 
         function convertGMSToDecimal(degrees, minutes, seconds) {

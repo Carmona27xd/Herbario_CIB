@@ -64,18 +64,52 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     function generarPDF(idEjemplar, nombreCientifico, clasificacionPlanta, abundancia) {
         const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
-
+        const doc = new jsPDF({ orientation: "landscape", unit: "mm", format: [80, 50] });
+    
+        // Dibujar el marco de la etiqueta
+        doc.setLineWidth(0.5);
+        doc.rect(2, 2, 76, 46);
+    
+        // Encabezado
         doc.setFont("helvetica", "bold");
-        doc.setFontSize(16);
-        doc.text("Etiqueta de Ejemplar", 20, 20);
-
-        doc.setFontSize(12);
-        doc.text(`ID del Ejemplar: ${idEjemplar}`, 20, 40);
-        doc.text(`Nombre Científico: ${nombreCientifico}`, 20, 50);
-        doc.text(`Clasificación del Ejemplar: ${clasificacionPlanta}`, 20, 60);
-        doc.text(`Abundancia del Ejemplar: ${abundancia}`, 20, 70);
-
+        doc.setFontSize(10);
+        doc.text("HERBARIO XALU", 28, 8);
+        doc.setFontSize(8);
+        doc.text("Universidad Veracruzana", 20, 12);
+        doc.text("Facultad de Biología", 26, 16);
+    
+        // Línea separadora
+        doc.line(5, 18, 75, 18);
+    
+        // Datos del ejemplar
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(7);
+        doc.text("ID del Ejemplar:", 5, 22);
+        doc.setFont("helvetica", "normal");
+        doc.text(idEjemplar, 30, 22);
+    
+        doc.setFont("helvetica", "bold");
+        doc.text("Nombre Científico:", 5, 26);
+        doc.setFont("helvetica", "italic");
+        doc.text(nombreCientifico, 30, 26);
+    
+        doc.setFont("helvetica", "bold");
+        doc.text("Clasificación:", 5, 30);
+        doc.setFont("helvetica", "normal");
+        doc.text(clasificacionPlanta, 30, 30);
+    
+        doc.setFont("helvetica", "bold");
+        doc.text("Abundancia:", 5, 34);
+        doc.setFont("helvetica", "normal");
+        doc.text(abundancia, 30, 34);
+    
+        doc.setFont("helvetica", "bold");
+        doc.text("Fecha de Impresión:", 5, 38);
+        doc.setFont("helvetica", "normal");
+        const fecha = new Date().toLocaleDateString();
+        doc.text(fecha, 35, 38);
+    
+        // Guardar PDF
         doc.save(`Etiqueta_${idEjemplar}.pdf`);
     }
 });

@@ -8,6 +8,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        /* Estilo personalizado para el contenedor de la tabla */
+        .table-container {
+            max-width: 900px;  /* Puedes ajustar este valor */
+            margin: 0 auto;    /* Centra el contenedor */
+        }
+    </style>
 </head>
 <body>
     <div class="container-fluid">
@@ -20,9 +27,10 @@
             </div>
         </header>
 
-        <!-- Tabla de resultados -->
-        <div class="row">
-            <div class="col">
+        <!-- Contenedor principal centrado -->
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-8 table-container">  <!-- Columnas de Bootstrap + nuestro contenedor -->
+                <!-- Tabla de resultados -->
                 <div class="table-responsive">
                     <table class="table table-striped table-hover">
                         <thead class="table-dark">
@@ -31,21 +39,18 @@
                                 <th>Apellido Paterno</th>
                                 <th>Apellido Materno</th>
                                 <th>Adscripción</th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody id="collectorsTableBody">
                             <tr>
-                                <td colspan="7" class="text-center">Cargando datos...</td>
+                                <td colspan="4" class="text-center">Cargando datos...</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </div>
 
-        <!-- Paginación -->
-        <div class="row">
-            <div class="col">
+                <!-- Paginación -->
                 <nav aria-label="Page navigation">
                     <ul class="pagination justify-content-center" id="pagination">
                         <!-- La paginación se generará con JavaScript -->
@@ -53,11 +58,16 @@
                 </nav>
             </div>
         </div>
+        <div class="d-flex justify-content-center mt-3">
+            <button type="button" class="btn btn-primary" id="backButton">Regresar</button>
+        </div>
+        
     </div>
 
     <!-- Bootstrap JS y dependencias -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Nuestro JavaScript -->
     <script src="JavaScript/verifyJWTAdmin.js"></script>
+    <script src="JavaScript/adminCollectorsController.js"></script>
 </body>
 </html>

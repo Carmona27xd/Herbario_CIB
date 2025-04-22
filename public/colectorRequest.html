@@ -150,6 +150,21 @@
         </form>
     </div>
 
+    <!-- Modal solo cerrable con el botón "Aceptar" -->
+    <div class="modal fade" id="missingLetters" tabindex="-1" aria-labelledby="missingLettersLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="missingLettersLabel">Debes de adjuntar las cartas de recomendación</h5>
+            </div>
+            <div class="modal-body text-center">
+                <button id="closeModalBtn" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+            </div>
+            </div>
+        </div>
+    </div>
+  
+
     <p id="message"></p>
     <script src="JavaScript/colectorRequestController.js"></script>
     

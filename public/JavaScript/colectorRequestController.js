@@ -21,14 +21,16 @@ document.getElementById("pdfUploadLetters").addEventListener("change", function 
 document.getElementById("registerForm").addEventListener("submit", async function (event) {
     event.preventDefault();
 
-    const formData = new formData();
+    const formData = new FormData();
     formData.append("name", document.getElementById("name").value.trim());
     formData.append("first_surname", document.getElementById("first_surname").value.trim());
     formData.append("second_surname", document.getElementById("second_surname").value.trim());
     formData.append("email", document.getElementById("email").value.trim());
     formData.append("ascription", document.getElementById("ascription").value.trim());
 
-    
-
-    
+    const pdfFileLetters = document.getElementById("pdfUploadLetters").files[0];
+    if (!pdfFileLetters) {
+        const noLettersModal = new bootstrap.Modal(document.getElementById("missingLetters"));
+        noLettersModal.show();
+    }
 })

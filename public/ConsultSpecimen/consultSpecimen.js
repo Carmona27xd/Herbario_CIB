@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <td>${ejemplar.especie}</td>
           <td>${ejemplar.registros}</td>
           <td><img src="/SCEPIB_UV/uploads/${ruta}" width="100" class="d-block mx-auto"></td>
-          <td class="text-center"><input type="checkbox" class="form-check-input mx-auto d-block specimen-checkbox"></td>
+          <td class="text-center"><input type="checkbox" class="form-check-input mx-auto d-block specimen-checkbox" data-id="${ejemplar.idSpecimen}"></td>
         `;
         tbody.appendChild(row);
       });
@@ -78,6 +78,36 @@ document.addEventListener('DOMContentLoaded', () => {
       modal.hide();
       descargarComoPDF();
     });
+
+    //Agregado para la prueba del mapa   
+    btnMostrar.addEventListener('click', async () => {
+      const checkboxes = document.querySelectorAll('.specimen-checkbox:checked');
+      const ids = Array.from(checkboxes).map(cb => cb.getAttribute('data-id'));
+      console.log(ids);
+    
+      if (ids.length === 0) return;
+    
+      try {
+        const response = await fetch('../../backend/ConsultSpecimens/serviceFetchCoordinates.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ specimenIds: ids })
+        });
+    
+        const coordenadas = await response.json();
+
+        console.log(coordenadas);
+    
+        if (!Array.isArray(coordenadas)) {
+          console.error('Respuesta inválida:', coordenadas);
+          return;
+        }
+    
+        mostrarEnMapa(coordenadas);
+      } catch (error) {
+        console.error('Error al obtener coordenadas:', error);
+      }
+    });
   
     function descargarComoImagenes() {
       const seleccionados = document.querySelectorAll('.specimen-checkbox:checked');
@@ -86,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const img = row.querySelector('img');
         const enlace = document.createElement('a');
         enlace.href = img.src;
-        enlace.download = img.src.split('/').pop(); // nombre del archivo
+        enlace.download = img.src.split('/').pop(); 
         document.body.appendChild(enlace);
         enlace.click();
         document.body.removeChild(enlace);
@@ -117,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const imgData = canvas.toDataURL('image/jpeg');
   
             if (index > 0) pdf.addPage();
-            pdf.addImage(imgData, 'JPEG', 10, 10, 180, 120); // Ajusta el tamaño si hace falta
+            pdf.addImage(imgData, 'JPEG', 10, 10, 180, 120); 
             resolve();
           };
         });
@@ -126,5 +156,45 @@ document.addEventListener('DOMContentLoaded', () => {
       }
   
       pdf.save('imagenes_seleccionadas.pdf');
+    }
+
+    //Agregado para la prueba del mapa
+    let mapa;
+
+    function mostrarEnMapa(coordenadas) {
+      const mapDiv = document.getElementById('map');
+      mapDiv.style.display = 'block';
+
+      if (!mapa) {
+        mapa = L.map('map').setView([19.4326, -99.1332], 5); 
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '© OpenStreetMap contributors'
+        }).addTo(mapa);
+      } else {
+        mapa.eachLayer(layer => {
+          if (layer instanceof L.Marker) {
+            mapa.removeLayer(layer);
+          }
+        });
+      }
+
+      const grupo = [];
+
+      coordenadas.forEach(coord => {
+        const lat = parseFloat(coord.latitude);
+        const lon = parseFloat(coord.longitude);
+
+        if (!isNaN(lat) && !isNaN(lon)) {
+          L.marker([lat, lon]).addTo(mapa)
+            .bindPopup(`<b>${coord.especie}</b><br>${coord.genero} - ${coord.familia}`);
+          grupo.push([lat, lon]);
+        } else {
+          console.warn(`Coordenada inválida para el ejemplar con ID ${coord.idSpecimen}:`, coord);
+        }
+      });
+
+      if (grupo.length) {
+        mapa.fitBounds(grupo);
+      }
     }
   });

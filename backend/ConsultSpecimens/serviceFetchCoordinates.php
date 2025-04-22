@@ -6,14 +6,12 @@ include '../../database/connectionDB.php';
 require '../../vendor/autoload.php';
 
 try {
-    // Leer los IDs de los ejemplares desde el frontend (POST en formato JSON)
     $input = json_decode(file_get_contents('php://input'), true);
 
     if (!isset($input['specimenIds']) || !is_array($input['specimenIds'])) {
         throw new Exception("No se recibieron los ejemplares correctamente.");
     }
 
-    // Construir placeholders (?, ?, ?, ...) para la consulta
     $placeholders = implode(',', array_fill(0, count($input['specimenIds']), '?'));
 
     $sql = "SELECT * FROM vista_coordenadas_ejemplares WHERE idSpecimen IN ($placeholders)";

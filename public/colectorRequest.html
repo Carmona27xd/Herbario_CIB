@@ -134,14 +134,10 @@
             </div>
 
             <p>Aviso de privacidad</p>
+            <p>Adjunta 2 cartas de recomendacion y/o permiso de colecta</p>
             
-            <!-- Botón de Permiso colecta -->
-            <label for="pdfUpload" class="btn btn-colecta">Permiso colecta (opcional)</label>
-            <input type="file" id="pdfUpload" name="pdfFile" accept="application/pdf" style="display: none;">
-            <p id="fileName"></p>
-
             <!--Boton cartas de recomendacion-->
-            <label for="pdfUploadLetters" class="btn btn-colecta">Cartas recomendacion</label>
+            <label for="pdfUploadLetters" class="btn btn-colecta">Adjuntar documentos</label>
             <input type="file" id="pdfUploadLetters" name="pdfFileLetters" accept="application/pdf" style="display: none;">
             <p id="fileNameLetters"></p>
             
@@ -155,7 +151,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="missingLettersLabel">Debes de adjuntar las cartas de recomendación</h5>
+                <h5 class="modal-title" id="missingLettersLabel">Debes de adjuntar algun documento</h5>
             </div>
             <div class="modal-body text-center">
                 <button id="closeModalBtn" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
@@ -163,8 +159,20 @@
             </div>
         </div>
     </div>
-  
 
+    <!--Modal solicitud exitosa-->
+    <div class="modal fade" id="successRequest" tabindex="-1" aria-labelledby="successRequestLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="successRequestLabel">Tu solicitud ha sido enviada</h5>
+            </div>
+            <div class="modal-body text-center">
+                <button id="aceptModalBtn" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+    </div>
+    
     <p id="message"></p>
     <script src="JavaScript/colectorRequestController.js"></script>
     

@@ -1,13 +1,3 @@
-document.getElementById("pdfUpload").addEventListener("change", function () {
-    const fileLabel = document.getElementById("fileName");
-    const pdfFile = this.files[0];
-    if (pdfFile) {
-        fileLabel.textContent = "Archivo seleccionado: " + pdfFile.name;
-    } else {
-        fileLabel.textContent = "No se ha seleccionado ningun archivo.";
-    }
-});
-
 document.getElementById("pdfUploadLetters").addEventListener("change", function () {
     const fileLabel = document.getElementById("fileNameLetters");
     const pdfFile = this.files[0];
@@ -32,5 +22,23 @@ document.getElementById("registerForm").addEventListener("submit", async functio
     if (!pdfFileLetters) {
         const noLettersModal = new bootstrap.Modal(document.getElementById("missingLetters"));
         noLettersModal.show();
+    }
+
+    formData.append("documents", pdfFileLetters);
+
+    try {
+        const response = await fetch("..backend/sendCollectorRequest.php", {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await response.json();
+        if (data.success) {
+
+        } else {
+
+        }
+    } catch (error) {
+        console.error("Error: " + error);
     }
 })

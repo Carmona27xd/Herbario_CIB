@@ -19,8 +19,8 @@ document.getElementById("registerForm").addEventListener("submit", async functio
 
     const pdfFile = document.getElementById("pdfUpLoad").files[0];
     if (!pdfFile) {
-        alert("Por favor selecciona un archivo PDF");
-        return;
+        const missingDocumentsModal = new bootstrap.Modal(document.getElementById("missingDocuments"));
+        missingDocumentsModal.show();
     } 
     
     formData.append("pdfFile", pdfFile);
@@ -33,8 +33,8 @@ document.getElementById("registerForm").addEventListener("submit", async functio
 
         const data = await response.json();
         if (data.success) {
-            alert("Colector registrado exitosamente");
-            window.location.href = "dashBoardAdmin.html";
+            const successModal = new bootstrap.Modal(document.getElementById("successRegister"));
+            successModal.show();
         } else {
             alert("Error en el registro: " + data.message);
         }
@@ -42,3 +42,7 @@ document.getElementById("registerForm").addEventListener("submit", async functio
         console.error("Error: ", error);
     }
 });
+
+document.getElementById("closeModalSuccessRegisterBtn").addEventListener("click", function () {
+    window.location.href = "";
+})

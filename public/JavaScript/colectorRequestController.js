@@ -8,6 +8,10 @@ document.getElementById("pdfUploadLetters").addEventListener("change", function 
     }
 });
 
+document.getElementById("aceptModalBtn").addEventListener("click", function () {
+    window.location.href = "home.html";
+})
+
 document.getElementById("registerForm").addEventListener("submit", async function (event) {
     event.preventDefault();
 
@@ -27,18 +31,18 @@ document.getElementById("registerForm").addEventListener("submit", async functio
     formData.append("documents", pdfFileLetters);
 
     try {
-        const response = await fetch("..backend/sendCollectorRequest.php", {
+        const response = await fetch("../backend/sendCollectorRequest.php", {
             method: "POST",
             body: formData
         });
 
         const data = await response.json();
         if (data.success) {
-
-        } else {
-
-        }
+            const exitModal = new bootstrap.Modal(document.getElementById("successRequest"));
+            exitModal.show();
+        } 
     } catch (error) {
         console.error("Error: " + error);
+        //alert("XD");
     }
 })

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Consulta de Ejemplares</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="../../public/ConsultSpecimen/consultSpecimen.js"></script>
+  <!-- Uso de jsPDF y html2canvas para la descarga del PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <link rel="stylesheet" href="../CSS/consultSpecimenStyle.css">
+  <!-- Para el uso de Leaflet CSS y JS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+
+<div class="d-flex">
+  <div class="sidebar">
+    <img src="../images/ImageUniversidadVeracruzana.png" alt="Logo" class="logo">
+    <button class="sidebar-button">Antecedentes</button>
+  </div>
+
+  <!-- Main content -->
+  <div class="flex-grow-1">
+    <nav class="navbar navbar-light bg-white shadow-sm justify-content-center">
+        <a class="nav-link fw-bold text-dark mx-3" href="#">Inicio</a>
+        <a class="nav-link fw-bold text-success mx-3" href="#">Consulta</a>
+    </nav>
+
+    <div class="tab-buttons">
+      <button class="btn active">Taxonomía</button>
+      <button class="btn btn-light border">Geográfica</button>
+      <button class="btn btn-light border">Registro CIB</button>
+      <button class="btn btn-light border">Avanzada</button>
+    </div>
+
+    <div class="filters-container">
+      <select id="campoFiltro" class="form-select">
+        <option selected>Filtros</option>
+        <option value="familia">Familia</option>
+        <option value="genero">Género</option>
+        <option value="especie">Especie</option>
+      </select>
+      <input id="valorBusqueda" type="text" class="form-control" placeholder="Buscar...">
+    </div>
+
+    <div class="data-table">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th class="uv-blue">Familia</th>
+            <th class="uv-blue">Género</th>
+            <th class="uv-blue">Especie</th>
+            <th class="uv-blue">Registros</th>
+            <th class="uv-blue">Imagen</th>
+            <th class="uv-blue">Mostrar ubicación</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="d-flex justify-content-end p-4">
+      <button id="btnMostrarUbicacion" class="btn btn-light border me-2" disabled>Mostrar ubicación</button>
+      <button id="btnDescargarImagenes" class="btn btn-primary" disabled data-bs-toggle="modal" data-bs-target="#modalDescarga">Descargar imágenes</button>
+    </div>
+
+    <div class="modal fade" id="downloadModal" tabindex="-1" aria-labelledby="downloadModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalDescargaLabel">¿Cómo quieres descargar las imágenes?</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body text-center">
+            <button id="downloadImagesBtn" class="btn btn-primary m-2">Como imágenes</button>
+            <button id="downloadPdfBtn" class="btn btn-secondary m-2">Como PDF</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contenedor de prueba para el Mapa -->
+    <div id="map" style="height: 500px; display:none; z-index: 9999;"></div>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

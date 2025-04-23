@@ -1,4 +1,6 @@
-document.
+document.getElementById("logInLink").addEventListener("click", function(){
+    window.location.href = "logIn.html";
+});
 
 document.getElementById("registerForm").addEventListener("submit", async function(event) {
     event.preventDefault();

@@ -2,11 +2,11 @@
 require '../database/connectionDB.php'; 
 require '../vendor/autoload.php';
 
-$email = 'admin@example.com';
+$email = 'Soyunpokemonytuno@hotmail.com';
 $password = '123456'; 
-$name = 'Juan';
-$first_surname = 'Pérez';
-$second_surname = 'Gómez';
+$name = 'Victoria';
+$first_surname = 'Moyano';
+$second_surname = 'Arguelles';
 $role_id = 2; 
 
 $stmtRole = $pdo->prepare("SELECT COUNT(*) FROM roles WHERE role_id = :role_id");

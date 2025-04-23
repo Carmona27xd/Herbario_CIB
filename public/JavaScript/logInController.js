@@ -43,6 +43,8 @@ document.getElementById("logInForm").addEventListener("submit", async function (
                 //console.info("Role: ", data.role);
             } else if (parseInt(data.role) === 2) {
                 window.location.href = "dashBoardAdmin.html";
+            } else if (parseInt(data.role) == 4) {
+                window.location.href = "dashBoardComitteeMember.html"
             }
         } else if (!data.jwt) {
             alert("Usuario y/o contraseña incorrectos");

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Colectores Registrados</title>
+    <title>Solicitudes para colector</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
@@ -22,7 +22,7 @@
         <header class="row bg-primary text-white p-3 mb-4">
             <div class="col">
                 <h1 class="text-center">
-                    <i class="bi bi-people-fill me-2"></i>Colectores Registrados
+                    <i class="bi bi-people-fill me-2"></i>Solicitudes recibidas
                 </h1>
             </div>
         </header>
@@ -38,11 +38,12 @@
                                 <th>Nombre</th>
                                 <th>Apellido Paterno</th>
                                 <th>Apellido Materno</th>
+                                <th>Correo</th>
                                 <th>Adscripción</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
-                        <tbody id="collectorsTableBody">
+                        <tbody id="requestsCollectorTableBody">
                             <tr>
                                 <td colspan="4" class="text-center">Cargando datos...</td>
                             </tr>
@@ -68,6 +69,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Nuestro JavaScript -->
     <script src="JavaScript/verifyJWTComitteeMember.js"></script>
-    <script src="JavaScript/adminCollectorsController.js"></script>
+    <script src="JavaScript/adminRequestsCollectorController.js"></script>
 </body>
 </html>

@@ -44,5 +44,5 @@ document.getElementById("registerForm").addEventListener("submit", async functio
 });
 
 document.getElementById("closeModalSuccessRegisterBtn").addEventListener("click", function () {
-    window.location.href = "";
+    window.location.href = "dashBoardComitteeMember.html";
 })

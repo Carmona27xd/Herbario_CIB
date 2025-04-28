@@ -79,11 +79,10 @@ document.addEventListener('DOMContentLoaded', () => {
       descargarComoPDF();
     });
 
-    //Agregado para la prueba del mapa   
+    //Mapa Funcional pero abierto a cambios  
     btnMostrar.addEventListener('click', async () => {
       const checkboxes = document.querySelectorAll('.specimen-checkbox:checked');
       const ids = Array.from(checkboxes).map(cb => cb.getAttribute('data-id'));
-      console.log(ids);
     
       if (ids.length === 0) return;
     
@@ -95,8 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     
         const coordenadas = await response.json();
-
-        console.log(coordenadas);
     
         if (!Array.isArray(coordenadas)) {
           console.error('Respuesta inválida:', coordenadas);
@@ -185,8 +182,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const lon = parseFloat(coord.longitude);
 
         if (!isNaN(lat) && !isNaN(lon)) {
-          L.marker([lat, lon]).addTo(mapa)
-            .bindPopup(`<b>${coord.especie}</b><br>${coord.genero} - ${coord.familia}`);
+          const marker = L.marker([lat, lon]).addTo(mapa);
+          // Estado inicial de carga del popup
+          marker.bindPopup('Cargando información...');
+          // Muestra la informacion al ser seleccionado
+          createPopupContent(coord).then(content => {
+            marker.setPopupContent(content);
+          });
           grupo.push([lat, lon]);
         } else {
           console.warn(`Coordenada inválida para el ejemplar con ID ${coord.idSpecimen}:`, coord);
@@ -197,4 +199,35 @@ document.addEventListener('DOMContentLoaded', () => {
         mapa.fitBounds(grupo);
       }
     }
+
+    // Esta función es para crear el contenido del popup de cada marcador
+    async function createPopupContent(coord) {
+      const response = await fetch(`../../backend/ConsultSpecimens/serviceFetchDetailsSpecimen.php?idSpecimen=${coord.idSpecimen}`);
+      const data = await response.json();
+
+      if (data.error) {
+        return "No se encontraron detalles del ejemplar.";
+      }
+
+      const popupContent = `
+        <strong>${data.scientificName}</strong><br>
+        <em>Familia:</em> ${data.family || 'N/A'}<br>
+        <em>Estado:</em> ${data.state || 'N/A'}<br>
+        <em>Municipio:</em> ${data.municipality || 'N/A'}<br>
+        <em>Tipo de vegetación:</em> ${data.vegetationType || 'N/A'}<br>
+        <em>Suelo:</em> ${data.soil || 'N/A'}<br>
+        <em>Forma biológica:</em> ${data.biologicalForm || 'N/A'}<br>
+        <em>Tamaño:</em> ${data.size || 'N/A'}<br>
+        <em>Edad:</em> ${data.lifeCycle || 'N/A'}<br>
+        <em>Flor:</em> ${data.flower || 'N/A'}<br>
+        <em>Fruto:</em> ${data.fruit || 'N/A'}<br>
+        <em>Asociada:</em> ${data.associated || 'N/A'}<br>
+        <em>Nombre local:</em> ${data.localName || 'N/A'}<br>
+        <em>Info ambiental:</em> ${data.environmentalInformation || 'N/A'}<br>
+        ${data.specimenImage ? `<img src="/SCEPIB_UV/uploads/${data.specimenImage.replace(/^uploads\//, '')}" width="150"/>` : ''}
+      `;
+
+      return popupContent;
+    }
+
   });

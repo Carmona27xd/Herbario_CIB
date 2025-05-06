@@ -33,7 +33,7 @@ document.getElementById("registerForm").addEventListener("submit", async functio
 
         const data = await response.json();
         if (data.success) {
-            const successModal = new bootstrap.Modal(document.getElementById("successRegister"));
+            const successModal = new bootstrap.Modal(document.getElementById("successfulRegistration"));
             successModal.show();
         } else {
             alert("Error en el registro: " + data.message);
@@ -43,6 +43,6 @@ document.getElementById("registerForm").addEventListener("submit", async functio
     }
 });
 
-document.getElementById("closeModalSuccessRegisterBtn").addEventListener("click", function () {
+document.getElementById("successfulButton").addEventListener("click", function () {
     window.location.href = "dashBoardComitteeMember.html";
 })

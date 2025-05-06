@@ -134,35 +134,40 @@
             
             <!-- Botón de Registro -->
             <button type="submit" class="btn btn-primary">Registrar</button>
-
-            <!--Modal registro exitoso-->
-            <div class="modal fade" id="successRegister" tabindex="-1" aria-labelledby="successRegisterLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false"></div>
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="successRegisterLabel">Colector registrado</h5>
-                    </div>
-                    <div>
-                        <button id="closeModalSuccessRegisterBtn" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
-                    </div>
-                </div>
-            </div>
-
-            <!--Modal faltan documentos del colector-->
-            <div class="modal fade" id="missingDocuments" tabindex="-1" aria-labelledby="missingDocumentsLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="missingDocumentsLabel">Por favor adjunta los documentos del colector</h5>
-                    </div>
-                    <div>
-                        <button id="closeModalMissingDocumentsBtn" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
-                    </div>
-                </div>
-
-            </div>      
         </form>
     </div>
+    <!-- Modal successful registration -->
+    <div class="modal fade" id="successfulRegistration" tabindex="-1" aria-labelledby="successfulRegistrationLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 shadow">
+            <div class="modal-header border-0">
+                <h5 class="modal-title mx-auto" id="successfulRegistrationLabel">Registro exitoso</h5>
+            </div>
+            <div class="modal-body text-center">
+                <p class="mb-3">El registro se completó correctamente.</p>
+                <button id="successfulButton" class="btn btn-success px-4" data-bs-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+    </div>
+
+    <!--Modal missing documents-->
+    <div class="modal fade" id="missingDocuments" tabindex="-1" aria-labelledby="missingDocumentsLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 shadow">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title mx-auto text-danger" id="missingDocuments">Documentos faltantes</h5>
+                </div>
+                <div class="modal-body text-center">
+                    <p class="mb-3">Adjunta los documentos</p>
+                    <button id="closeModalDocuments" class="btn btn-danger px-4" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+  
+  
 
     <p id="message"></p>
     <script src="JavaScript/verifyJWTComitteeMember.js"></script>

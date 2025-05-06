@@ -20,7 +20,9 @@ document.getElementById("registerForm").addEventListener("submit", async functio
     const pdfFile = document.getElementById("pdfUpLoad").files[0];
     if (!pdfFile) {
         const missingDocumentsModal = new bootstrap.Modal(document.getElementById("missingDocuments"));
+        console.log("Mostrando modal");
         missingDocumentsModal.show();
+        return;
     } 
     
     formData.append("pdfFile", pdfFile);
@@ -35,9 +37,7 @@ document.getElementById("registerForm").addEventListener("submit", async functio
         if (data.success) {
             const successModal = new bootstrap.Modal(document.getElementById("successfulRegistration"));
             successModal.show();
-        } else {
-            alert("Error en el registro: " + data.message);
-        }
+        } 
     } catch (error) {
         console.error("Error: ", error);
     }

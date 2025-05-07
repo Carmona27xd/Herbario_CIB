@@ -4,8 +4,8 @@ ini_set('display_errors', 1);
 
 $host = "localhost";  
 $username = "root";    
-$password = "password";       
-$dbname = "herbarium_CIB";  
+$password = "FinalFantasy_7";       
+$dbname = "herbarium_cib";  
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);

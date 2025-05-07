@@ -19,7 +19,9 @@ document.getElementById("registerForm").addEventListener("submit", async functio
 
     const pdfFile = document.getElementById("pdfUpLoad").files[0];
     if (!pdfFile) {
-        alert("Por favor selecciona un archivo PDF");
+        const missingDocumentsModal = new bootstrap.Modal(document.getElementById("missingDocuments"));
+        console.log("Mostrando modal");
+        missingDocumentsModal.show();
         return;
     } 
     
@@ -33,12 +35,14 @@ document.getElementById("registerForm").addEventListener("submit", async functio
 
         const data = await response.json();
         if (data.success) {
-            alert("Colector registrado exitosamente");
-            window.location.href = "dashBoardAdmin.html";
-        } else {
-            alert("Error en el registro: " + data.message);
-        }
+            const successModal = new bootstrap.Modal(document.getElementById("successfulRegistration"));
+            successModal.show();
+        } 
     } catch (error) {
         console.error("Error: ", error);
     }
 });
+
+document.getElementById("successfulButton").addEventListener("click", function () {
+    window.location.href = "dashBoardComitteeMember.html";
+})

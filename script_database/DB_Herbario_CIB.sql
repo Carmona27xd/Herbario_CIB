@@ -159,21 +159,6 @@ CREATE TABLE Collection (
     FOREIGN KEY (idMicrohabitat) REFERENCES Microhabitat(idMicrohabitat) ON DELETE CASCADE
 );
 
--- Collector Table --
-CREATE TABLE `collector` (
-  `id_collector` int NOT NULL AUTO_INCREMENT,
-  `names` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `first_surname` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `second_surname` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `ascription` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `pdf_file` longblob NOT NULL,
-  `is_associated` tinyint DEFAULT NULL,
-  `prefix` char(10) DEFAULT NULL,
-  `id_collection` int DEFAULT NULL,
-  `pdf_filename` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  PRIMARY KEY (`id_collector`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
 -- Intermediate Table: Collections - Collectors Relationship --
 CREATE TABLE CollectionCollector (
     idCollectionCollector INT PRIMARY KEY AUTO_INCREMENT,
@@ -248,15 +233,3 @@ CREATE TABLE GMSCoordinates (
     FOREIGN KEY (idCollectionAddress) REFERENCES CollectionAddress(idCollectionAddress) ON DELETE CASCADE
 );
 
---Collector Requests Table--
-CREATE TABLE collector_requests (
-    id_request INT AUTO_INCREMENT PRIMARY KEY,
-    name NVARCHAR(100) NOT NULL,
-    first_surname NVARCHAR(100) NOT NULL,
-    second_surname NVARCHAR(100),
-    email NVARCHAR(255) NOT NULL,
-    adscription NVARCHAR(255) NOT NULL,
-    documents LONGBLOB NOT NULL,
-    documents_name NVARCHAR(255),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);

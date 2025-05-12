@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 $host = "localhost";  
 $username = "root";    
 $password = "password";       
-$dbname = "herbario";  
+$dbname = "herbarium_cib";  
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);

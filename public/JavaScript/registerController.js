@@ -31,8 +31,8 @@ document.getElementById("registerForm").addEventListener("submit", async functio
             const data = await response.json();
 
             if (data.success) { 
-                alert("Registro exitoso, redirigiendo a Login...");
-                window.location.href = "logIn.html";
+                const successModal = new bootstrap.Modal(document.getElementById("success"));
+                successModal.show();
             } else {
                 alert(data.message);
             }

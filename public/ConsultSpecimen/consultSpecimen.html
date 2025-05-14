@@ -12,6 +12,9 @@
   <!-- Para el uso de Leaflet CSS y JS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- Plugin para el "popup" a la derecha del mapa -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-sidebar-v2/css/leaflet-sidebar.min.css" />
+  <script src="https://unpkg.com/leaflet-sidebar-v2/js/leaflet-sidebar.min.js"></script>
 </head>
 <body>
 
@@ -29,8 +32,8 @@
     </nav>
 
     <div class="tab-buttons">
-      <button class="btn active">Taxonomía</button>
-      <button class="btn btn-light border">Geográfica</button>
+      <a href="consultSpecimen.html" class="btn btn-light border">Taxonomía</a>
+      <a href="consultSpecimenGeographical.html" class="btn btn-light border">Geográfica</a>
       <button class="btn btn-light border">Registro CIB</button>
       <button class="btn btn-light border">Avanzada</button>
     </div>
@@ -78,6 +81,21 @@
             <button id="downloadImagesBtn" class="btn btn-primary m-2">Como imágenes</button>
             <button id="downloadPdfBtn" class="btn btn-secondary m-2">Como PDF</button>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prueba del "Popup" para la informacion del ejemplar -->
+    <div id="sidebarMap" class="leaflet-sidebar collapsed">
+      <div class="leaflet-sidebar-tabs">
+        <ul role="tablist">
+          <li><a href="#specimenDetails" role="tab"><i class="fas fa-leaf"></i></a></li>
+        </ul>
+      </div>
+      <div class="leaflet-sidebar-content">
+        <div class="leaflet-sidebar-pane" id="specimenDetails">
+          <h1 class="leaflet-sidebar-header">Detalles del ejemplar<span class="leaflet-sidebar-close"><i class="fas fa-times"></i></span></h1>
+          <div id="sidebar-content"></div>
         </div>
       </div>
     </div>

@@ -82,7 +82,7 @@ body {
     color: white;
 }
 .btn-tab-style {
-    background-color: #005BAA; /* Azul personalizado */
+    background-color: #005BAA; 
     color: white;
     border: 1px solid #005BAA;
     padding: 0.375rem 0.75rem;

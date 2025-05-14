@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
       descargarComoPDF();
     });
 
-    //Mapa Funcional pero abierto a cambios  
+    //Mapa funcional pero abierto a cambios  
     btnMostrar.addEventListener('click', async () => {
       const checkboxes = document.querySelectorAll('.specimen-checkbox:checked');
       const ids = Array.from(checkboxes).map(cb => cb.getAttribute('data-id'));
@@ -163,9 +163,14 @@ document.addEventListener('DOMContentLoaded', () => {
       mapDiv.style.display = 'block';
 
       if (!mapa) {
-        mapa = L.map('map').setView([19.4326, -99.1332], 5); 
+        mapa = L.map('map').setView([19.4326, -99.1332], 5);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           attribution: '© OpenStreetMap contributors'
+        }).addTo(mapa);
+    
+        // El sidebar para los detalles
+        sidebar = L.control.sidebar('sidebarMap', {
+          position: 'right'
         }).addTo(mapa);
       } else {
         mapa.eachLayer(layer => {
@@ -183,16 +188,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!isNaN(lat) && !isNaN(lon)) {
           const marker = L.marker([lat, lon]).addTo(mapa);
-          // Estado inicial de carga del popup
-          marker.bindPopup('Cargando información...');
-          // Muestra la informacion al ser seleccionado
-          createPopupContent(coord).then(content => {
-            marker.setPopupContent(content);
+      
+          // Un click listener para la barra lateral con los detalles
+          marker.on('click', async function() {
+            const content = await createPopupContent(coord);
+            document.getElementById('sidebar-content').innerHTML = content;
+            sidebar.open('specimenDetails'); 
           });
+      
           grupo.push([lat, lon]);
         } else {
           console.warn(`Coordenada inválida para el ejemplar con ID ${coord.idSpecimen}:`, coord);
         }
+
       });
 
       if (grupo.length) {
@@ -200,7 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Esta función es para crear el contenido del popup de cada marcador
+    // Aqui se crea el contenido del "popup" de cada marcador
     async function createPopupContent(coord) {
       const response = await fetch(`../../backend/ConsultSpecimens/serviceFetchDetailsSpecimen.php?idSpecimen=${coord.idSpecimen}`);
       const data = await response.json();

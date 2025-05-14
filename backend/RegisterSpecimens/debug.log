@@ -1107,3 +1107,45 @@ Array
     [latitude] => 96.364167
     [longitude] => 96.904167
 )
+Array
+(
+    [scientificName] => Bidens alba
+    [ejemplarId] => 7083UV
+    [family] => 1
+    [genre] => 1
+    [species] => 1
+    [biologicalForm] => 3
+    [typeVegetation] => 1
+    [soil] => 1
+    [fruit] => 1
+    [flower] => 2
+    [lifeCycle] => 1
+    [determinerName] => Ramon
+    [determinerLastName] => Gonzalez
+    [determinerLastName2] => Ramirez
+    [size] => 1
+    [plantClassification] => 1
+    [associated] => Plantas de Alvarado
+    [protected] => false
+    [abundance] => 2
+    [numberDuplicates] => 2
+    [environmentalInformation] => Información Ambiental 1
+    [otherInformation] => Otros Datos 1
+    [collectDate] => 2025-05-13
+    [collectNumber] => 12
+    [microhabitat] => 1
+    [localName] => Romerillo
+    [collectors] => 1
+    [state] => 1
+    [municipality] => 1
+    [locality] => 1
+    [latitudeDegrees] => 18
+    [latitudeMinutes] => 41
+    [latitudeSeconds] => 30
+    [longitudeDegrees] => 95
+    [longitudeMinutes] => 31
+    [longitudeSeconds] => 20
+    [altitude] => 1
+    [latitude] => 18.691667
+    [longitude] => 95.522222
+)

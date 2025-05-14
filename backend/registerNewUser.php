@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $second_Surname = trim($inputData["second_surname"]);
     $email = trim($inputData["email"]);
     $password = password_hash(trim($inputData["password"]), PASSWORD_BCRYPT);
-    $role_id = 1;
+    $role_id = $inputData["role_id"];
 
     try {
         $stmt = $pdo->prepare("INSERT INTO users (`name`, `first_surname`, `second_surname`, `email`, `password`, `role_id`) 

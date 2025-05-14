@@ -98,21 +98,21 @@
             <div class="form-group">
                 <label for="name">Nombre</label>
                 <input type="text" class="form-control" name="name" id="name" 
-                pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$" required>
+                    pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$" required>
             </div>
             
             <!-- Campo de primer apellido -->
             <div class="form-group">
                 <label for="first_surname">Primer apellido</label>
                 <input type="text" class="form-control" name="first_surname" id="first_surname" 
-                pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$"required>
+                    pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$" required>
             </div>
             
             <!-- Campo de segundo apellido -->
             <div class="form-group">
                 <label for="second_surname">Segundo apellido</label>
                 <input type="text" class="form-control" name="second_surname" id="second_surname" 
-                pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$"required>
+                    pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$" required>
             </div>
             
             <!-- Campo de adscripción -->
@@ -127,15 +127,33 @@
                 </select>
             </div>
             
-            <!-- Botón de Permiso colecta -->
-            <button type="button" class="btn btn-danger" id="cancelButton">Cancelar</button>
-            
-            <!-- Botón de Registro -->
-            <button type="submit" class="btn btn-primary">Modificar</button>
+            <!-- Botones de acción -->
+            <div class="form-group">
+                <button type="button" class="btn btn-danger" id="cancelButton">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Modificar</button>
+            </div>
         </form>
+
+        <!-- Modal success update -->
+        <div class="modal fade" id="success" tabindex="-1" aria-labelledby="successLabel" aria-hidden="true" 
+            data-bs-backdrop="static" data-bs-keyboard="false">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content rounded-4 shadow">
+                    <div class="modal-header border-0">
+                        <h5 class="modal-title mx-auto" id="successLabel">Aviso</h5>
+                    </div>
+                    <div class="modal-body text-center">
+                        <p class="mb-3">Colector actualizado correctamente.</p>
+                        <button id="successfulButton" class="btn btn-success px-4" data-bs-dismiss="modal">Aceptar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <p id="message"></p>
+    
+    <!-- JavaScript -->
     <script src="JavaScript/verifyJWTComitteeMember.js"></script>
     <script src="JavaScript/updateCollectorController.js"></script>
     

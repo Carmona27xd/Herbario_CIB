@@ -1,4 +1,8 @@
-document.getElementById("logInLink").addEventListener("click", function(){
+document.getElementById("logInLink").addEventListener("click", function() {
+    window.location.href = "logIn.html";
+});
+
+document.getElementById("successButton").addEventListener("click", function() {
     window.location.href = "logIn.html";
 });
 
@@ -10,12 +14,34 @@ document.getElementById("registerForm").addEventListener("submit", async functio
         first_surname: document.getElementById("first_surname").value.trim(),
         second_surname: document.getElementById("second_surname").value.trim(),
         email: document.getElementById("email").value.trim(),
-        password: document.getElementById("password").value.trim()
+        password: document.getElementById("password").value.trim(),
+        role_id: 1
     };
 
     const passwordVerify = {
         firstPassword: document.getElementById("password"),
         secondPassword: document.getElementById("confirmPassword")
+    }
+
+    if (
+        !formData.name ||
+        !formData.first_surname ||
+        !formData.second_surname ||
+        !formData. email ||
+        !passwordVerify.firstPassword.value.trim() ||
+        !passwordVerify.secondPassword.value.trim() 
+    ) {
+        const modalMissingFields = new bootstrap.Modal(document.getElementById("missingData"));
+        modalMissingFields.show();
+        return;
+    }
+
+    const termsCheckBox = document.getElementById("acceptTerms");
+
+    if (!termsCheckBox.checked) {
+        const modalTerms = new bootstrap.Modal(document.getElementById("termsModal"));
+        modalTerms.show();
+        return;
     }
 
     if (passwordVerify.firstPassword.value === passwordVerify.secondPassword.value) {
@@ -33,15 +59,18 @@ document.getElementById("registerForm").addEventListener("submit", async functio
             if (data.success) { 
                 const successModal = new bootstrap.Modal(document.getElementById("success"));
                 successModal.show();
+
             } else {
-                alert(data.message);
+                const emailModal = new bootstrap.Modal(document.getElementById("emailAlreadyExists"));
+                emailModal.show();
             }
         } catch (error) {
             console.error("Error: ", error);
             document.getElementById("message").innerText = "Ocurrió un error al procesar la solicitud";
         }
     } else {
-        alert("Las contraseñas no coinciden.")
+        const passswordMatch = new bootstrap.Modal(document.getElementById("passwordMatch"));
+        passswordMatch.show();
         return;
     }
 });

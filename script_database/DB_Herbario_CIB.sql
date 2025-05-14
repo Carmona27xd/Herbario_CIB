@@ -159,18 +159,6 @@ CREATE TABLE Collection (
     FOREIGN KEY (idMicrohabitat) REFERENCES Microhabitat(idMicrohabitat) ON DELETE CASCADE
 );
 
--- Collector Table --
-CREATE TABLE Collector (
-    id_collector INT PRIMARY KEY AUTO_INCREMENT,
-    names VARCHAR(100) NOT NULL,
-    first_surname VARCHAR(100) NOT NULL,
-    ascription VARCHAR(100),
-    pdf_file LONGBLOB,
-    is_associated TINYINT DEFAULT NULL,
-    prefix VARCHAR(10),
-    pdf_filename VARCHAR(100)
-);
-
 -- Intermediate Table: Collections - Collectors Relationship --
 CREATE TABLE CollectionCollector (
     idCollectionCollector INT PRIMARY KEY AUTO_INCREMENT,
@@ -244,3 +232,4 @@ CREATE TABLE GMSCoordinates (
     idCollectionAddress INT,
     FOREIGN KEY (idCollectionAddress) REFERENCES CollectionAddress(idCollectionAddress) ON DELETE CASCADE
 );
+

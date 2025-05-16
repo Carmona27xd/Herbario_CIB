@@ -61,8 +61,10 @@ document.getElementById("registerForm").addEventListener("submit", async functio
                 successModal.show();
 
             } else {
-                const emailModal = new bootstrap.Modal(document.getElementById("emailAlreadyExists"));
-                emailModal.show();
+                //const emailModal = new bootstrap.Modal(document.getElementById("emailAlreadyExists"));
+                //emailModal.show();
+
+                alert(data.message);
             }
         } catch (error) {
             console.error("Error: ", error);

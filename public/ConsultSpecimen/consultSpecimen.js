@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
   //Instancia del mapa
   let mapa;
 
-  //Ps nah 
+  //Ps nah
   btnMostrar.addEventListener('click', async () => {
     const checkboxes = document.querySelectorAll('.specimen-checkbox:checked');
     const ids = Array.from(checkboxes).map(cb => cb.getAttribute('data-id'));
@@ -227,6 +227,14 @@ document.addEventListener('DOMContentLoaded', () => {
       <em>Nombre local:</em> ${data.localName || 'N/A'}<br>
       <em>Info ambiental:</em> ${data.environmentalInformation || 'N/A'}<br>
       ${data.specimenImage ? `<img src="/SCEPIB_UV/uploads/${data.specimenImage.replace(/^uploads\//, '')}" width="150"/>` : ''}
+      <div class="mt-3 d-flex gap-2">
+        <button class="btn btn-sm btn-outline-primary" onclick="downloadImage('${data.specimenImage}')">
+          Descargar imagen
+        </button>
+        <button class="btn btn-sm btn-outline-success" onclick='downloadExcel(${JSON.stringify(data)})'>
+          Descargar Excel
+        </button>
+      </div>
     `;
   }
 
@@ -248,3 +256,45 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 });
+
+function downloadImage(imageName) {
+  if (!imageName) return;
+  const link = document.createElement('a');
+  link.href = `/SCEPIB_UV/uploads/${imageName.replace(/^uploads\//, '')}`;
+  link.download = imageName.split('/').pop();
+  link.click();
+}
+
+function downloadExcel(data) {
+  // data es un objeto con toda la info del ejemplar
+
+  // Transformar los datos en un arreglo de objetos que será la tabla
+  const ws_data = [
+    ["Campo", "Valor"],
+    ["Nombre científico", data.scientificName || 'N/A'],
+    ["Familia", data.family || 'N/A'],
+    ["Estado", data.state || 'N/A'],
+    ["Municipio", data.municipality || 'N/A'],
+    ["Tipo de vegetación", data.vegetationType || 'N/A'],
+    ["Suelo", data.soil || 'N/A'],
+    ["Forma biológica", data.biologicalForm || 'N/A'],
+    ["Tamaño", data.size || 'N/A'],
+    ["Edad", data.lifeCycle || 'N/A'],
+    ["Flor", data.flower || 'N/A'],
+    ["Fruto", data.fruit || 'N/A'],
+    ["Asociada", data.associated || 'N/A'],
+    ["Nombre local", data.localName || 'N/A'],
+    ["Información ambiental", data.environmentalInformation || 'N/A'],
+  ];
+
+  // Crear una hoja de cálculo con SheetJS
+  const ws = XLSX.utils.aoa_to_sheet(ws_data);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Ejemplar");
+
+  // Descargar archivo
+  XLSX.writeFile(wb, `ejemplar_${data.idSpecimen || "detalle"}.xlsx`);
+}
+
+window.downloadImage = downloadImage;
+window.downloadExcel = downloadExcel;

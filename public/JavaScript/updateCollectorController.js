@@ -64,9 +64,9 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert("Colector actualizado correctamente.");
-                sessionStorage.removeItem("collectorData"); // Limpiar los datos guardados
-                window.location.href = "adminCollectors.html"; // Volver a la lista de colectores
+                sessionStorage.removeItem("collectorData"); 
+                const successModal = new bootstrap.Modal(document.getElementById("success"));
+                successModal.show();
             } else {
                 alert("Error: " + data.message);
             }
@@ -74,3 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch(error => console.error("Error al actualizar:", error));
     });
 });
+
+document.getElementById("successfulButton").addEventListener("click", function () {
+    window.location.href = "adminCollectors.html";
+})

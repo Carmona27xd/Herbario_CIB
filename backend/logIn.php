@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = $data->email;
     $password = $data->password;
 
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email LIMIT 1");
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email AND is_verified = 1 LIMIT 1");
     $stmt->execute(['email' => $email]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 

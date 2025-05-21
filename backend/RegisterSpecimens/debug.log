@@ -1317,3 +1317,45 @@ Array
     [latitude] => 19.604722
     [longitude] => 96.649722
 )
+Array
+(
+    [scientificName] => Brugmansia
+    [ejemplarId] => 17201UV
+    [family] => 1
+    [genre] => 2
+    [species] => 2
+    [biologicalForm] => 2
+    [typeVegetation] => 2
+    [soil] => 1
+    [fruit] => 3
+    [flower] => 1
+    [lifeCycle] => 1
+    [determinerName] => Ramon
+    [determinerLastName] => Gomez
+    [determinerLastName2] => Hernandez
+    [size] => 1
+    [plantClassification] => 1
+    [associated] => Plantas de Coatzintla
+    [protected] => false
+    [abundance] => 2
+    [numberDuplicates] => 3
+    [environmentalInformation] => Información Ambiental 5
+    [otherInformation] => Otros Datos 5
+    [collectDate] => 2025-05-20
+    [collectNumber] => 56
+    [microhabitat] => 1
+    [localName] => N/A
+    [collectors] => 15
+    [state] => 4
+    [municipality] => 8
+    [locality] => 7
+    [latitudeDegrees] => 19
+    [latitudeMinutes] => 39
+    [latitudeSeconds] => 24
+    [longitudeDegrees] => 96
+    [longitudeMinutes] => 57
+    [longitudeSeconds] => 49.41
+    [altitude] => 1550
+    [latitude] => 19.656667
+    [longitude] => -96.963725
+)

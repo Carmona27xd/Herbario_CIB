@@ -2,7 +2,7 @@
 require '../database/connectionDB.php'; 
 require '../vendor/autoload.php';
 
-$email = 'Soyunpokemonytuno@hotmail.com';
+$email = 'adminEjemplo@hotmail.com';
 $password = '123456'; 
 $name = 'Victoria';
 $first_surname = 'Moyano';

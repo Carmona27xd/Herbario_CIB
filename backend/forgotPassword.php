@@ -1,6 +1,6 @@
 <?php
 include '../database/connectionDB.php';
-require 'sendVerification.php';
+require 'sendResetPasswordEmail.php';
 
 header('Content-Type: application/json');
 $data = json_decode(file_get_contents("php://input"), true);
@@ -30,16 +30,12 @@ if ($stmt->rowCount() === 1) {
 
     $reset_link = "http://localhost/herbario/public/resetPassword.html?token=$reset_token";
 
-    sendVerificationEmail($email, $user['name'], "Recupera tu contraseña", "
-        Hola {$user['name']},<br><br>
-        Para cambiar tu contraseña, haz clic en el siguiente enlace:<br>
-        <a href='$reset_link'>$reset_link</a><br><br>
-        Este enlace expira en 1 hora.");
+    sendResetPasswordEmail($email, $reset_link);
 
-    echo json_encode(["success" => true, "message" => "Correo enviado"]);
+    echo json_encode(["success" => true, "message" => "success"]);
 
 } else {
-    echo json_encode(["success" => false, "message" => "El correo no esta registrado o no ha sido verificado"]);
+    echo json_encode(["success" => false, "message" => "email not registered"]);
 }
 
 ?>

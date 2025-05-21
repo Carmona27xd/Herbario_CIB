@@ -4,11 +4,10 @@ use PHPMailer\PHPMailer\Exception;
 
 require '../vendor/autoload.php'; 
 
-function sendVerificationEmail($toEmail, $toName, $verificationLink) {
+function sendResetPasswordEmail($toEmail, $resetLink) {
     $mail = new PHPMailer(true);
 
     try {
-        // Server SMTP
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com'; 
         $mail->SMTPAuth = true;
@@ -18,19 +17,21 @@ function sendVerificationEmail($toEmail, $toName, $verificationLink) {
         $mail->Port = 587;
 
         $mail->setFrom('lecape27@gmail.com', 'Herbario CIB');
-        $mail->addAddress($toEmail, $toName);
+        $mail->addAddress($toEmail);
+
 
         $mail->isHTML(true);
-        $mail->Subject = 'Verifica tu correo';
+        $mail->Subject = "Cambia tu contrasena";
         $mail->Body = "
-            Hola $toName,<br><br>
-            Haz clic en el siguiente enlace para verificar tu cuenta:<br>
-            <a href='$verificationLink'>$verificationLink</a><br><br>
-            Si no solicitaste este registro, puedes ignorar este mensaje.
+            Solicitud de cambio de contrasena,<br><br>
+            Haz clic en el siguiente enlace para cambiar tu contrasena:<br>
+            <a href='$resetLink'>$resetLink</a><br><br>
+            Si no solicitaste este registro, puedes ignorar este mensaje, el enlace expira en 1 hora.
         ";
 
         $mail->send();
         return true;
+
     } catch (Exception $e) {
         error_log("Error al enviar correo: {$mail->ErrorInfo}");
         return false;

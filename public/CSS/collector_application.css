@@ -1,0 +1,89 @@
+/* Estilos generales */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Contenedor del formulario */
+.form-container {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    padding: 30px;
+    margin-bottom: 30px;
+}
+
+/* Títulos de sección */
+.section-title {
+    color: #28a745;
+    border-bottom: 2px solid #28a745;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+/* Botones para documentos */
+.btn-document {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+    transition: all 0.3s;
+}
+
+.btn-document:hover {
+    background-color: #e9ecef;
+}
+
+/* Sección de referencias */
+.references-section {
+    background-color: #f1f8e9;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 30px;
+}
+
+/* Estilos para el botón de enviar */
+.btn-success {
+    background-color: #28a745;
+    border: none;
+    padding: 12px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+/* Estilos para la barra de navegación */
+.navbar {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .form-container {
+        padding: 20px;
+    }
+    
+    .section-title {
+        font-size: 1.25rem;
+    }
+    
+    .btn-document {
+        font-size: 0.9rem;
+    }
+}
+
+/* Estilos para los inputs */
+.form-control {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}

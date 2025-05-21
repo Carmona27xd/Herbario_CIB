@@ -38,9 +38,18 @@ document.getElementById("registerForm").addEventListener("submit", async functio
 
     const termsCheckBox = document.getElementById("acceptTerms");
 
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+
     if (!termsCheckBox.checked) {
         const modalTerms = new bootstrap.Modal(document.getElementById("termsModal"));
         modalTerms.show();
+        return;
+    }
+
+    if (!passwordRegex.test(formData.password)) {
+
+        const invalidPasswordModal = new bootstrap.Modal(document.getElementById("invalidPassword"));
+        invalidPasswordModal.show();
         return;
     }
 
@@ -61,10 +70,9 @@ document.getElementById("registerForm").addEventListener("submit", async functio
                 successModal.show();
 
             } else {
-                //const emailModal = new bootstrap.Modal(document.getElementById("emailAlreadyExists"));
-                //emailModal.show();
+                const emailModal = new bootstrap.Modal(document.getElementById("emailAlreadyExists"));
+                emailModal.show();
 
-                alert(data.message);
             }
         } catch (error) {
             console.error("Error: ", error);

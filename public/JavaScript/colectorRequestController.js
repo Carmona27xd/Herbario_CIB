@@ -43,6 +43,5 @@ document.getElementById("registerForm").addEventListener("submit", async functio
         } 
     } catch (error) {
         console.error("Error: " + error);
-        //alert("XD");
     }
 })

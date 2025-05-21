@@ -3,6 +3,6 @@ document.getElementById("buttonLogIn").addEventListener("click", function() {
 })
 
 document.getElementById("buttonColector").addEventListener("click", function() {
-    window.location.href = "colectorRequest.html";
+    window.location.href = "collectorApplication.html";
 })
 

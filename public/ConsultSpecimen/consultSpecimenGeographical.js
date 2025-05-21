@@ -12,12 +12,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const btnMostrar = document.getElementById('btnMostrarUbicacion');
   const btnDescargar = document.getElementById('btnDescargarImagenes');
-  const modal = new bootstrap.Modal(document.getElementById('downloadModal'));
+  const modalDownload = new bootstrap.Modal(document.getElementById('downloadModal'));
   const btnImagenes = document.getElementById('downloadImagesBtn');
   const btnPDF = document.getElementById('downloadPdfBtn');
-
-  let sidebar = null;
-  let markersLayer = null;
 
   cargarEjemplaresIniciales();
 
@@ -86,33 +83,33 @@ document.addEventListener("DOMContentLoaded", () => {
       .catch(err => console.error('Error cargando localidades:', err));
   });
 
-//Para la carga inicial
+  //Para la carga inicial
   function cargarEjemplaresIniciales() {
-  fetch('../../backend/ConsultSpecimens/servicesFetchConsultSpecimens.php')
-    .then(res => res.json())
-    .then(data => {
-      const tbody = document.querySelector("table tbody");
-      tbody.innerHTML = "";
+    fetch('../../backend/ConsultSpecimens/servicesFetchConsultSpecimens.php')
+      .then(res => res.json())
+      .then(data => {
+        const tbody = document.querySelector("table tbody");
+        tbody.innerHTML = "";
 
-      data.forEach(ejemplar => {
-        let ruta = ejemplar.specimenImage ? ejemplar.specimenImage.replace(/^uploads\//, '') : null;
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>${ejemplar.familia}</td>
-          <td>${ejemplar.genero}</td>
-          <td>${ejemplar.especie}</td>
-          <td>${ejemplar.registros}</td>
-          <td>
-            ${ruta ? `<img src="/SCEPIB_UV/uploads/${ruta}" width="100" class="d-block mx-auto">` : 'Sin imagen'}
-          </td>
-          <td class="text-center">
-            <input type="checkbox" class="form-check-input mx-auto d-block specimen-checkbox" data-id="${ejemplar.idSpecimen}">
-          </td>
-        `;
-        tbody.appendChild(row);
-      });
-    })
-    .catch(err => console.error("Error al cargar ejemplares iniciales:", err));
+        data.forEach(ejemplar => {
+          let ruta = ejemplar.specimenImage ? ejemplar.specimenImage.replace(/^uploads\//, '') : null;
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${ejemplar.familia}</td>
+            <td>${ejemplar.genero}</td>
+            <td>${ejemplar.especie}</td>
+            <td>${ejemplar.registros}</td>
+            <td>
+              ${ruta ? `<img src="/SCEPIB_UV/uploads/${ruta}" width="100" class="d-block mx-auto">` : 'Sin imagen'}
+            </td>
+            <td class="text-center">
+              <input type="checkbox" class="form-check-input mx-auto d-block specimen-checkbox" data-id="${ejemplar.idSpecimen}">
+            </td>
+          `;
+          tbody.appendChild(row);
+        });
+      })
+      .catch(err => console.error("Error al cargar ejemplares iniciales:", err));
   }
 
   buscarBtn.addEventListener("click", () => {
@@ -158,20 +155,21 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   btnDescargar.addEventListener('click', () => {
-    modal.show();
+    modalDownload.show();
   });
 
   btnImagenes.addEventListener('click', () => {
-    modal.hide();
+    modalDownload.hide();
     descargarComoImagenes();
   });
 
   btnPDF.addEventListener('click', () => {
-    modal.hide();
+    modalDownload.hide();
     descargarComoPDF();
   });
 
-  //Mapa funcional pero abierto a cambios  
+  let mapa;
+
   btnMostrar.addEventListener('click', async () => {
     const checkboxes = document.querySelectorAll('.specimen-checkbox:checked');
     const ids = Array.from(checkboxes).map(cb => cb.getAttribute('data-id'));
@@ -192,7 +190,12 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
     
-      mostrarEnMapa(coordenadas);
+      // Mostrar el modal del mapa
+      const mapModal = new bootstrap.Modal(document.getElementById('mapModal'));
+      mapModal.show();
+
+      setTimeout(() => mostrarEnMapa(coordenadas), 300); // Espera a que se muestre el modal
+
     } catch (error) {
       console.error('Error al obtener coordenadas:', error);
     }
@@ -247,22 +250,12 @@ document.addEventListener("DOMContentLoaded", () => {
     pdf.save('imagenes_seleccionadas.pdf');
   }
 
-  //Agregado para la prueba del mapa
-  let mapa;
-
   function mostrarEnMapa(coordenadas) {
     const mapDiv = document.getElementById('map');
-    mapDiv.style.display = 'block';
-
     if (!mapa) {
       mapa = L.map('map').setView([19.4326, -99.1332], 5);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors'
-      }).addTo(mapa);
-    
-      // El sidebar para los detalles
-      sidebar = L.control.sidebar('sidebarMap', {
-        position: 'right'
       }).addTo(mapa);
     } else {
       mapa.eachLayer(layer => {
@@ -280,19 +273,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!isNaN(lat) && !isNaN(lon)) {
         const marker = L.marker([lat, lon]).addTo(mapa);
-      
-        // Un click listener para la barra lateral con los detalles
-        marker.on('click', async function() {
+
+        marker.on('click', async function () {
           const content = await createPopupContent(coord);
-          document.getElementById('sidebar-content').innerHTML = content;
-          sidebar.open('specimenDetails'); 
+          document.getElementById('specimenDetailsPanel').innerHTML = content;
         });
-      
+
         grupo.push([lat, lon]);
       } else {
         console.warn(`Coordenada inválida para el ejemplar con ID ${coord.idSpecimen}:`, coord);
       }
-
     });
 
     if (grupo.length) {
@@ -300,7 +290,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-    // Aqui se crea el contenido del "popup" de cada marcador
   async function createPopupContent(coord) {
     const response = await fetch(`../../backend/ConsultSpecimens/serviceFetchDetailsSpecimen.php?idSpecimen=${coord.idSpecimen}`);
     const data = await response.json();
@@ -309,7 +298,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return "No se encontraron detalles del ejemplar.";
     }
 
-    const popupContent = `
+    return `
       <strong>${data.scientificName}</strong><br>
       <em>Familia:</em> ${data.family || 'N/A'}<br>
       <em>Estado:</em> ${data.state || 'N/A'}<br>
@@ -326,10 +315,24 @@ document.addEventListener("DOMContentLoaded", () => {
       <em>Info ambiental:</em> ${data.environmentalInformation || 'N/A'}<br>
       ${data.specimenImage ? `<img src="/SCEPIB_UV/uploads/${data.specimenImage.replace(/^uploads\//, '')}" width="150"/>` : ''}
     `;
-
-    return popupContent;
   }
-//Ayuda, el Servicio Social me consume
+
+  const mapModal = document.getElementById('mapModal');
+  mapModal.addEventListener('show.bs.modal', function () {
+    const detailPanel = document.getElementById('specimenDetailsPanel');
+    detailPanel.innerHTML = '<p class="text-muted">Haz clic en un marcador para ver los detalles del ejemplar aquí.</p>';
+  });
+
+  const detailPanel = document.getElementById('specimenDetailsPanel');
+  detailPanel.addEventListener('click', function (event) {
+    const target = event.target;
+    if (target.tagName === 'IMG') {
+      const imageModal = new bootstrap.Modal(document.getElementById('imageModal'));
+      const modalImage = document.getElementById('modalImage');
+      modalImage.src = target.src; 
+      imageModal.show();
+    }
+  });
+  
 });
-
-
+//Ayuda, me consumen las ganas de morir xd

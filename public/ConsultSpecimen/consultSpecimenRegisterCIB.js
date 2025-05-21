@@ -75,6 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
       descargarComoPDF();
     });
 
+    let mapa;
     //Mapa funcional pero abierto a cambios  
     btnMostrar.addEventListener('click', async () => {
       const checkboxes = document.querySelectorAll('.specimen-checkbox:checked');
@@ -96,7 +97,12 @@ document.addEventListener('DOMContentLoaded', () => {
           return;
         }
     
-        mostrarEnMapa(coordenadas);
+        // Mostrar el modal del mapa
+        const mapModal = new bootstrap.Modal(document.getElementById('mapModal'));
+        mapModal.show();
+
+        setTimeout(() => mostrarEnMapa(coordenadas), 300); // Espera a que se muestre el modal
+
       } catch (error) {
         console.error('Error al obtener coordenadas:', error);
       }
@@ -152,85 +158,90 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     //Agregado para la prueba del mapa
-    let mapa;
 
     function mostrarEnMapa(coordenadas) {
-      const mapDiv = document.getElementById('map');
-      mapDiv.style.display = 'block';
-
-      if (!mapa) {
-        mapa = L.map('map').setView([19.4326, -99.1332], 5);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '© OpenStreetMap contributors'
-        }).addTo(mapa);
-    
-        // El sidebar para los detalles
-        sidebar = L.control.sidebar('sidebarMap', {
-          position: 'right'
-        }).addTo(mapa);
-      } else {
-        mapa.eachLayer(layer => {
-          if (layer instanceof L.Marker) {
-            mapa.removeLayer(layer);
-          }
-        });
-      }
-
-      const grupo = [];
-
-      coordenadas.forEach(coord => {
-        const lat = parseFloat(coord.latitude);
-        const lon = parseFloat(coord.longitude);
-
-        if (!isNaN(lat) && !isNaN(lon)) {
-          const marker = L.marker([lat, lon]).addTo(mapa);
-      
-          // Un click listener para la barra lateral con los detalles
-          marker.on('click', async function() {
-            const content = await createPopupContent(coord);
-            document.getElementById('sidebar-content').innerHTML = content;
-            sidebar.open('specimenDetails'); 
-          });
-      
-          grupo.push([lat, lon]);
-        } else {
-          console.warn(`Coordenada inválida para el ejemplar con ID ${coord.idSpecimen}:`, coord);
+    const mapDiv = document.getElementById('map');
+    if (!mapa) {
+      mapa = L.map('map').setView([19.4326, -99.1332], 5);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+      }).addTo(mapa);
+    } else {
+      mapa.eachLayer(layer => {
+        if (layer instanceof L.Marker) {
+          mapa.removeLayer(layer);
         }
-
       });
-
-      if (grupo.length) {
-        mapa.fitBounds(grupo);
-      }
     }
+
+    const grupo = [];
+
+    coordenadas.forEach(coord => {
+      const lat = parseFloat(coord.latitude);
+      const lon = parseFloat(coord.longitude);
+
+      if (!isNaN(lat) && !isNaN(lon)) {
+        const marker = L.marker([lat, lon]).addTo(mapa);
+
+        marker.on('click', async function () {
+          const content = await createPopupContent(coord);
+          document.getElementById('specimenDetailsPanel').innerHTML = content;
+        });
+
+        grupo.push([lat, lon]);
+      } else {
+        console.warn(`Coordenada inválida para el ejemplar con ID ${coord.idSpecimen}:`, coord);
+      }
+    });
+
+    if (grupo.length) {
+      mapa.fitBounds(grupo);
+    }
+  }
 
     // Aqui se crea el contenido del "popup" de cada marcador
     async function createPopupContent(coord) {
-      const response = await fetch(`../../backend/ConsultSpecimens/serviceFetchDetailsSpecimen.php?idSpecimen=${coord.idSpecimen}`);
-      const data = await response.json();
+    const response = await fetch(`../../backend/ConsultSpecimens/serviceFetchDetailsSpecimen.php?idSpecimen=${coord.idSpecimen}`);
+    const data = await response.json();
 
-      if (data.error) {
-        return "No se encontraron detalles del ejemplar.";
-      }
-
-      const popupContent = `
-        <strong>${data.scientificName}</strong><br>
-        <em>Familia:</em> ${data.family || 'N/A'}<br>
-        <em>Estado:</em> ${data.state || 'N/A'}<br>
-        <em>Municipio:</em> ${data.municipality || 'N/A'}<br>
-        <em>Tipo de vegetación:</em> ${data.vegetationType || 'N/A'}<br>
-        <em>Suelo:</em> ${data.soil || 'N/A'}<br>
-        <em>Forma biológica:</em> ${data.biologicalForm || 'N/A'}<br>
-        <em>Tamaño:</em> ${data.size || 'N/A'}<br>
-        <em>Edad:</em> ${data.lifeCycle || 'N/A'}<br>
-        <em>Flor:</em> ${data.flower || 'N/A'}<br>
-        <em>Fruto:</em> ${data.fruit || 'N/A'}<br>
-        <em>Asociada:</em> ${data.associated || 'N/A'}<br>
-        <em>Nombre local:</em> ${data.localName || 'N/A'}<br>
-        <em>Info ambiental:</em> ${data.environmentalInformation || 'N/A'}<br>
-        ${data.specimenImage ? `<img src="/SCEPIB_UV/uploads/${data.specimenImage.replace(/^uploads\//, '')}" width="150"/>` : ''}
-      `;
-
-      return popupContent;
+    if (data.error) {
+      return "No se encontraron detalles del ejemplar.";
     }
+
+    return `
+      <strong>${data.scientificName}</strong><br>
+      <em>Familia:</em> ${data.family || 'N/A'}<br>
+      <em>Estado:</em> ${data.state || 'N/A'}<br>
+      <em>Municipio:</em> ${data.municipality || 'N/A'}<br>
+      <em>Tipo de vegetación:</em> ${data.vegetationType || 'N/A'}<br>
+      <em>Suelo:</em> ${data.soil || 'N/A'}<br>
+      <em>Forma biológica:</em> ${data.biologicalForm || 'N/A'}<br>
+      <em>Tamaño:</em> ${data.size || 'N/A'}<br>
+      <em>Edad:</em> ${data.lifeCycle || 'N/A'}<br>
+      <em>Flor:</em> ${data.flower || 'N/A'}<br>
+      <em>Fruto:</em> ${data.fruit || 'N/A'}<br>
+      <em>Asociada:</em> ${data.associated || 'N/A'}<br>
+      <em>Nombre local:</em> ${data.localName || 'N/A'}<br>
+      <em>Info ambiental:</em> ${data.environmentalInformation || 'N/A'}<br>
+      ${data.specimenImage ? `<img src="/SCEPIB_UV/uploads/${data.specimenImage.replace(/^uploads\//, '')}" width="150"/>` : ''}
+    `;
+  }
+
+  const mapModal = document.getElementById('mapModal');
+  mapModal.addEventListener('show.bs.modal', function () {
+    const detailPanel = document.getElementById('specimenDetailsPanel');
+    detailPanel.innerHTML = '<p class="text-muted">Haz clic en un marcador para ver los detalles del ejemplar aquí.</p>';
+  });
+
+  const detailPanel = document.getElementById('specimenDetailsPanel');
+  detailPanel.addEventListener('click', function (event) {
+    const target = event.target;
+    if (target.tagName === 'IMG') {
+      const imageModal = new bootstrap.Modal(document.getElementById('imageModal'));
+      const modalImage = document.getElementById('modalImage');
+      modalImage.src = target.src; 
+      imageModal.show();
+    }
+  });
+  
 });

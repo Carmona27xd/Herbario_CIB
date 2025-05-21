@@ -19,10 +19,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 <td>${request.first_surname}</td>
                 <td>${request.second_surname}</td>
                 <td>${request.email}</td>
-                <td>${request.adscription}</td>
                 <td> 
                     <button class="btn btn-warning btn-sm edit-btn" data-id="${request.id_request}">
-                        <i class="bi bi-download"></i> Descargar
+                        <i class="bi bi-eye"></i> Ver detalles
                     </button>
                 </td>
             `;

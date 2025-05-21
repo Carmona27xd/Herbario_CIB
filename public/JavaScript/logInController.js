@@ -47,7 +47,9 @@ document.getElementById("logInForm").addEventListener("submit", async function (
                 window.location.href = "dashBoardComitteeMember.html"
             }
         } else if (!data.jwt) {
-            alert("Usuario y/o contraseña incorrectos");
+            //alert("Usuario y/o contraseña incorrectos");
+            const invalidCredentialsModal = new bootstrap.Modal(document.getElementById("invalidCredentials"));
+            invalidCredentialsModal.show();
             
         } else {
             document.getElementById("message").textContent = data.error || "Error desconocido";

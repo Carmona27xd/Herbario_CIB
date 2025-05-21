@@ -8,6 +8,13 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
         /* Estilo adicional para asegurar que las columnas ocupen el 50% de la pantalla */
         .half-screen {
             height: 100vh; /* Ocupa el 100% de la altura de la pantalla */
@@ -99,6 +106,21 @@
             </div>
         </div>
     </div>
+
+    <!--Message invalid credentials-->
+    <div class="modal fade" id="invalidCredentials" tabindex="-1" aria-labelledby="invalidCredentialsLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content rounded-4 shadow">
+            <div class="modal-header border-0">
+              <h5 class="modal-title mx-auto text-danger" id="invalidCredentialsLabel">Credenciales incorrectas</h5>
+            </div>
+            <div class="modal-body text-center">
+              <p class="mb-3">Correo y/o contraseña incorrectos.</p>
+              <button class="btn btn-danger px-4" data-bs-dismiss="modal">Aceptar</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
     <p id="message"></p>
     

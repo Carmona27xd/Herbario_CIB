@@ -266,9 +266,7 @@ function downloadImage(imageName) {
 }
 
 function downloadExcel(data) {
-  // data es un objeto con toda la info del ejemplar
-
-  // Transformar los datos en un arreglo de objetos que será la tabla
+  // Transformacion de los datos para llenar el excel
   const ws_data = [
     ["Campo", "Valor"],
     ["Nombre científico", data.scientificName || 'N/A'],
@@ -287,7 +285,7 @@ function downloadExcel(data) {
     ["Información ambiental", data.environmentalInformation || 'N/A'],
   ];
 
-  // Crear una hoja de cálculo con SheetJS
+  // Crear un excel con SheetJS
   const ws = XLSX.utils.aoa_to_sheet(ws_data);
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, "Ejemplar");

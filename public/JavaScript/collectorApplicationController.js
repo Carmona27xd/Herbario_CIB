@@ -110,7 +110,7 @@ document.getElementById("solicitudForm").addEventListener("submit", async functi
         return;
     }
     
-    if (!fileCurriculum || !fileLetter) {
+    if (!fileCurriculum || !fileLetter || !filePermit) {
         const missingDocuments = new bootstrap.Modal(document.getElementById("missingDocuments"));
         missingDocuments.show();
         return;

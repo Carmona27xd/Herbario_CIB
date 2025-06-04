@@ -2,14 +2,21 @@ body {
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
 }
+.d-flex {
+  display: flex;
+  flex-grow: 1;
+}
+/* Cambiar esto */
 .sidebar {
-    width: 165px;
-    background-color: #1b2660;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 15px 0;
+  width: 165px;
+  background-color: #1b2660;
+  /* height: 100vh; */ /* ❌ Quitar esto */
+  min-height: 100%; /* ✅ Agregar esto */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px 0;
+  position: relative; /* por si quieres fijar algo más adelante */
 }
 .logo {
     width: 60px;

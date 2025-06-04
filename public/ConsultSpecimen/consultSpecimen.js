@@ -35,25 +35,36 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function renderTabla(datos) {
-    const tbody = document.querySelector('table tbody');
-    tbody.innerHTML = '';
+  const tbody = document.querySelector('table tbody');
+  tbody.innerHTML = '';
 
-    datos.forEach(ejemplar => {
-      let ruta = ejemplar.specimenImage.replace(/^uploads\//, '');
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${ejemplar.familia}</td>
-        <td>${ejemplar.genero}</td>
-        <td>${ejemplar.especie}</td>
-        <td>${ejemplar.registros}</td>
-        <td><img src="/SCEPIB_UV/uploads/${ruta}" width="100" class="d-block mx-auto"></td>
-        <td class="text-center"><input type="checkbox" class="form-check-input mx-auto d-block specimen-checkbox" data-id="${ejemplar.idSpecimen}"></td>
-      `;
-      tbody.appendChild(row);
-    });
+  datos.forEach(ejemplar => {
+    let ruta = ejemplar.specimenImage?.replace(/^uploads\//, '');
+    const esProtegido = ejemplar.protected === "1" || ejemplar.protected === 1;
 
-    actualizarEstadoBotones(); 
-  }
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${ejemplar.familia}</td>
+      <td>${ejemplar.genero}</td>
+      <td>${ejemplar.especie}</td>
+      <td>${ejemplar.registros}</td>
+      <td>
+        <img src="/SCEPIB_UV/uploads/${ruta}" width="100" class="d-block mx-auto specimen-img"
+             onerror="this.onerror=null;this.src='../images/no-disponible.jpg';">
+      </td>
+      
+      <td class="text-center">
+        ${esProtegido
+          ? '<span class="text-muted">No Disponible</span>'
+          : `<input type="checkbox" class="form-check-input mx-auto d-block specimen-checkbox" data-id="${ejemplar.idSpecimen}">`}
+      </td>
+    `;
+
+    tbody.appendChild(row);
+  });
+
+  actualizarEstadoBotones(); 
+}
 
   document.addEventListener('change', () => {
     actualizarEstadoBotones();

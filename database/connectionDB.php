@@ -12,6 +12,11 @@ try {
     $pdo ->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     //echo "connected successfully";
 } catch (PDOException $e) {
-    die("Error: " . $e->getMessage());
+    header('Content-Type: application/json');
+    echo json_encode([
+        "success" => false,
+        "message" => "Error de conexión: " . $e->getMessage()
+    ]);
+    exit;
 }
 ?>

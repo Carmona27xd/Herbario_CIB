@@ -1359,3 +1359,45 @@ Array
     [latitude] => 19.656667
     [longitude] => -96.963725
 )
+Array
+(
+    [scientificName] => Capsicum pubescens
+    [ejemplarId] => 17196UV
+    [family] => 1
+    [genre] => 2
+    [species] => 2
+    [biologicalForm] => 2
+    [typeVegetation] => 2
+    [soil] => 2
+    [fruit] => 2
+    [flower] => 1
+    [lifeCycle] => 1
+    [determinerName] => Cuevas
+    [determinerLastName] => Reyes
+    [determinerLastName2] => L.
+    [size] => 1
+    [plantClassification] => 1
+    [associated] => Plantas de Coacoatzintla
+    [protected] => true
+    [abundance] => 2
+    [numberDuplicates] => 5
+    [environmentalInformation] => Informacion Ambiental 6
+    [otherInformation] => Otros Datos 6
+    [collectDate] => 2025-06-03
+    [collectNumber] => 55
+    [microhabitat] => 1
+    [localName] => Chile extranjero
+    [collectors] => 15
+    [state] => 4
+    [municipality] => 8
+    [locality] => 7
+    [latitudeDegrees] => 19
+    [latitudeMinutes] => 39
+    [latitudeSeconds] => 15.87
+    [longitudeDegrees] => 96
+    [longitudeMinutes] => 57
+    [longitudeSeconds] => 38.49
+    [altitude] => 1510
+    [latitude] => 19.654408
+    [longitude] => -96.960692
+)

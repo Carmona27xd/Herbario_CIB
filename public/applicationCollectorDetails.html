@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles de la solicitud - Herbario CIB</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Iconos de Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- CSS personalizado -->
+    <link rel="stylesheet" href="CSS/collector_application_details.css">
+</head>
+<body>
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+        <div class="container">
+            <a class="navbar-brand" href="#">Herbario CIB</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Consulta</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Nosotros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contacto</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <div class="container my-5">
+        <div class="form-container">
+            <h1 class="text-center mb-4">Detalles de la solicitud</h1>
+            <div class="d-flex justify-content-end mb-4">
+                <span class="badge estado-badge">Estado: En revisión</span>
+            </div>
+
+            <!-- Información personal -->
+            <h3 class="section-title">Información Personal</h3>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Nombres</label>
+                    <div id="infoNames" class="info-display">Juan Carlos</div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Apellido Paterno</label>
+                    <div id="infoFirstSurname" class="info-display">Pérez</div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Apellido Materno</label>
+                    <div id="infoSecondSurname" class="info-display">Gómez</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Correo Electrónico</label>
+                    <div id="infoEmail" class="info-display">juan.perez@example.com</div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Fecha de solicitud</label>
+                    <div id="infoDateApplication" class="info-display">15 de marzo, 2023</div>
+                </div>
+            </div>
+
+            <!-- Documentos adjuntos -->
+            <h3 class="section-title">Documentos Adjuntos</h3>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">CV</label>
+                    <div>
+                        <span class="document-badge">
+                            <i class="bi bi-file-earmark-pdf"></i> 
+                            <a href="#" id="infoCurriculum" target="_blank">CV_Juan_Perez.pdf</a>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Permiso de Colecta</label>
+                    <div>
+                        <span class="document-badge">
+                            <i class="bi bi-file-earmark-pdf"></i> 
+                            <a href="#" id="infoPermit" target="_blank">Permiso_Colecta.pdf</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Referencias personales -->
+            <div class="references-section">
+                <h3 class="section-title">Referencias Personales</h3>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Nombre Completo</label>
+                        <div id="referenceName" class="info-display">María González López</div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Correo Electrónico</label>
+                        <div id="referenceEmail" class="info-display">maria.gonzalez@example.com</div>
+                    </div>
+                </div>
+                
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Carta de Recomendación</label>
+                        <div>
+                            <span class="document-badge">
+                                <i class="bi bi-file-earmark-text"></i> 
+                                <a href="#" id="letterName" target="_blank">Carta_Recomendacion.pdf</a>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Protocolo o Proyecto</label>
+                        <div>
+                            <span class="document-badge">
+                                <i class="bi bi-file-earmark-text"></i> 
+                                <a href="#" id="proyectName" target="_blank">Protocolo_Investigacion.pdf</a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botones de acción -->
+            <div class="action-buttons">
+                <button id="backButton" type="button" class="btn btn-outline-secondary back-button">
+                    <i class="bi bi-arrow-left"></i> Volver
+                </button>
+                <button type="button" class="btn btn-success download-button">
+                    <i class="bi bi-download"></i> Descargar toda la solicitud
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS y dependencias -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="JavaScript/applicationCollectorDetailsController.js"></script>
+    <script src="JavaScript/verifyJWTComitteeMember.js"></script>
+</body>
+</html>

@@ -23,11 +23,11 @@ document.addEventListener('DOMContentLoaded', () => {
   let ejemplaresOriginal = [];
   let mapa;
 
-  // ================== CARGA INICIAL ==================
+  // Carga inicial
   cargarEjemplaresIniciales();
   cargarEstados();
 
-  // ------------------ Funciones de select dinámico ------------------
+  // Funciones de los selects
   function resetSelect(select, placeholder) {
     select.innerHTML = '';
     const defaultOption = document.createElement('option');
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(err => console.error('Error cargando localidades:', err));
   });
 
-  // ================== CARGA DE EJEMPLARES ==================
+  // Carga de los ejemplares
   function cargarEjemplaresIniciales() {
     fetch('../../backend/ConsultSpecimens/servicesFetchConsultSpecimens.php')
       .then(res => res.json())
@@ -104,7 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(err => console.error("Error al cargar ejemplares iniciales:", err));
   }
 
-  // ================== RENDER TABLA ==================
   function renderTabla(data) {
     const tbody = document.querySelector("table tbody");
     tbody.innerHTML = "";
@@ -139,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
     actualizarEstadoBotones();
   }
 
-  // ================== FILTROS ==================
+  // Filtros filtrosos
   valorBusqueda.addEventListener('input', () => {
     const campo = campoFiltro.value;
     const valor = valorBusqueda.value.toLowerCase();
@@ -167,8 +166,6 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(data => renderTabla(data))
       .catch(err => console.error("Error al filtrar:", err));
   });
-
-  // ================== MANEJO CHECKBOX ==================
   document.addEventListener('change', actualizarEstadoBotones);
   function actualizarEstadoBotones() {
     const algunoSeleccionado = Array.from(document.querySelectorAll('.specimen-checkbox')).some(cb => cb.checked);
@@ -176,7 +173,6 @@ document.addEventListener('DOMContentLoaded', () => {
     btnDescargar.disabled = !algunoSeleccionado;
   }
 
-  // ================== DESCARGAS ==================
   btnDescargar.addEventListener('click', () => modalDownload.show());
   btnImagenes.addEventListener('click', () => { modalDownload.hide(); descargarComoImagenes(); });
   btnPDF.addEventListener('click', () => { modalDownload.hide(); descargarComoPDF(); });
@@ -226,7 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
     pdf.save('imagenes_seleccionadas.pdf');
   }
 
-  // ================== MAPA ==================
+  // Mapa
   btnMostrar.addEventListener('click', async () => {
     const ids = Array.from(document.querySelectorAll('.specimen-checkbox:checked')).map(cb => cb.getAttribute('data-id'));
     if (!ids.length) return;
@@ -298,7 +294,6 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
   }
 
-  // ================== MODAL DETALLES ==================
   document.getElementById('specimenDetailsPanel').addEventListener('click', e => {
     if (e.target.tagName === 'IMG') {
       const imageModal = new bootstrap.Modal(document.getElementById('imageModal'));
@@ -308,7 +303,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// ================== FUNCIONES GLOBALES ==================
 function mostrarModalInvestigador() { new bootstrap.Modal(document.getElementById('investigatorRequiredModal')).show(); }
 function contieneProtegidoSeleccionado() {
   return Array.from(document.querySelectorAll('.specimen-checkbox:checked'))

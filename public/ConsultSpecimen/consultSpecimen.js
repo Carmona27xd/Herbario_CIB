@@ -43,27 +43,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const esProtegido = ejemplar.protected === "1" || ejemplar.protected === 1;
 
     const row = document.createElement('tr');
-    row.innerHTML = `
-      <td>${ejemplar.familia}</td>
-      <td>${ejemplar.genero}</td>
-      <td>${ejemplar.especie}</td>
-      <td>${ejemplar.registros}</td>
-      <td>
-        <img src="/SCEPIB_UV/uploads/${ruta}" width="100" class="d-block mx-auto specimen-img"
-             onerror="this.onerror=null;this.src='../images/no-disponible.jpg';">
-      </td>
-      
-      <td class="text-center">
-        ${esProtegido
-          ? '<span class="text-muted">No Disponible</span>'
-          : `<input type="checkbox" class="form-check-input mx-auto d-block specimen-checkbox" data-id="${ejemplar.idSpecimen}">`}
-      </td>
-    `;
+row.setAttribute('data-protegido', esProtegido); 
 
+row.innerHTML = `
+  <td>${ejemplar.familia}</td>
+  <td>${ejemplar.genero}</td>
+  <td>${ejemplar.especie}</td>
+  <td>${ejemplar.registros}</td>
+  <td>
+    <img src="/SCEPIB_UV/uploads/${ruta}" width="100" class="d-block mx-auto specimen-img"
+         onerror="this.onerror=null;this.src='../images/no-disponible.jpg';">
+  </td>
+  <td class="text-center">
+    <input type="checkbox" class="form-check-input mx-auto d-block specimen-checkbox"
+      data-id="${ejemplar.idSpecimen}"
+      data-protegido="${esProtegido}">
+  </td>
+`;
     tbody.appendChild(row);
   });
 
-  actualizarEstadoBotones(); 
+  actualizarEstadoBotones();
 }
 
   document.addEventListener('change', () => {
@@ -100,6 +100,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (ids.length === 0) return;
 
+    if (!localStorage.getItem('jwt')) {
+      mostrarModalLogin();
+      return;
+    }
+
+    if (contieneProtegidoSeleccionado()) {
+      mostrarModalInvestigador();
+      return;
+    }
+
     try {
       const response = await fetch('../../backend/ConsultSpecimens/serviceFetchCoordinates.php', {
         method: 'POST',
@@ -114,25 +124,37 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // Mostrar el modal del mapa
+      //Mostrar el modal del mapa
       const mapModal = new bootstrap.Modal(document.getElementById('mapModal'));
       mapModal.show();
 
-      setTimeout(() => mostrarEnMapa(coordenadas), 300); // Espera a que se muestre el modal
-
+      setTimeout(() => mostrarEnMapa(coordenadas), 300);
     } catch (error) {
       console.error('Error al obtener coordenadas:', error);
     }
   });
 
   function descargarComoImagenes() {
+    const token = localStorage.getItem('jwt');
+    const role = localStorage.getItem('role');
+
+    if (!token || parseInt(role) !== 3) {
+      mostrarModalLogin();
+      return;
+    }
+
+    if (contieneProtegidoSeleccionado()) {
+      mostrarModalInvestigador();
+      return;
+    }
+
     const seleccionados = document.querySelectorAll('.specimen-checkbox:checked');
     seleccionados.forEach(cb => {
       const row = cb.closest('tr');
       const img = row.querySelector('img');
       const enlace = document.createElement('a');
       enlace.href = img.src;
-      enlace.download = img.src.split('/').pop(); 
+      enlace.download = img.src.split('/').pop();
       document.body.appendChild(enlace);
       enlace.click();
       document.body.removeChild(enlace);
@@ -140,6 +162,20 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   async function descargarComoPDF() {
+    const token = localStorage.getItem('jwt');
+    const role = localStorage.getItem('role');
+
+    if (!token || parseInt(role) !== 3) {
+      mostrarModalLogin();
+      return;
+    }
+
+    if (contieneProtegidoSeleccionado()) {
+      mostrarModalInvestigador();
+      return;
+    }
+
+
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF();
     const seleccionados = document.querySelectorAll('.specimen-checkbox:checked');
@@ -163,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const imgData = canvas.toDataURL('image/jpeg');
 
           if (index > 0) pdf.addPage();
-          pdf.addImage(imgData, 'JPEG', 10, 10, 180, 120); 
+          pdf.addImage(imgData, 'JPEG', 10, 10, 180, 120);
           resolve();
         };
       });
@@ -261,14 +297,36 @@ document.addEventListener('DOMContentLoaded', () => {
     if (target.tagName === 'IMG') {
       const imageModal = new bootstrap.Modal(document.getElementById('imageModal'));
       const modalImage = document.getElementById('modalImage');
-      modalImage.src = target.src; 
+      modalImage.src = target.src;
       imageModal.show();
     }
   });
-
 });
 
+function mostrarModalInvestigador() {
+  const invModal = new bootstrap.Modal(document.getElementById('investigatorRequiredModal'));
+  invModal.show();
+}
+
+function contieneProtegidoSeleccionado() {
+  const seleccionados = document.querySelectorAll('.specimen-checkbox:checked');
+  return Array.from(seleccionados).some(cb => cb.dataset.protegido === "true" || cb.dataset.protegido === "1");
+}
+
+function mostrarModalLogin() {
+  const loginModal = new bootstrap.Modal(document.getElementById('loginRequiredModal'));
+  loginModal.show();
+}
+
 function downloadImage(imageName) {
+  const token = localStorage.getItem('jwt');
+  const role = localStorage.getItem('role');
+
+  if (!token || parseInt(role) !== 3) {
+    mostrarModalLogin();
+    return;
+  }
+
   if (!imageName) return;
   const link = document.createElement('a');
   link.href = `/SCEPIB_UV/uploads/${imageName.replace(/^uploads\//, '')}`;
@@ -277,7 +335,14 @@ function downloadImage(imageName) {
 }
 
 function downloadExcel(data) {
-  // Transformacion de los datos para llenar el excel
+  const token = localStorage.getItem('jwt');
+  const role = localStorage.getItem('role');
+
+  if (!token || parseInt(role) !== 3) {
+    mostrarModalLogin();
+    return;
+  }
+
   const ws_data = [
     ["Campo", "Valor"],
     ["Nombre científico", data.scientificName || 'N/A'],
@@ -296,12 +361,12 @@ function downloadExcel(data) {
     ["Información ambiental", data.environmentalInformation || 'N/A'],
   ];
 
-  // Crear un excel con SheetJS
+  //Crear un Excel
   const ws = XLSX.utils.aoa_to_sheet(ws_data);
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, "Ejemplar");
 
-  // Descargar archivo
+  //Descargar un archivo
   XLSX.writeFile(wb, `ejemplar_${data.idSpecimen || "detalle"}.xlsx`);
 }
 

@@ -3,97 +3,153 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Herbario UV</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Inter&display=swap" rel="stylesheet">
+  <title>Colecciones UV</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
+    * {
+      scroll-behavior: smooth;
     }
-    h1, h2 {
-      font-family: 'Playfair Display', serif;
+
+    body, html {
+      margin: 0;
+      padding: 0;
     }
-    :root {
-      --uv-blue: #1b2660;
+
+    .hero {
+      background-color: #2b3c9c;
+      color: white;
+      height: 50vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    .hero-title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+    }
+
+    .hero-logo {
+      width: 50px;
+      height: auto;
+    }
+
+    .btn-explorar {
+      background-color: #00b140;
+      color: white;
+      border-radius: 20px;
+      padding: 10px 30px;
+      border: none;
+    }
+
+    .navbar-custom {
+      background-color: #2c3ea5;
+    }
+
+    .carousel-section {
+      background-color: #f0f0f0;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .carousel-inner img {
+      border-radius: 30px;
+      height: 450px;
+      object-fit: cover;
+    }
+
+    .ubicacion {
+      background-color: #00b140;
+      color: white;
+      padding: 30px 20px;
+    }
+
+    .ubicacion .card {
+      background-color: transparent;
+      padding: 15px;
+      border: none;
+      color: white;
     }
   </style>
 </head>
-<body class="bg-white text-gray-800 scroll-smooth">
+<body>
 
-  <!-- Hero principal -->
-  <section class="relative h-screen bg-cover bg-center" style="background-image: url('');">
-    <div class="absolute inset-0 bg-[rgba(0,119,200,0.65)] flex flex-col items-center justify-center text-center px-6 md:px-20">
-      <h1 class="text-5xl md:text-7xl font-bold text-white drop-shadow-lg">Herbario UV</h1>
-      <p class="mt-4 text-xl md:text-2xl text-blue-100">Explora la biodiversidad vegetal de Veracruz</p>
-      <a href="#slider" class="mt-6 bg-white text-[var(--uv-blue)] font-bold px-6 py-3 rounded-full shadow-lg hover:bg-gray-100 transition">Explorar ahora</a>
+  <section class="hero">
+    <div class="hero-title">
+      <h1>Colecciones UV</h1>
+      <img src="../images/ImageUniversidadVeracruzana.png" alt="Logo UV" class="hero-logo">
+    </div>
+    <p>Explora lo que la biodiversidad Veracruzana tiene para ofrecerte</p>
+    <button class="btn btn-explorar" onclick="document.getElementById('seccion-inferior').scrollIntoView({behavior: 'smooth'})">
+      Explorar
+    </button>
+  </section>
+
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Colecciones UV</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="#">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Sobre nosotros</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <section id="seccion-inferior" class="carousel-section">
+    <h5>Entérate de los especímenes más populares</h5>
+    <div id="carouselExample" class="carousel slide mt-4" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="../images/logInImage.jpg" class="d-block w-100" alt="Plantas">
+          <div class="carousel-caption d-none d-md-block">
+            <h5>Mira nada más estas plantas!</h5>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </button>
+    </div>
+    <button class="btn btn-explorar mt-4" onclick="window.location.href='../home.html'">
+      ¡Comenzar Consultas!
+    </button>
+  </section>
+
+  <section class="ubicacion">
+    <div class="container">
+      <div class="card">
+        <strong>Ubicación</strong><br>
+        Herbario CIB, Instituto de investigaciones Biológicas,<br>
+        Universidad Veracruzana, Calle,<br>
+        Dr. Luis Castelazo s/n, Rubí Animas.
+      </div>
     </div>
   </section>
 
-  <!-- Navbar que aparece solo al hacer scroll -->
-  <div id="navbar" class="hidden bg-[var(--uv-blue)] text-white px-6 md:px-20 py-4 fixed top-0 w-full shadow-md z-50 transition">
-    <div class="flex justify-between items-center">
-      <div class="text-2xl font-bold">Herbario UV</div>
-      <div class="space-x-4 text-lg">
-        <a href="#slider" class="hover:underline">Explorar</a>
-        <a href="consulta.html" class="bg-white text-[var(--uv-blue)] px-4 py-2 rounded-full font-semibold hover:bg-gray-100 transition">Consultar</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Carrusel estilo UV -->
-  <section id="slider" class="relative py-20 bg-gray-100">
-    <h2 class="text-4xl font-bold text-center mb-10 text-[var(--uv-blue)]">Galería</h2>
-    <div class="relative max-w-4xl mx-auto overflow-hidden rounded-2xl shadow-lg">
-      <div id="slides" class="flex transition-transform duration-500">
-        <div class="min-w-full h-96 bg-gray-300 flex items-center justify-center text-gray-600 text-xl">Imagen 1</div>
-        <div class="min-w-full h-96 bg-gray-300 flex items-center justify-center text-gray-600 text-xl">Imagen 2</div>
-        <div class="min-w-full h-96 bg-gray-300 flex items-center justify-center text-gray-600 text-xl">Imagen 3</div>
-      </div>
-
-      <!-- Controles -->
-      <button onclick="prevSlide()" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white bg-opacity-80 rounded-full p-2 hover:bg-opacity-100 transition">
-        ◀
-      </button>
-      <button onclick="nextSlide()" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white bg-opacity-80 rounded-full p-2 hover:bg-opacity-100 transition">
-        ▶
-      </button>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="bg-[var(--uv-blue)] text-white py-10 text-center mt-20">
-    <p class="text-lg">© 2025 Herbario UV — Universidad Veracruzana 🌿</p>
-  </footer>
-
-  <!-- Script para carrusel y navbar dinámica -->
-  <script>
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > window.innerHeight * 0.8) {
-        navbar.classList.remove('hidden');
-      } else {
-        navbar.classList.add('hidden');
-      }
-    });
-
-    let currentSlide = 0;
-    const slides = document.getElementById('slides');
-    const totalSlides = slides.children.length;
-
-    function updateSlidePosition() {
-      slides.style.transform = `translateX(-${currentSlide * 100}%)`;
-    }
-
-    function nextSlide() {
-      currentSlide = (currentSlide + 1) % totalSlides;
-      updateSlidePosition();
-    }
-
-    function prevSlide() {
-      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-      updateSlidePosition();
-    }
-  </script>
-
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

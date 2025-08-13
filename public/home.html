@@ -3,86 +3,175 @@
 <head>
   <meta charset="UTF-8">
   <title>Herbario CIB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <!-- CSS -->
   <link rel="stylesheet" href="CSS/homeStyle.css">
+
   <style>
-    .btn-colector {
-      background-color: #198754;
+    body { margin: 0; }
+
+    .bg-uv-dark { background-color: #27346b !important; }
+
+    footer {
+      background-color: #2e7d3d;
       color: white;
-      border: none;
-      padding: 10px 10px;
-      margin: 0 auto;
-      display: block;
     }
-    .btn-logIn {
-      background-color: #198754;
-      color: white;
-      border: none;
-      padding: 8px 20px;
-      margin-left: auto; /* Esto empuja el botón a la derecha */
-    }
-    .btn-records {
-      background-color: #198754;
-      color: white;
-      width: 100%;
-    }
-    .btn-logIn:hover {
-      background-color: #23ad6d;
-    }
-    .btn-colector:hover {
-      background-color: #23ad6d;
-    }
+
+    .btn-logIn:hover,
+    .btn-colector:hover,
     .btn-records:hover {
-      background-color: #23ad6d;
+      background-color: #2e7d3d;
     }
-    .navbar-content {
-      width: 100%;
-      display: flex;
-      align-items: center;
+
+    .dropdown-menu .dropdown-item:hover {
+      background-color: #2e7d3d;
+      color: white;
     }
-    .nav-links {
-      display: flex;
-      margin-right: auto; /* Esto mantiene los links a la izquierda */
+
+    .nav-link.active {
+      background-color: #2e7d3d;
+      color: white !important;
+      border-radius: 5px;
+      padding-left: 10px;
+      padding-right: 10px;
     }
   </style>
 </head>
-<body class="m-0">
 
-  <div class="d-flex vh-100">
-    <div class="sidebar-custom text-white d-flex flex-column align-items-center pt-4">
-        <img src="images/ImageUniversidadVeracruzana.png" alt="Logo UV" class="mb-3" style="width: 60px;">
-        <div>
-          <button id="records" class="btn btn-records mb-2">Antecedentes</button>
-          <button id="buttonColector" class="btn btn-colector">Quiero ser colector</button>
-        </div>
+<body class="m-0 d-flex flex-column min-vh-100">
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg bg-uv-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand text-white fw-bold" href="PruebaHome/index.html">Herbario CIB</a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-center" id="navbarMain">
+        <ul class="navbar-nav">
+          <li class="nav-item mx-2">
+            <a class="nav-link text-white active" href="home.html">Inicio</a>
+          </li>
+          <li class="nav-item mx-2">
+            <a class="nav-link text-white" href="ConsultSpecimen/consultSpecimen.html">Consulta</a>
+          </li>
+          <li class="nav-item mx-2">
+            <a class="nav-link text-white" href="PruebaHome/aboutUs.html">Sobre Nosotros</a>
+          </li>
+          <li class="nav-item mx-2">
+            <a class="nav-link text-white" href="PruebaHome/background.html">Antecedentes</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Menú dinámico del usuario -->
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle rounded-circle d-flex align-items-center justify-content-center" type="button" id="perfilDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="width: 40px; height: 40px;">
+          <i class="bi bi-person-fill fs-5"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="perfilDropdown">
+          <!-- Este menú se llenará dinámicamente con JS -->
+        </ul>
+      </div>
     </div>
+  </nav>
 
-    <div class="flex-grow-1 d-flex flex-column">
-      
-      <nav class="navbar navbar-light bg-white shadow-sm">
-        <div class="d-flex justify-content-center w-100">
-          <a class="nav-link fw-bold text-success mx-3" href="#">Inicio</a>
-          <a class="nav-link fw-bold text-dark mx-3" href="ConsultSpecimen/consultSpecimen.html">Consulta</a>
-        </div>
-        <button id="buttonLogIn" class="btn btn-success text-white ms-auto me-3">Inicio de sesión</button>
-      </nav>
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="flex-grow-1 p-5 bg-white">
+    <h1 style="color: #27346b;">Herbario CIB</h1>
+    <p class="fs-5">
+      El herbario de investigaciones Biológicas, conocido desde su fundación por su acrónimo CIB (Centro de Investigaciones Biológicas) fue creado en el año de 1985. La colección inicial consistía en aproximadamente 500 ejemplares de plantas colectadas principalmente por Mario Vázquez Torres en el sur-este mexicano. Sin embargo, entre 1985 y 1990, el acervo rebasó los 5000 especímenes, etapa que actualmente representa la más productiva (en términos de ejemplares de herbario) hasta el momento conocida en CIB.
+    </p>
+  </main>
 
-      <!-- Main section -->
-      <main class="flex-grow-1 p-5 bg-white">
-        <h1 class="text-primary">Herbario CIB</h1>
-        <p class="fs-5">
-          El herbario de investigaciones Biológicas, conocido desde su fundación por su acrónimo CIB (Centro de Investigaciones Biológicas) fue creado en el año de 1985. La colección inicial consistía en aproximadamente 500 ejemplares de plantas colectadas principalmente por Mario Vázquez Torres en el sur-este mexicano. Sin embargo, entre 1985 y 1990, el acervo rebasó los 5000 especímenes, etapa que actualmente representa la más productiva (en términos de ejemplares de herbario) hasta el momento conocida en CIB.
-        </p>
-      </main>
-
-      <footer class="bg-success text-white p-3 small">
+  <!-- FOOTER -->
+  <footer class="p-3 small mt-auto">
+    <div class="container-fluid d-flex flex-column flex-md-row justify-content-between align-items-start">
+      <div>
         <strong>Ubicación</strong><br>
         Herbario CIB, Instituto de investigaciones Biológicas,<br>
         Universidad Veracruzana, Calle,<br>
         Dr. Luis Castelazo s/n, Rubi Animas.
-      </footer>
+      </div>
+      <div class="text-end mt-3 mt-md-0">
+        <div><a href="https://uvmx.sharepoint.com/sites/rept/files/Forms/AllItems.aspx?id=%2Fsites%2Frept%2Ffiles%2F2023%2Favisos-privacidad%2FG-06%2Epdf" target="_blank" class="text-white text-decoration-underline">Aviso de Privacidad de Actividades Institucionales</a></div>
+        <div><a href="https://uvmx.sharepoint.com/sites/rept/files/Forms/AllItems.aspx?id=%2Fsites%2Frept%2Ffiles%2F2023%2Favisos-privacidad%2FG-19%2Epdf" target="_blank" class="text-white text-decoration-underline">Aviso de Privacidad de Participantes Externos en Actividades Institucionales de la UV.</a></div>
+      </div>
     </div>
-  </div>
-  <script src="JavaScript/homeController.js"></script>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Script para menú dinámico -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const menu = document.querySelector('.dropdown-menu');
+      const role = localStorage.getItem('role');
+      const name = localStorage.getItem('name');
+
+      menu.innerHTML = '';
+
+      if (!role) {
+        // Usuario no logueado
+        menu.innerHTML = `
+          <li><a class="dropdown-item" href="logIn.html">Inicia Sesión</a></li>
+          <li><a class="dropdown-item" href="register.html">Regístrate como visitante</a></li>
+          <li><a class="dropdown-item" href="collectorApplication.html">Regístrate como colector</a></li>
+          <li><a class="dropdown-item" href="#">Regístrate como Investigador</a></li>
+        `;
+        return;
+      }
+
+      menu.innerHTML += `<li><span class="dropdown-item-text fw-bold">${name}</span></li><li><hr class="dropdown-divider"></li>`;
+
+      switch (parseInt(role)) {
+        case 1: // Visitante
+          menu.innerHTML += `
+            <li><a class="dropdown-item" href="#">Mi Perfil</a></li>
+            <li><a class="dropdown-item" href="#">Mis consultas</a></li>
+          `;
+          break;
+        case 2: // Colector
+          menu.innerHTML += `
+            <li><a class="dropdown-item" href="#">Subir ejemplar</a></li>
+            <li><a class="dropdown-item" href="#">Mis registros</a></li>
+          `;
+          break;
+        case 3: // Comité Académico
+          menu.innerHTML += `
+            <li><a class="dropdown-item" href="#">Validar registros</a></li>
+            <li><a class="dropdown-item" href="#">Gestión de ejemplares</a></li>
+          `;
+          break;
+        case 4: // Administrador
+          menu.innerHTML += `
+            <li><a class="dropdown-item" href="#">Panel de administración</a></li>
+            <li><a class="dropdown-item" href="#">Usuarios</a></li>
+            <li><a class="dropdown-item" href="#">Reportes</a></li>
+          `;
+          break;
+        default:
+          menu.innerHTML += `<li><span class="dropdown-item-text text-muted">Rol desconocido</span></li>`;
+      }
+
+      menu.innerHTML += `
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item text-danger" href="#" id="cerrarSesionBtn">Cerrar sesión</a></li>
+      `;
+
+      document.getElementById('cerrarSesionBtn').addEventListener('click', () => {
+        localStorage.clear();
+        location.reload();
+      });
+    });
+  </script>
 </body>
 </html>

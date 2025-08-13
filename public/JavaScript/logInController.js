@@ -33,6 +33,8 @@ document.getElementById("logInForm").addEventListener("submit", async function (
 
         if (data.jwt) {
             localStorage.setItem("jwt", data.jwt);
+            //Esto no es del todo seguro, debo de ser consiente de eso** No olvidar x'dd
+            localStorage.setItem("role", data.role);
             //window.location.href = "dashboard.html";
 
             console.log("Datos recibidos: ", data);
@@ -43,6 +45,8 @@ document.getElementById("logInForm").addEventListener("submit", async function (
                 //console.info("Role: ", data.role);
             } else if (parseInt(data.role) === 2) {
                 window.location.href = "dashBoardAdmin.html";
+            } else if (parseInt(data.role) === 3) {
+                window.location.href = "dashBoardCollector.html"
             } else if (parseInt(data.role) == 4) {
                 window.location.href = "dashBoardComitteeMember.html"
             }

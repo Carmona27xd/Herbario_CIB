@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+
   const btnMostrar = document.getElementById('btnMostrarUbicacion');
   const btnDescargar = document.getElementById('btnDescargarImagenes');
   const modal = new bootstrap.Modal(document.getElementById('downloadModal'));
@@ -43,23 +44,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const esProtegido = ejemplar.protected === "1" || ejemplar.protected === 1;
 
     const row = document.createElement('tr');
-row.setAttribute('data-protegido', esProtegido); 
+    row.setAttribute('data-protegido', esProtegido); 
 
-row.innerHTML = `
-  <td>${ejemplar.familia}</td>
-  <td>${ejemplar.genero}</td>
-  <td>${ejemplar.especie}</td>
-  <td>${ejemplar.registros}</td>
-  <td>
-    <img src="/SCEPIB_UV/uploads/${ruta}" width="100" class="d-block mx-auto specimen-img"
-         onerror="this.onerror=null;this.src='../images/no-disponible.jpg';">
-  </td>
-  <td class="text-center">
-    <input type="checkbox" class="form-check-input mx-auto d-block specimen-checkbox"
-      data-id="${ejemplar.idSpecimen}"
-      data-protegido="${esProtegido}">
-  </td>
-`;
+    row.innerHTML = `
+      <td>${ejemplar.familia}</td>
+      <td>${ejemplar.genero}</td>
+      <td>${ejemplar.especie}</td>
+      <td>${ejemplar.registros}</td>
+      <td>
+        <img src="/SCEPIB_UV/uploads/${ruta}" width="100" class="d-block mx-auto specimen-img"
+            onerror="this.onerror=null;this.src='../images/no-disponible.jpg';">
+      </td>
+      <td class="text-center">
+        <input type="checkbox" class="form-check-input mx-auto d-block specimen-checkbox"
+          data-id="${ejemplar.idSpecimen}"
+          data-protegido="${esProtegido}">
+      </td>
+    `;
     tbody.appendChild(row);
   });
 

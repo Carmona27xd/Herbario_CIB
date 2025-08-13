@@ -98,20 +98,25 @@ document.addEventListener("DOMContentLoaded", () => {
     tbody.innerHTML = "";
 
     data.forEach(ejemplar => {
-      let ruta = ejemplar.specimenImage ? ejemplar.specimenImage.replace(/^uploads\//, '') : null;
+      let ruta = ejemplar.specimenImage || ejemplar.image_url || null;
+
+      if (ruta && ruta.startsWith('uploads/')) {
+        ruta = ruta.replace(/^uploads\//, '');
+      }
+
       const esProtegido = ejemplar.protected === "1" || ejemplar.protected === 1;
 
       const row = document.createElement('tr');
       row.setAttribute('data-protegido', esProtegido);
 
       row.innerHTML = `
-        <td>${ejemplar.familia || ejemplar.family}</td>
-        <td>${ejemplar.genero || ejemplar.genus}</td>
-        <td>${ejemplar.especie || ejemplar.species}</td>
-        <td>${ejemplar.registros || ejemplar.records}</td>
+        <td>${ejemplar.familia || ejemplar.family || ''}</td>
+        <td>${ejemplar.genero || ejemplar.genus || ''}</td>
+        <td>${ejemplar.especie || ejemplar.species || ''}</td>
+        <td>${ejemplar.registros || ejemplar.records || ''}</td>
         <td>
-          <img src="/SCEPIB_UV/uploads/${ruta}" width="100" class="d-block mx-auto specimen-img"
-            onerror="this.onerror=null;this.src='../images/no-disponible.jpg';">
+          <img src="${esProtegido ? '../images/no-disponible.jpg' : `/SCEPIB_UV/uploads/${ruta}`}
+          " width="100" class="d-block mx-auto specimen-img" onerror="this.onerror=null;this.src='../images/no-disponible.jpg';">
         </td>
         <td class="text-center">
           <input type="checkbox" class="form-check-input mx-auto d-block specimen-checkbox" 

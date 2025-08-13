@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
           data-id="${ejemplar.idSpecimen}"
           data-protegido="${esProtegido}">
       </td>
-    `;
+  `;
     tbody.appendChild(row);
   });
 

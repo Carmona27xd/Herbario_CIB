@@ -246,5 +246,78 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- REVISAR, SE DEBE ELIMINAR ANTES DE DESPLIEGUE Y REVISAR LA LOGICA xd Es inseguro, momentaneo -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const menu = document.querySelector('.dropdown-menu');
+      const role = localStorage.getItem('role');
+
+      // Momentario
+      const roleNames = {
+        1: 'Público General',
+        2: 'Colector',
+        3: 'Comité Académico',
+        4: 'Administrador'
+      };
+
+      menu.innerHTML = '';
+
+      if (!role) {
+        // Usuario sin loguearse
+        menu.innerHTML = `
+          <li><a class="dropdown-item" href="../logIn.html">Inicia Sesión</a></li>
+          <li><a class="dropdown-item" href="../register.html">Regístrate como visitante</a></li>
+          <li><a class="dropdown-item" href="../collectorApplication.html">Regístrate como colector</a></li>
+          <li><a class="dropdown-item" href="#">Regístrate como Investigador</a></li>
+        `;
+        return;
+      }
+
+      // Mostrar solo el nombre del rol
+      const roleText = roleNames[role] || 'Rol desconocido';
+      menu.innerHTML += `<li><span class="dropdown-item-text fw-bold">${roleText}</span></li><li><hr class="dropdown-divider"></li>`;
+
+      switch (parseInt(role)) {
+        case 1: // Público General
+          menu.innerHTML += `
+            <li><a class="dropdown-item" href="ConsultSpecimen/consultSpecimen.html">Consultar</a></li>
+          `;
+          break;
+        case 2: // Colector
+          menu.innerHTML += `
+            <li><a class="dropdown-item" href="ConsultSpecimen/consultSpecimen.html">Consultar</a></li>
+            <li><a class="dropdown-item" href="RegisterSpecimens/registerSpecimens.html">Registrar Ejemplar</a></li>
+          `;
+          break;
+        case 3: // Comité Académico
+          menu.innerHTML += `
+            <li><a class="dropdown-item" href="ConsultSpecimen/consultSpecimen.html">Consultar</a></li>
+          `;
+          break;
+        case 4: // Administrador
+          menu.innerHTML += `
+            <li><a class="dropdown-item" href="ConsultSpecimen/consultSpecimen.html">Consultar</a></li>
+            <li><a class="dropdown-item" href="RegisterSpecimens/registerSpecimens.html">Registrar Ejemplar</a></li>
+            <li><a class="dropdown-item" href="#">Generar Etiqueta</a></li>
+            <li><a class="dropdown-item" href="#">Gestionar Ejemplares</a></li>
+          `;
+          break;
+        default:
+        menu.innerHTML += `<li><span class="dropdown-item-text text-muted">Rol desconocido</span></li>`;
+      }
+
+      menu.innerHTML += `
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item text-danger" href="#" id="cerrarSesionBtn">Cerrar sesión</a></li>
+      `;
+
+      document.getElementById('cerrarSesionBtn').addEventListener('click', () => {
+        localStorage.clear();
+        location.reload();
+      });
+    });
+  </script>
+
 </body>
 </html>

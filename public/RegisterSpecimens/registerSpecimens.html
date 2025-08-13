@@ -7,6 +7,20 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="../../public/RegisterSpecimens/registerSpecimens.js"></script>
     <style>
+        .bg-uv-dark {
+            background-color: #27346b !important;
+        }
+        .nav-link.active {
+            background-color: #2e7d3d;
+            color: white !important;
+            border-radius: 5px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        .dropdown-menu .dropdown-item:hover {
+            background-color: #2e7d3d;
+            color: white;
+        }
         .card-form {
             background: white;
             padding: 20px;
@@ -18,9 +32,6 @@
         }
         .bold-label {
             font-weight: bold;
-        }
-        .navbar-custom {            
-            background-color: #29385e; 
         }
         .btn-custom {
             background-color: #29385e; 
@@ -46,21 +57,31 @@
     </style>
 </head>
 <body class="bg-light">
-    <!-- Barra de navegación superior -->
-    <nav class="navbar navbar-expand-lg navbar-light navbar-custom p-3">
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg bg-uv-dark">
         <div class="container-fluid">
-            <a class="navbar-brand text-white" href="#">Menú</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand text-white fw-bold" href="../home.html">Herbario CIB</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <button class="nav-link btn btn-custom" onclick="window.location.href='../../public/GenerateLabel/generateLabel.html'">Generar Etiqueta</button>
-                    </li>
-                    <li class="nav-item">
-                        <button class="nav-link btn btn-custom" onclick="window.location.href='../../public/dashBoardAdmin.html'">Regresar</button>
-                    </li>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarMain">
+                <ul class="navbar-nav">
+                    <li class="nav-item mx-2"><a class="nav-link text-white" href="../home.html">Inicio</a></li>
+                    <li class="nav-item mx-2"><a class="nav-link text-white" href="../ConsultSpecimen/consultSpecimen.html">Consulta</a></li>
+                    <li class="nav-item mx-2"><a class="nav-link text-white" href="../PruebaHome/aboutUs.html">Sobre Nosotros</a></li>
+                    <li class="nav-item mx-2"><a class="nav-link text-white" href="../PruebaHome/background.html">Antecedentes</a></li>
+                </ul>
+            </div>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle rounded-circle d-flex align-items-center justify-content-center" type="button" id="perfilDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="width: 40px; height: 40px;">
+                    <i class="bi bi-person-fill fs-5"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="perfilDropdown">
+                    <li><a class="dropdown-item" href="../logIn.html">Inicia Sesión</a></li>
+                    <li><a class="dropdown-item" href="../register.html">Regístrate como visitante</a></li>
+                    <li><a class="dropdown-item" href="../collectorApplication.html">Regístrate como colector</a></li>
+                    <li><a class="dropdown-item" href="#">Regístrate como Investigador</a></li>
                 </ul>
             </div>
         </div>

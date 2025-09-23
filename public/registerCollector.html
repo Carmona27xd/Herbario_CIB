@@ -17,16 +17,16 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
+            padding: 20px;
         }
 
         .centered-form {
             width: 100%;
-            max-width: 500px;
+            max-width: 900px;
             background-color: white;
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             padding: 40px;
-            margin: 20px;
         }
 
         .form-title {
@@ -36,8 +36,15 @@
             font-weight: 600;
         }
 
-        .form-group {
+        .form-row {
+            display: flex;
+            gap: 20px;
             margin-bottom: 20px;
+        }
+
+        .form-group {
+            flex: 1;
+            margin-bottom: 0;
         }
 
         .form-group label {
@@ -62,19 +69,18 @@
         }
 
         .btn {
-            width: 100%;
             padding: 12px;
             border-radius: 6px;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.3s;
             border: none;
-            margin-top: 10px;
         }
 
         .btn-colecta {
             background-color: #28a745;
             color: white;
+            width: 100%;
         }
 
         .btn-colecta:hover {
@@ -84,88 +90,140 @@
         .btn-primary {
             background-color: #0d6efd;
             color: white;
+            width: 100%;
+            margin-top: 20px;
         }
 
         .btn-primary:hover {
             background-color: #0b5ed7;
         }
+
+        .file-section {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+
+        .file-info {
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .centered-form {
+                padding: 20px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="centered-form">
-        <h2 class="form-title">Registro</h2>
+        <h2 class="form-title">Registro de Colector</h2>
 
         <form id="registerForm">
-            <div class="form-group">
-                <label for="name">Nombre</label>
-                <input type="text" class="form-control" name="name" id="name" pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$"/>
+            <!-- Primera fila: Nombre y Apellidos -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="name">Nombre *</label>
+                    <input type="text" class="form-control" name="name" id="name" pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$" required/>
+                </div>
+
+                <div class="form-group">
+                    <label for="first_surname">Primer apellido *</label>
+                    <input type="text" class="form-control" name="first_surname" id="first_surname" pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$" required/>
+                </div>
+
+                <div class="form-group">
+                    <label for="second_surname">Segundo apellido</label>
+                    <input type="text" class="form-control" name="second_surname" id="second_surname" pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$"/>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label for="first_surname">Primer apellido</label>
-                <input type="text" class="form-control" name="first_surname" id="first_surname" pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$"/>
+            <!-- Segunda fila: Email y Adscripción -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="email">Correo electrónico *</label>
+                    <input type="email" class="form-control" name="email" id="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="ascription">Adscripción *</label>
+                    <select class="form-control" name="ascription" id="ascription" required>
+                        <option value="" selected disabled>Seleccione una opción</option>
+                        <option value="CIB">CIB</option>
+                        <option value="Externo">Externo</option>
+                        <option value="Estudiante">Estudiante</option>
+                        <option value="Investigador">Investigador</option>
+                    </select>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label for="second_surname">Segundo apellido</label>
-                <input type="text" class="form-control" name="second_surname" id="second_surname" pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$"/>
+            <!-- Tercera fila: Contraseñas -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="password">Contraseña *</label>
+                    <input type="password" class="form-control" name="password" id="password" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirmar contraseña *</label>
+                    <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" required>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label for="email">Correo electronico</label>
-                <input type="text" class="form-control" name="email" id="email">
+            <!-- Sección de documentos -->
+            <div class="file-section">
+                <h6 class="mb-3">Documentación requerida</h6>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="pdfUpLoad" class="btn btn-colecta">Permiso de colecta (opcional)</label>
+                        <input type="file" id="pdfUpLoad" name="pdfFile" accept="application/pdf" style="display: none;" />
+                        <div class="file-info" id="fileName">No se ha seleccionado ningún archivo</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pdfUpLoadLetters" class="btn btn-colecta">Cartas de recomendación *</label>
+                        <input type="file" id="pdfUpLoadLetters" name="pdfFileLetters" accept="application/pdf" style="display: none;" required />
+                        <div class="file-info" id="fileNameLetters">No se ha seleccionado ningún archivo</div>
+                    </div>
+                </div>
             </div>
 
-            <div class="mb-3">
-                <label for="password">Contraseña</label>
-                <input type="password" class="form-control" name="password" id="password">
-            </div>
-
-            <div>
-                <label for="confirmPassword">Confirmar contraseña</label>
-                <input type="password" class="form-control" name="confirmPassword" id="confirmPassword">
-            </div>
-
-            <div class="form-group">
-                <label for="ascription">Adscripción</label>
-                <select class="form-control" name="ascription" id="ascription">
-                    <option value="" selected disabled>Seleccione una opción</option>
-                    <option value="CIB">CIB</option>
-                    <option value="Externo">Externo</option>
-                    <option value="Estudiante">Estudiante</option>
-                    <option value="Investigador">Investigador</option>
-                </select>
-            </div>
-
-            <label for="pdfUpLoad" class="btn btn-colecta">Adjuntar documentación</label>
-            <input type="file" id="pdfUpLoad" name="pdfFile" accept="application/pdf" style="display: none;" />
-            <p id="fileName"></p>
-
-            <button type="submit" class="btn btn-primary">Registrar</button>
+            <button type="submit" class="btn btn-primary">Registrar Colector</button>
         </form>
     </div>
 
+    <!-- Modales -->
     <!-- Modal registro exitoso -->
-    <div class="modal fade" id="successfulRegistration" tabindex="-1" aria-labelledby="successfulRegistrationLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal fade" id="successfulRegistration" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content rounded-4 shadow">
                 <div class="modal-header border-0">
-                    <h5 class="modal-title mx-auto" id="successfulRegistrationLabel">Registro exitoso</h5>
+                    <h5 class="modal-title mx-auto">Registro exitoso</h5>
                 </div>
                 <div class="modal-body text-center">
                     <p class="mb-3">El registro se completó correctamente.</p>
-                    <button id="successfulButton" class="btn btn-success px-4" data-bs-dismiss="modal">Aceptar</button>
+                    <button class="btn btn-success px-4" data-bs-dismiss="modal">Aceptar</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Modal documentos faltantes -->
-    <div class="modal fade" id="missingDocuments" tabindex="-1" aria-labelledby="missingDocumentsLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal fade" id="missingDocuments" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content rounded-4 shadow">
                 <div class="modal-header border-0">
-                    <h5 class="modal-title mx-auto text-danger" id="missingDocumentsLabel">Documentos faltantes</h5>
+                    <h5 class="modal-title mx-auto text-danger">Documentos faltantes</h5>
                 </div>
                 <div class="modal-body text-center">
                     <p class="mb-3">Adjunta los documentos del colector.</p>
@@ -176,11 +234,11 @@
     </div>
 
     <!-- Modal password doesn't match -->
-    <div class="modal fade" id="passwordMatch" tabindex="-1" aria-labelledby="passwordMatchLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal fade" id="passwordMatch" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content rounded-4 shadow">
                 <div class="modal-header border-0">
-                    <h5 class="modal-title mx-auto text-danger" id="passwordMatchLabel">Aviso</h5>
+                    <h5 class="modal-title mx-auto text-danger">Aviso</h5>
                 </div>
                 <div class="modal-body text-center">
                     <p class="mb-3">Las contraseñas no coinciden.</p>
@@ -191,23 +249,70 @@
     </div>
 
     <!-- Modal missing data -->
-    <div class="modal fade" id="missingData" tabindex="-1" aria-labelledby="missingDataLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal fade" id="missingData" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content rounded-4 shadow">
                 <div class="modal-header border-0">
-                    <h5 class="modal-title mx-auto text-danger" id="missingDataLabel">Informacion faltante</h5>
+                    <h5 class="modal-title mx-auto text-danger">Información faltante</h5>
                 </div>
                 <div class="modal-body text-center">
-                    <p class="mb-3">Por favor ingresa toda la informacion solicitada.</p>
+                    <p class="mb-3">Por favor ingresa toda la información solicitada.</p>
                     <button class="btn btn-danger px-4" data-bs-dismiss="modal">Aceptar</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <p id="message"></p>
+    <!-- JavaScript -->
+    <script>
+        // Manejo de la visualización de nombres de archivos
+        document.getElementById("pdfUpLoad").addEventListener("change", function () {
+            const fileLabel = document.getElementById("fileName");
+            const pdfFile = this.files[0];
+            if (pdfFile) {
+                fileLabel.textContent = "Archivo seleccionado: " + pdfFile.name;
+                fileLabel.style.color = "#28a745";
+            } else {
+                fileLabel.textContent = "No se ha seleccionado ningún archivo";
+                fileLabel.style.color = "#6c757d";
+            }
+        });
 
-    <!-- JS -->
+        document.getElementById("pdfUpLoadLetters").addEventListener("change", function () {
+            const fileLabel = document.getElementById("fileNameLetters");
+            const pdfFile = this.files[0];
+            if (pdfFile) {
+                fileLabel.textContent = "Archivo seleccionado: " + pdfFile.name;
+                fileLabel.style.color = "#28a745";
+            } else {
+                fileLabel.textContent = "No se ha seleccionado ningún archivo";
+                fileLabel.style.color = "#6c757d";
+            }
+        });
+
+        // Validación del formulario
+        document.getElementById("registerForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+            const lettersFile = document.getElementById("pdfUpLoadLetters").files[0];
+            
+            if (password !== confirmPassword) {
+                new bootstrap.Modal(document.getElementById('passwordMatch')).show();
+                return;
+            }
+            
+            if (!lettersFile) {
+                new bootstrap.Modal(document.getElementById('missingDocuments')).show();
+                return;
+            }
+            
+            // Si todo está correcto, mostrar éxito
+            new bootstrap.Modal(document.getElementById('successfulRegistration')).show();
+        });
+    </script>
+
     <script src="JavaScript/verifyJWTComitteeMember.js"></script>
     <script src="JavaScript/registerCollectorController.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

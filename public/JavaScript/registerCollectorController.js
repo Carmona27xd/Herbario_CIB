@@ -1,25 +1,8 @@
-document.getElementById("pdfUpLoad").addEventListener("change", function () {
-    const fileLabel = document.getElementById("fileName");
-    const pdfFile = this.files[0]; 
-    if (pdfFile) {
-        fileLabel.textContent = "Archivo seleccionado: " + pdfFile.name;
-    } else {
-        fileLabel.textContent = "No se ha seleccionado ningún archivo.";
-    }
-});
-
 document.getElementById("registerForm").addEventListener("submit", async function (event) {
     event.preventDefault(); 
 
     let firstFetch = false;
     let secondFetch = false;
-
-    const formData = new FormData(); 
-    formData.append("name", document.getElementById("name").value.trim());
-    formData.append("first_surname", document.getElementById("first_surname").value.trim());
-    formData.append("second_surname", document.getElementById("second_surname").value.trim());
-    formData.append("ascription", document.getElementById("ascription").value.trim());
-
 
     const formDataNewUser = {
         name: document.getElementById("name").value.trim(),
@@ -28,22 +11,21 @@ document.getElementById("registerForm").addEventListener("submit", async functio
         email: document.getElementById("email").value.trim(),
         password: document.getElementById("password").value.trim(),
         role_id: 3
-    }
-
-    const pdfFile = document.getElementById("pdfUpLoad").files[0];
+    };
 
     const passwordVerify = {
         firstPassword: document.getElementById("password"),
         secondPassword: document.getElementById("confirmPassword")
-    }
+    };
 
-    const ascriptionValue = document.getElementById("ascription").value;
+    const ascriptionValue = document.getElementById("ascription").value.trim();
 
+    // Validación de campos vacíos
     if (
         !formDataNewUser.name ||
         !formDataNewUser.first_surname ||
         !formDataNewUser.second_surname ||
-        !formDataNewUser. email ||
+        !formDataNewUser.email ||
         !passwordVerify.firstPassword.value.trim() ||
         !passwordVerify.secondPassword.value.trim() ||
         ascriptionValue === ""
@@ -52,38 +34,38 @@ document.getElementById("registerForm").addEventListener("submit", async functio
         modalMissingFields.show();
         return;
     }
-    
-    if (!pdfFile) {
-        const missingDocumentsModal = new bootstrap.Modal(document.getElementById("missingDocuments"));
-        missingDocumentsModal.show();
-        return;
-    } 
 
+    // Validación de contraseñas
     if (passwordVerify.firstPassword.value !== passwordVerify.secondPassword.value) {
         const passwordMatchModal = new bootstrap.Modal(document.getElementById("passwordMatch"));
         passwordMatchModal.show();
         return;
     }
-    
-    formData.append("pdfFile", pdfFile);
 
     try {
+        // Registro en registerCollector.php (sin PDF)
+        const collectorFormData = new FormData();
+        collectorFormData.append("name", formDataNewUser.name);
+        collectorFormData.append("first_surname", formDataNewUser.first_surname);
+        collectorFormData.append("second_surname", formDataNewUser.second_surname);
+        collectorFormData.append("ascription", ascriptionValue);
+
         const response = await fetch("../backend/registerCollector.php", {
             method: "POST",
-            body: formData
+            body: collectorFormData
         });
 
         const data = await response.json();
         if (data.success) {
-
             firstFetch = true; 
         } 
     } catch (error) {
-        console.error("Error: ", error);
+        console.error("Error en registerCollector.php: ", error);
     }
 
     try {
-        const response = await fetch("../backend/registerNewUser.php", {
+        // Registro en registerNewUser.php
+        const response = await fetch("../backend/registerNewCollector.php", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -92,22 +74,27 @@ document.getElementById("registerForm").addEventListener("submit", async functio
         });
 
         const data = await response.json();
-
         if (data.success) {
             secondFetch = true;
+        } else {
+            if (data.message.includes("correo")) {
+                alert("El correo ya se encuentra en uso");
+            } else {
+                alert(data.message);
+            }
+            return;
         }
-
     } catch (error) {
-        console.error("Error: ", error);
+        console.error("Error en registerNewUser.php: ", error);
     }
 
     if (secondFetch && firstFetch) {
         const successModal = new bootstrap.Modal(document.getElementById("successfulRegistration"));
         successModal.show();
-
     } 
 });
 
+// Redirección tras éxito
 document.getElementById("successfulButton").addEventListener("click", function () {
     window.location.href = "dashBoardComitteeMember.html";
-})
+});

@@ -180,23 +180,6 @@
             </div>
 
             <!-- Sección de documentos -->
-            <div class="file-section">
-                <h6 class="mb-3">Documentación requerida</h6>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="pdfUpLoad" class="btn btn-colecta">Permiso de colecta (opcional)</label>
-                        <input type="file" id="pdfUpLoad" name="pdfFile" accept="application/pdf" style="display: none;" />
-                        <div class="file-info" id="fileName">No se ha seleccionado ningún archivo</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="pdfUpLoadLetters" class="btn btn-colecta">Cartas de recomendación *</label>
-                        <input type="file" id="pdfUpLoadLetters" name="pdfFileLetters" accept="application/pdf" style="display: none;" required />
-                        <div class="file-info" id="fileNameLetters">No se ha seleccionado ningún archivo</div>
-                    </div>
-                </div>
-            </div>
 
             <button type="submit" class="btn btn-primary">Registrar Colector</button>
         </form>
@@ -212,7 +195,7 @@
                 </div>
                 <div class="modal-body text-center">
                     <p class="mb-3">El registro se completó correctamente.</p>
-                    <button class="btn btn-success px-4" data-bs-dismiss="modal">Aceptar</button>
+                    <button id="successfulButton" class="btn btn-success px-4" data-bs-dismiss="modal">Aceptar</button>
                 </div>
             </div>
         </div>
@@ -266,29 +249,7 @@
     <!-- JavaScript -->
     <script>
         // Manejo de la visualización de nombres de archivos
-        document.getElementById("pdfUpLoad").addEventListener("change", function () {
-            const fileLabel = document.getElementById("fileName");
-            const pdfFile = this.files[0];
-            if (pdfFile) {
-                fileLabel.textContent = "Archivo seleccionado: " + pdfFile.name;
-                fileLabel.style.color = "#28a745";
-            } else {
-                fileLabel.textContent = "No se ha seleccionado ningún archivo";
-                fileLabel.style.color = "#6c757d";
-            }
-        });
-
-        document.getElementById("pdfUpLoadLetters").addEventListener("change", function () {
-            const fileLabel = document.getElementById("fileNameLetters");
-            const pdfFile = this.files[0];
-            if (pdfFile) {
-                fileLabel.textContent = "Archivo seleccionado: " + pdfFile.name;
-                fileLabel.style.color = "#28a745";
-            } else {
-                fileLabel.textContent = "No se ha seleccionado ningún archivo";
-                fileLabel.style.color = "#6c757d";
-            }
-        });
+        
 
         // Validación del formulario
         document.getElementById("registerForm").addEventListener("submit", function(e) {

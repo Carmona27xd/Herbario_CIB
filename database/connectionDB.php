@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 
 $host = "localhost";  
 $username = "root";    
-$password = "FinalFantasy_7";       
+$password = "password";       
 $dbname = "herbarium_cib";  
 
 try {

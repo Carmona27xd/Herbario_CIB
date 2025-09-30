@@ -143,9 +143,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const formData = new FormData(document.getElementById('formularioEjemplar'));
 
-        function convertGMSToDecimal(degrees, minutes, seconds) {
-            let decimal = parseFloat(degrees) + (parseFloat(minutes) / 60) + (parseFloat(seconds) / 3600);
-            return parseFloat(decimal.toFixed(6)); 
+        function convertLatitudeToDecimal(degrees, minutes, seconds) {
+            let deg = parseFloat(degrees) || 0;
+            let min = parseFloat(minutes) || 0;
+            let sec = parseFloat(seconds) || 0;
+
+            let decimal = deg + (min / 60) + (sec / 3600);
+            return parseFloat(decimal.toFixed(6)); // Latitud norte (N), siempre positiva
+        }
+
+        function convertLongitudeToDecimal(degrees, minutes, seconds) {
+            let deg = parseFloat(degrees) || 0;
+            let min = parseFloat(minutes) || 0;
+            let sec = parseFloat(seconds) || 0;
+
+            let decimal = deg + (min / 60) + (sec / 3600);
+            decimal *= -1; // Longitud oeste (W), negativa
+            return parseFloat(decimal.toFixed(6));
         }
 
         let latitudeDegrees = document.getElementById('latitudeDegreesNumber').value;
@@ -155,8 +169,8 @@ document.addEventListener('DOMContentLoaded', function() {
         let longitudeMinutes = document.getElementById('longitudeMinutesNumber').value;
         let longitudeSeconds = document.getElementById('longitudeSecondsNumber').value;
 
-        let latitudeDecimal = convertGMSToDecimal(latitudeDegrees, latitudeMinutes, latitudeSeconds);
-        let longitudeDecimal = convertGMSToDecimal(longitudeDegrees, longitudeMinutes, longitudeSeconds);
+        let latitudeDecimal = convertLatitudeToDecimal(latitudeDegrees, latitudeMinutes, latitudeSeconds);
+        let longitudeDecimal = convertLongitudeToDecimal(longitudeDegrees, longitudeMinutes, longitudeSeconds);
 
         //Tab de los datos generales del ejemplar
         formData.append('ejemplarId', document.getElementById('especimenIdText').value);

@@ -3,6 +3,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 include '../../database/connectionDB.php'; 
+require '../../vendor/autoload.php';
 
 header("Content-Type: application/json; charset=UTF-8");
 

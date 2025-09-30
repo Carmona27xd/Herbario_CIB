@@ -3,6 +3,8 @@ header('Content-Type: application/json');
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+require '../../vendor/autoload.php';
+
 $conexion_path = '../../database/connectionDB.php';
 if (file_exists($conexion_path)) {
     include $conexion_path;

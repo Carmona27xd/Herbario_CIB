@@ -4,14 +4,18 @@ ini_set('display_errors', 1);
 
 $host = "localhost";  
 $username = "root";    
-$password = "password";       
+$password = "FinalFantasy_7";       
 $dbname = "herbarium_cib";  
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
     $pdo ->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    //echo "connected successfully";
 } catch (PDOException $e) {
-    die("Error: " . $e->getMessage());
+    header('Content-Type: application/json');
+    echo json_encode([
+        "success" => false,
+        "message" => "Error de conexión: " . $e->getMessage()
+    ]);
+    exit;
 }
 ?>

@@ -1,0 +1,45 @@
+/* Hero azul de altura completa */
+#hero {
+  background-color: #2e43a1;
+  height: 100vh;
+  position: relative;
+  padding-top: 100px;
+  text-align: center;
+}
+
+/* Logo */
+.logo-uv {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  width: 80px;
+}
+
+/* Carrusel centrado con bordes redondeados */
+.carousel-container {
+  width: 90%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.carousel-inner img {
+  border-radius: 30px;
+}
+
+.carousel-caption {
+  background: rgba(0, 0, 0, 0.4);
+  padding: 15px 20px;
+  border-radius: 12px;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  padding: 10px;
+}
+
+/* Scroll suave al hacer clic en "Explorar" */
+html {
+  scroll-behavior: smooth;
+}

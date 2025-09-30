@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Consulta de Ejemplares - Herbario CIB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-sidebar-v2/css/leaflet-sidebar.min.css" />
+
+  <!-- Estilos y JS propios -->
+  <link rel="stylesheet" href="../CSS/consultSpecimenStyle.css">
+  <script src="../../public/ConsultSpecimen/consultSpecimenAvanced.js" defer></script>
+
+  <!-- jsPDF, html2canvas -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-sidebar-v2/js/leaflet-sidebar.min.js"></script>
+
+  <style>
+    body { 
+        margin: 0; 
+    }
+    .bg-uv-dark { 
+        background-color: #27346b !important; 
+    }
+    footer { 
+        background-color: #2e7d3d; color: white; 
+    }
+    .dropdown-menu .dropdown-item:hover { 
+        background-color: #2e7d3d; color: white; 
+    }
+    .nav-link.active { 
+        background-color: #2e7d3d; color: white !important; border-radius: 5px; padding-left: 10px; padding-right: 10px; 
+    }
+  </style>
+</head>
+<body class="m-0 d-flex flex-column min-vh-100">
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg bg-uv-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand text-white fw-bold" href="../home.html">Herbario CIB</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-center" id="navbarMain">
+        <ul class="navbar-nav">
+          <li class="nav-item mx-2"><a class="nav-link text-white" href="../home.html">Inicio</a></li>
+          <li class="nav-item mx-2"><a class="nav-link text-white active" href="../ConsultSpecimen/consultSpecimen.html">Consulta</a></li>
+          <li class="nav-item mx-2"><a class="nav-link text-white" href="../PruebaHome/aboutUs.html">Sobre Nosotros</a></li>
+          <li class="nav-item mx-2"><a class="nav-link text-white" href="../PruebaHome/background.html">Antecedentes</a></li>
+        </ul>
+      </div>
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle rounded-circle d-flex align-items-center justify-content-center" type="button" id="perfilDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="width: 40px; height: 40px;">
+          <i class="bi bi-person-fill fs-5"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="perfilDropdown">
+          <li><a class="dropdown-item" href="../logIn.html">Inicia Sesión</a></li>
+          <li><a class="dropdown-item" href="../register.html">Regístrate como visitante</a></li>
+          <li><a class="dropdown-item" href="../collectorApplication.html">Regístrate como colector</a></li>
+          <li><a class="dropdown-item" href="#">Regístrate como Investigador</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="flex-grow-1">
+
+    <!-- Botones de consulta -->
+    <div class="tab-buttons p-3 text-center bg-light">
+      <a href="consultSpecimen.html" class="btn btn-light border mx-1">Taxonomía</a>
+      <a href="consultSpecimenGeographical.html" class="btn btn-light border mx-1">Geográfica</a>
+      <a href="consultSpecimenRegisterCIB.html" class="btn btn-light border mx-1">Registro CIB</a>
+      <a href="consultSpecimenAvanced.html" class="btn btn-primary border mx-1 active">Avanzada</a>
+    </div>
+
+    <!-- Filtros de taxonomia y de la geografica -->
+    <div class="container py-3">
+      <div class="d-flex flex-wrap justify-content-center align-items-center gap-3">
+
+        <!-- Taxonomía -->
+        <select id="campoFiltro" class="form-select w-auto">
+          <option selected>Filtros</option>
+          <option value="familia">Familia</option>
+          <option value="genero">Género</option>
+          <option value="especie">Especie</option>
+        </select>
+        <input id="valorBusqueda" type="text" class="form-control" placeholder="Buscar...">
+
+        <!-- Geografía -->
+        <select id="estadoSelect" class="form-select w-auto">
+          <option selected>Estado</option>
+        </select>
+        <select id="municipioSelect" class="form-select w-auto">
+          <option selected>Municipio</option>
+        </select>
+        <select id="localidadSelect" class="form-select w-auto">
+          <option selected>Localidad</option>
+        </select>
+        <div class="d-flex align-items-center gap-2">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="menorQue">
+            <label class="form-check-label" for="menorQue">≤</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="mayorQue">
+            <label class="form-check-label" for="mayorQue">≥</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="igualQue">
+            <label class="form-check-label" for="igualQue">=</label>
+          </div>
+          <input id="altitudInput" type="number" class="form-control" placeholder="m.s.n.m" style="width: 130px;">
+        </div>
+        <button id="btnBuscar" class="btn btn-success">Buscar</button>
+      </div>
+    </div>
+
+    <!-- Tabla -->
+    <div class="data-table">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th class="uv-blue">Familia</th>
+            <th class="uv-blue">Género</th>
+            <th class="uv-blue">Especie</th>
+            <th class="uv-blue" style="width: 90px;">Registros</th>
+            <th class="uv-blue">Imagen</th>
+            <th class="uv-blue text-center" style="width: 90px;">Acción</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="d-flex justify-content-end p-4">
+      <button id="btnMostrarUbicacion" class="btn btn-light border me-2" disabled>Mostrar ubicación</button>
+      <button id="btnDescargarImagenes" class="btn btn-primary" disabled data-bs-toggle="modal" data-bs-target="#modalDescarga">Descargar imágenes</button>
+    </div>
+
+    <!-- Modal descarga -->
+    <div class="modal fade" id="downloadModal" tabindex="-1" aria-labelledby="modalDescargaLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-center">
+          <div class="modal-header">
+            <h5 class="modal-title">¿Cómo quieres descargar las imágenes?</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <button id="downloadImagesBtn" class="btn btn-primary m-2">Como imágenes</button>
+            <button id="downloadPdfBtn" class="btn btn-secondary m-2">Como PDF</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal mapa -->
+    <div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Ubicación de ejemplares</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body p-0">
+            <div class="row g-0">
+              <div class="col-md-8"><div id="map" style="height: 600px;"></div></div>
+              <div class="col-md-4 border-start" style="max-height: 600px; overflow-y: auto;">
+                <div id="specimenDetailsPanel" class="p-3">
+                  <p class="text-muted">Haz clic en un marcador para ver los detalles del ejemplar aquí.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal imagen -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Imagen del ejemplar</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body text-center">
+            <img id="modalImage" src="" alt="Ejemplar ampliado" class="img-fluid rounded shadow">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal login -->
+    <div class="modal fade" id="loginRequiredModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header"><h5 class="modal-title">Para Continuar</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+          <div class="modal-body">¿Eres un usuario registrado? Inicia sesión. Si eres nuevo, regístrate.</div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <a href="../register.html" class="btn btn-primary">Registrarse</a>
+            <a href="../logIn.html" class="btn btn-primary">Iniciar sesión</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal investigador -->
+    <div class="modal fade" id="investigatorRequiredModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header"><h5 class="modal-title">Acceso restringido</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+          <div class="modal-body">Los registros están protegidos. Regístrate como investigador para acceder a su informacion.</div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <a href="../logIn.html" class="btn btn-primary">Iniciar sesión</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="p-3 small mt-auto">
+    <div class="container-fluid d-flex flex-column flex-md-row justify-content-between align-items-start">
+      <div>
+        <strong>Ubicación</strong><br>
+        Herbario CIB, Instituto de investigaciones Biológicas,<br>
+        Universidad Veracruzana, Calle,<br>
+        Dr. Luis Castelazo s/n, Rubi Animas.
+      </div>
+      <div class="text-end mt-3 mt-md-0">
+        <div><a href="#" class="text-white text-decoration-underline" target="_blank">Aviso de Privacidad de Actividades Institucionales</a></div>
+        <div><a href="#" class="text-white text-decoration-underline" target="_blank">Aviso de Privacidad de Participantes Externos</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Quizas esta no era tan necesaria con las otras dos ventanas de consultar especimen xd -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- REVISAR, SE DEBE ELIMINAR ANTES DE DESPLIEGUE Y REVISAR LA LOGICA xd Es inseguro, momentaneo -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const menu = document.querySelector('.dropdown-menu');
+      const role = localStorage.getItem('role');
+
+      // Momentario
+      const roleNames = {
+        1: 'Público General',
+        2: 'Colector',
+        3: 'Comité Académico',
+        4: 'Administrador'
+      };
+
+      menu.innerHTML = '';
+
+      if (!role) {
+        // Usuario sin loguearse
+        menu.innerHTML = `
+          <li><a class="dropdown-item" href="../logIn.html">Inicia Sesión</a></li>
+          <li><a class="dropdown-item" href="../register.html">Regístrate como visitante</a></li>
+          <li><a class="dropdown-item" href="../collectorApplication.html">Regístrate como colector</a></li>
+          <li><a class="dropdown-item" href="#">Regístrate como Investigador</a></li>
+        `;
+        return;
+      }
+
+      // Mostrar solo el nombre del rol
+      const roleText = roleNames[role] || 'Rol desconocido';
+      menu.innerHTML += `<li><span class="dropdown-item-text fw-bold">${roleText}</span></li><li><hr class="dropdown-divider"></li>`;
+
+      switch (parseInt(role)) {
+        case 1: // Público General
+          menu.innerHTML += `
+            <li><a class="dropdown-item" href="ConsultSpecimen/consultSpecimen.html">Consultar</a></li>
+          `;
+          break;
+        case 2: // Colector
+          menu.innerHTML += `
+            <li><a class="dropdown-item" href="ConsultSpecimen/consultSpecimen.html">Consultar</a></li>
+            <li><a class="dropdown-item" href="RegisterSpecimens/registerSpecimens.html">Registrar Ejemplar</a></li>
+          `;
+          break;
+        case 3: // Comité Académico
+          menu.innerHTML += `
+            <li><a class="dropdown-item" href="ConsultSpecimen/consultSpecimen.html">Consultar</a></li>
+          `;
+          break;
+        case 4: // Administrador
+          menu.innerHTML += `
+            <li><a class="dropdown-item" href="../ConsultSpecimen/consultSpecimen.html">Consultar</a></li>
+            <li><a class="dropdown-item" href="../RegisterSpecimens/registerSpecimens.html">Registrar Ejemplar</a></li>
+            <li><a class="dropdown-item" href="../GenerateLabel/generateLabel.html">Generar Etiqueta</a></li>
+            <li><a class="dropdown-item" href="../DeleteSpecimen/deleteSpecimen.html">Eliminar Ejemplares</a></li>
+          `;
+          break;
+        default:
+        menu.innerHTML += `<li><span class="dropdown-item-text text-muted">Rol desconocido</span></li>`;
+      }
+
+      menu.innerHTML += `
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item text-danger" href="#" id="cerrarSesionBtn">Cerrar sesión</a></li>
+      `;
+
+      document.getElementById('cerrarSesionBtn').addEventListener('click', () => {
+        localStorage.clear();
+        location.reload();
+      });
+    });
+  </script>
+
+</body>
+</html>

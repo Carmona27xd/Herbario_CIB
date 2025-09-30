@@ -77,6 +77,7 @@ document.getElementById("registerForm").addEventListener("submit", async functio
         } catch (error) {
             console.error("Error: ", error);
             document.getElementById("message").innerText = "Ocurrió un error al procesar la solicitud";
+            alert(error);
         }
     } else {
         const passswordMatch = new bootstrap.Modal(document.getElementById("passwordMatch"));

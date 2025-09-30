@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     } catch (PDOException $e) {
         if ($e->getCode() == 23000) {
-            echo json_encode(["sucess" => false, "message" => "El correo ya se encuentra registrado"]);
+            echo json_encode(["success" => false, "message" => "El correo ya se encuentra registrado"]);
         } else {
             echo json_encode(["success" => false, "message" => "Error: " . $e->getMessage()]);
         }

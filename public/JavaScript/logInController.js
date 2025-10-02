@@ -37,6 +37,9 @@ document.getElementById("logInForm").addEventListener("submit", async function (
             localStorage.setItem("role", data.role);
             //window.location.href = "dashboard.html";
 
+            //poner correo en el localstorage
+            localStorage.setItem("email", data.email);
+
             console.log("Datos recibidos: ", data);
             console.log("Tipo de rol: ", typeof data.role);
             
@@ -49,9 +52,7 @@ document.getElementById("logInForm").addEventListener("submit", async function (
                 window.location.href = "dashBoardCollector.html"
             } else if (parseInt(data.role) == 4) {
                 window.location.href = "dashBoardComitteeMember.html"
-            } else if (parseInt(data.role) == 3) {
-                window.location.href = "dashBoardCollector.html"
-            }
+            } 
         } else if (!data.jwt) {
             //alert("Usuario y/o contraseña incorrectos");
             const invalidCredentialsModal = new bootstrap.Modal(document.getElementById("invalidCredentials"));

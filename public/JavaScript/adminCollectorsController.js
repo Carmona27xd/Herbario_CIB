@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <td>${collector.first_surname}</td>
                     <td>${collector.second_surname}</td>
                     <td>${collector.ascription}</td>
+                    <td>${collector.email}</td>
                     <td>
                         <button class="btn btn-warning btn-sm edit-btn" data-id="${collector.id_collector}">
                             <i class="bi bi-pencil"></i> Editar
@@ -38,7 +39,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         names: row.cells[0].innerText,
                         first_surname: row.cells[1].innerText,
                         second_surname: row.cells[2].innerText,
-                        ascription: row.cells[3].innerText
+                        ascription: row.cells[3].innerText,
+                        email: row.cells[4].innerText
                     };
 
                     sessionStorage.setItem("collectorData", JSON.stringify(collector));

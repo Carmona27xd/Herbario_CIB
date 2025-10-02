@@ -15,11 +15,12 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
+            padding: 20px;
         }
         
         .centered-form {
             width: 100%;
-            max-width: 500px;
+            max-width: 800px; /* Aumentado de 500px a 800px */
             background-color: white;
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -32,6 +33,18 @@
             margin-bottom: 30px;
             color: #2c3e50;
             font-weight: 600;
+        }
+        
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px; /* Espacio entre columnas */
+            margin-bottom: 20px;
+        }
+        
+        .form-column {
+            flex: 1;
+            min-width: 250px; /* Ancho mínimo para cada columna */
         }
         
         .form-group {
@@ -60,7 +73,6 @@
         }
         
         .btn {
-            width: 100%;
             padding: 12px;
             border-radius: 6px;
             font-weight: 500;
@@ -87,6 +99,27 @@
         .btn-primary:hover {
             background-color: #0b5ed7;
         }
+        
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 30px;
+        }
+        
+        .button-group .btn {
+            width: auto;
+            min-width: 120px;
+        }
     </style>
 </head>
 <body>
@@ -94,41 +127,63 @@
         <h2 class="form-title">Editar colector</h2>
         
         <form id="registerForm">
-            <!-- Campo de nombre -->
-            <div class="form-group">
-                <label for="name">Nombre</label>
-                <input type="text" class="form-control" name="name" id="name" 
-                    pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$" required>
-            </div>
-            
-            <!-- Campo de primer apellido -->
-            <div class="form-group">
-                <label for="first_surname">Primer apellido</label>
-                <input type="text" class="form-control" name="first_surname" id="first_surname" 
-                    pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$" required>
-            </div>
-            
-            <!-- Campo de segundo apellido -->
-            <div class="form-group">
-                <label for="second_surname">Segundo apellido</label>
-                <input type="text" class="form-control" name="second_surname" id="second_surname" 
-                    pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$" required>
-            </div>
-            
-            <!-- Campo de adscripción -->
-            <div class="form-group">
-                <label for="ascription">Adscripción</label>
-                <select class="form-control" name="ascription" id="ascription" required>
-                    <option value="" selected disabled>Seleccione una opción</option>
-                    <option value="CIB">CIB</option>
-                    <option value="Externo">Externo</option>
-                    <option value="Estudiante">Estudiante</option>
-                    <option value="Investigador">Investigador</option>
-                </select>
+            <div class="form-row">
+                <!-- Columna 1 -->
+                <div class="form-column">
+                    <!-- Campo de nombre -->
+                    <div class="form-group">
+                        <label for="name">Nombre</label>
+                        <input type="text" class="form-control" name="name" id="name" 
+                            pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$" required>
+                    </div>
+                    
+                    <!-- Campo de primer apellido -->
+                    <div class="form-group">
+                        <label for="first_surname">Primer apellido</label>
+                        <input type="text" class="form-control" name="first_surname" id="first_surname" 
+                            pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$" required>
+                    </div>
+                    
+                    <!-- Campo de segundo apellido -->
+                    <div class="form-group">
+                        <label for="second_surname">Segundo apellido</label>
+                        <input type="text" class="form-control" name="second_surname" id="second_surname" 
+                            pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$" required>
+                    </div>
+                </div>
+                
+                <!-- Columna 2 -->
+                <div class="form-column">
+
+                    <!-- Campo de adscripción -->
+                    <div class="form-group">
+                        <label for="ascription">Adscripción</label>
+                        <select class="form-control" name="ascription" id="ascription" required>
+                            <option value="" selected disabled>Seleccione una opción</option>
+                            <option value="CIB">CIB</option>
+                            <option value="Externo">Externo</option>
+                            <option value="Estudiante">Estudiante</option>
+                            <option value="Investigador">Investigador</option>
+                        </select>
+                    </div>
+
+                    <!-- Campo de contraseña -->
+                    <div class="form-group">
+                        <label for="new_password">Contraseña</label>
+                        <input type="password" class="form-control" name="new_password" id="new_password">
+                    </div>
+
+                    <!-- Campo de confirmar contraseña -->
+                    <div class="form-group">
+                        <label for="new_password_confirmation">Confirmar contraseña</label>
+                        <input type="password" class="form-control" name="new_password_confirmation" id="new_password_confirmation">
+                    </div>
+                    
+                </div>
             </div>
             
             <!-- Botones de acción -->
-            <div class="form-group">
+            <div class="button-group">
                 <button type="button" class="btn btn-danger" id="cancelButton">Cancelar</button>
                 <button type="submit" class="btn btn-primary">Modificar</button>
             </div>

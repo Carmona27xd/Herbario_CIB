@@ -39,6 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         echo json_encode([
             "jwt" => $jwt,
             "role" => $user['role_id'],
+            "email" => $user['email'],
             "message" => "Inicio de sesión exitoso"
         ]);
         

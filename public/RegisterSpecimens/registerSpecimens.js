@@ -1,6 +1,22 @@
 document.addEventListener('DOMContentLoaded', function() {
     const nextButtons = document.querySelectorAll('.next-button');
 
+    collector = localStorage.getItem("role");
+
+    if (parseInt(collector) === 3 ) {
+        collectorBox = document.getElementById("collectorSelect");
+        registerCollectorButton = document.getElementById("registrarColectorBtn");
+
+        if (collectorBox) {
+            collectorBox.disabled = true;
+        }
+             
+        if (registerCollectorButton) {
+            registerCollectorButton.disabled = true;
+        }
+        
+    }
+
     nextButtons.forEach(button => {
         button.addEventListener('click', function() {
             const currentTab = document.querySelector('.nav-link.active');
@@ -132,6 +148,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (!isValid) {
                 alert("Faltan campos por completar. Por favor, revisa los campos resaltados.");
+                return;
             }
 
             return isValid;

@@ -48,6 +48,7 @@ document.getElementById("registerForm").addEventListener("submit", async functio
         collectorFormData.append("name", formDataNewUser.name);
         collectorFormData.append("first_surname", formDataNewUser.first_surname);
         collectorFormData.append("second_surname", formDataNewUser.second_surname);
+        collectorFormData.append("email", formDataNewUser.email);
         collectorFormData.append("ascription", ascriptionValue);
 
         const response = await fetch("../backend/registerCollector.php", {

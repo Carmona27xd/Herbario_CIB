@@ -7,7 +7,6 @@ SELECT
     s.duplicates,
     s.additionalData,
     s.environmentalInformation,
-    s.specimenImage,
     f.name AS family,
     g.name AS genus,
     sp.name AS species,

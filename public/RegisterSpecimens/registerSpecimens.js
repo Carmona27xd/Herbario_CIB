@@ -242,6 +242,22 @@ document.addEventListener('DOMContentLoaded', function() {
         formData.append('latitude', latitudeDecimal);
         formData.append('longitude', longitudeDecimal);
 
+        //CONTENIDO PARA MIS CU
+        let email = localStorage.getItem('email');
+        let validated;
+        let roleAux = localStorage.getItem('role');
+
+        if (parseInt(roleAux) === 3) {
+            formData.append('email', email);
+            validated = 0;
+            formData.append('validated', validated);
+        }
+
+        if (parseInt(roleAux) === 2) {
+            validated = 1;
+            formData.append('validated', validated);
+        }
+
         for (let pair of formData.entries()) {
             console.log(pair[0] + ': ' + pair[1]);
         }

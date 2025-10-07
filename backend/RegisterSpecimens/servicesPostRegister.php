@@ -70,6 +70,10 @@ try {
     $genreID = !empty($_POST['genreID']) ? trim($_POST['genreID']) : null; 
     $speciesID = !empty($_POST['speciesID']) ? trim($_POST['speciesID']) : null;
 
+    //DATOS PARA MIS CU
+    $validated = $_POST['validated'];
+    $email = $_POST['email'];
+
     // Manejo de imágenes
     $uploadDir = '../../uploads/'; 
     if (!file_exists($uploadDir)) {
@@ -97,7 +101,7 @@ try {
         :determinerName, :determinerLastNameP, :determinerLastNameM, :collectNumber, :localName, :collectDate, :microhabitat, :fieldBookImagePath,
         :collectors, :stateID, :municipalityID, :localityID, :latitude, :longitude, :altitude,
         :latitudeDegrees, :latitudeMinutes, :latitudeSeconds, :longitudeDegrees, :longitudeMinutes, :longitudeSeconds,
-        :scientificName, :familyID, :genreID, :speciesID
+        :scientificName, :familyID, :genreID, :speciesID, :validated, :email
     )";
 
     $stmt = $pdo->prepare($sql);
@@ -144,7 +148,13 @@ try {
         ':scientificName' => $scientificName,
         ':familyID' => $familyID,
         ':genreID' => $genreID,
-        ':speciesID' => $speciesID
+        ':speciesID' => $speciesID,
+
+        ////////////////////////
+
+        ':validated' => $validated,
+        ':email' => $email
+
     ]);
 
     $response = ["success" => true, "message" => "Ejemplar registrado correctamente."];

@@ -69,9 +69,6 @@ INSERT INTO Microhabitat (name) VALUES ('Bosque de pino-encino'), ('Selva median
 -- Insertar en la tabla Collection
 INSERT INTO Collection (collectionNumber, localName, collectionDate, fieldNotebookImage, idSpecimen, idMicrohabitat) VALUES (101, 'Ejemplar 1', '2023-04-12', 'notebook1.jpg', 'SP001', 1), (102, 'Ejemplar 2', '2022-09-17', 'notebook2.jpg', 'SP002', 2), (103, 'Ejemplar 3', '2021-06-08', 'notebook3.jpg', 'SP003', 3);
 
--- Insertar en la tabla Collector
-INSERT INTO Collector (names, first_surname, ascription, is_associated, prefix) VALUES ('Miguel', 'López', 'UNAM', 1, 'Dr.'), ('Laura', 'García', 'IPN', 0, 'M. en C.'), ('Fernando', 'Mendoza', 'UAM', 1, 'Ing.');
-
 -- Insertar en la tabla CollectionCollector
 INSERT INTO CollectionCollector (idCollection, id_collector) VALUES (1, 1), (2, 2), (3, 3);
 

@@ -58,7 +58,10 @@ CREATE PROCEDURE TP_RegistrarEjemplar(
     IN p_nombreCient VARCHAR(100),
     IN p_idFamilia INT,
     IN p_idGenero INT,
-    IN p_idEspecie INT
+    IN p_idEspecie INT,
+
+    IN p_validated,
+    IN p_email
 )
 BEGIN
     DECLARE v_idDeterminador INT;
@@ -79,12 +82,12 @@ BEGIN
     -- 1. Insertar el ejemplar con el ID proporcionado por el usuario
     INSERT INTO Specimen (
         idSpecimen, specimenState, associated, lifeCycle, size, duplicates, additionalData, protected, environmentalInformation, 
-        specimenImage, idVegetationType, idSoil, idBiologicalForm, idFruit, idFlower, idAbundance, idPlantClassification
-        )
+        specimenImage, idVegetationType, idSoil, idBiologicalForm, idFruit, idFlower, idAbundance, idPlantClassification, is_validated,
+        collector_email)
     VALUES (
         p_idEjemplar, TRUE, p_asociada, p_cicloVida, p_tamanio, p_duplicados, p_otrosDatos, 
         p_protegido, p_informacionAmbiental, p_imagenEjemplar, p_idTipoVegetacion, p_idSuelo, p_idFormaBiologica, 
-        p_idFruto, p_idFlor, p_idAbundancia, p_idClasificacionPlanta);
+        p_idFruto, p_idFlor, p_idAbundancia, p_idClasificacionPlanta, p_validated, p_email);
     
     SELECT 'Paso 2' AS Mensaje;
     

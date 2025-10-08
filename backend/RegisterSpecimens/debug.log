@@ -1821,3 +1821,141 @@ Array
     [latitude] => 12.203333
     [longitude] => -12.203333
 )
+Array
+(
+    [scientificName] => asafsfasafs
+    [ejemplarId] => sexo
+    [family] => 1
+    [genre] => 2
+    [species] => 1
+    [biologicalForm] => 1
+    [typeVegetation] => 2
+    [soil] => 2
+    [fruit] => 2
+    [flower] => 1
+    [lifeCycle] => 12
+    [determinerName] => ddfds
+    [determinerLastName] => sdgsggds
+    [determinerLastName2] => cruz
+    [size] => 12
+    [plantClassification] => 2
+    [associated] => asdffas
+    [protected] => false
+    [abundance] => 1
+    [numberDuplicates] => 1
+    [environmentalInformation] => sddsfdsffds
+    [otherInformation] => sdfsdsdffsd
+    [collectDate] => 2025-10-24
+    [collectNumber] => 12
+    [microhabitat] => 2
+    [localName] => sdffasafs
+    [collectors] => 
+    [state] => 1
+    [municipality] => 2
+    [locality] => 1
+    [latitudeDegrees] => 12
+    [latitudeMinutes] => 12
+    [latitudeSeconds] => 12
+    [longitudeDegrees] => 12
+    [longitudeMinutes] => 12
+    [longitudeSeconds] => 12
+    [altitude] => 121212
+    [latitude] => 12.203333
+    [longitude] => -12.203333
+    [email] => prueba@gmail.com
+    [validated] => 0
+)
+Array
+(
+)
+Array
+(
+)
+Array
+(
+    [scientificName] => ASDASDDSA
+    [ejemplarId] => 1124
+    [family] => 1
+    [genre] => 2
+    [species] => 2
+    [biologicalForm] => 1
+    [typeVegetation] => 2
+    [soil] => 2
+    [fruit] => 2
+    [flower] => 2
+    [lifeCycle] => 12
+    [determinerName] => ddfds
+    [determinerLastName] => sdgsggds
+    [determinerLastName2] => cruz
+    [size] => 12
+    [plantClassification] => 2
+    [associated] => asdffas
+    [protected] => false
+    [abundance] => 1
+    [numberDuplicates] => 1
+    [environmentalInformation] => ASDASDDAS
+    [otherInformation] => ASDASDASDADS
+    [collectDate] => 2025-10-08
+    [collectNumber] => 12
+    [microhabitat] => 3
+    [localName] => ADFFASASF
+    [collectors] => 
+    [state] => 2
+    [municipality] => 3
+    [locality] => 2
+    [latitudeDegrees] => 12
+    [latitudeMinutes] => 12
+    [latitudeSeconds] => 12
+    [longitudeDegrees] => 12
+    [longitudeMinutes] => 12
+    [longitudeSeconds] => 12
+    [altitude] => 121212
+    [latitude] => 12.203333
+    [longitude] => -12.203333
+    [email] => prueba@gmail.com
+    [validated] => 0
+)
+Array
+(
+    [scientificName] => ASDADSASD
+    [ejemplarId] => sexoSEXO
+    [family] => 2
+    [genre] => 3
+    [species] => 2
+    [biologicalForm] => 2
+    [typeVegetation] => 2
+    [soil] => 1
+    [fruit] => 1
+    [flower] => 1
+    [lifeCycle] => 12
+    [determinerName] => Martin
+    [determinerLastName] => Cruz
+    [determinerLastName2] => Emmanuel
+    [size] => 12
+    [plantClassification] => 1
+    [associated] => asdffas
+    [protected] => false
+    [abundance] => 1
+    [numberDuplicates] => 12
+    [environmentalInformation] => ASDADSASD
+    [otherInformation] => ASDASDADS
+    [collectDate] => 2025-10-08
+    [collectNumber] => 12
+    [microhabitat] => 2
+    [localName] => ASDASDASD
+    [collectors] => 
+    [state] => 2
+    [municipality] => 2
+    [locality] => 1
+    [latitudeDegrees] => 12
+    [latitudeMinutes] => 12
+    [latitudeSeconds] => 12
+    [longitudeDegrees] => 12
+    [longitudeMinutes] => 12
+    [longitudeSeconds] => 12
+    [altitude] => 12121
+    [latitude] => 12.203333
+    [longitude] => -12.203333
+    [email] => prueba@gmail.com
+    [validated] => 0
+)

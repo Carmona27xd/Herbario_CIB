@@ -1821,3 +1821,45 @@ Array
     [latitude] => 12.203333
     [longitude] => -12.203333
 )
+Array
+(
+    [scientificName] => Planta
+    [ejemplarId] => 003
+    [family] => 1
+    [genre] => 2
+    [species] => 1
+    [biologicalForm] => 1
+    [typeVegetation] => 2
+    [soil] => 2
+    [fruit] => 3
+    [flower] => 2
+    [lifeCycle] => 12
+    [determinerName] => Martin
+    [determinerLastName] => Juan
+    [determinerLastName2] => cruz
+    [size] => 1
+    [plantClassification] => 2
+    [associated] => A nada
+    [protected] => false
+    [abundance] => 2
+    [numberDuplicates] => 1
+    [environmentalInformation] => Extra
+    [otherInformation] => Extra
+    [collectDate] => 2025-10-08
+    [collectNumber] => 1
+    [microhabitat] => 2
+    [localName] => Margarita
+    [collectors] => 
+    [state] => 2
+    [municipality] => 1
+    [locality] => 2
+    [latitudeDegrees] => 12
+    [latitudeMinutes] => 12
+    [latitudeSeconds] => 12
+    [longitudeDegrees] => 12
+    [longitudeMinutes] => 12
+    [longitudeSeconds] => 12
+    [altitude] => 12345
+    [latitude] => 12.203333
+    [longitude] => -12.203333
+)

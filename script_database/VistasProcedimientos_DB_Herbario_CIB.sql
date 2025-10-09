@@ -60,8 +60,8 @@ CREATE PROCEDURE TP_RegistrarEjemplar(
     IN p_idGenero INT,
     IN p_idEspecie INT,
 
-    IN p_validated,
-    IN p_email
+    IN p_validated TINYINT(1),
+    IN p_email NVARCHAR(50)
 )
 BEGIN
     DECLARE v_idDeterminador INT;

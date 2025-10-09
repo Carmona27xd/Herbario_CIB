@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplares Protegidos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<div class="modal fade" id="accessRequestModal" tabindex="-1" aria-labelledby="accessRequestModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="accessRequestModalLabel">Solicitar Acceso a Ejemplar Protegido</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <form id="requestForm">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="specimenId" class="form-label">ID del Ejemplar</label>
+                        <input type="text" class="form-control" id="specimenId" name="specimenId" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="requesterName" class="form-label">Tu Nombre</label>
+                        <input type="text" class="form-control" id="requesterName" name="requesterName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="requesterEmail" class="form-label">Tu Correo Electrónico</label>
+                        <input type="email" class="form-control" id="requesterEmail" name="requesterEmail" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="reason" class="form-label">Motivo de la Solicitud</label>
+                        <textarea class="form-control" id="reason" name="reason" rows="3" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Enviar Solicitud</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<body class="bg-light">
+
+    <div class="container py-5">
+        <h1 class="text-center mb-4">Ejemplares Protegidos</h1>
+        
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered align-middle" id="protectedTable">
+                <thead class="table-success">
+                    <tr>
+                        <th>ID</th>
+                        <th>Asociado</th>
+                        <th>Tamaño</th>
+                        <th>Forma Biológica</th>
+                        <th>Tipo de Vegetación</th>
+                        <th>Clasificación</th>
+                        <th>Información Ambiental</th>
+                        <th>Acciones</th> </tr>
+                </thead>
+                <tbody id="protectedBody">
+                    <tr><td colspan="8" class="text-center">Cargando...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="JavaScript/protectedSpecimensController.js"></script>
+</body>
+</html>

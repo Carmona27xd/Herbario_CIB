@@ -106,6 +106,8 @@ CREATE TABLE Specimen (
     idFlower INT, 
     idAbundance INT NOT NULL,
     idPlantClassification INT NOT NULL,
+    collector_email NVARCHAR(50),
+    is_validated TINYINT(1),
     FOREIGN KEY (idVegetationType) REFERENCES VegetationType(idVegetationType) ON DELETE CASCADE,
     FOREIGN KEY (idSoil) REFERENCES Soil(idSoil) ON DELETE CASCADE,
     FOREIGN KEY (idBiologicalForm) REFERENCES BiologicalForm(idBiologicalForm) ON DELETE CASCADE,

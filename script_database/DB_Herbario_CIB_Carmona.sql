@@ -74,3 +74,12 @@ CREATE TABLE `users` (
 
 INSERT INTO roles VALUES (1,'General Public'),(2,'Administrator'),(3,'Collector'),(4,'Committee Member');
 
+CREATE TABLE `protected_request` (
+  `id_request` int NOT NULL AUTO_INCREMENT,
+  `idspecimen` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `email` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `description` nvarchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `status` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  PRIMARY KEY (`id_request`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

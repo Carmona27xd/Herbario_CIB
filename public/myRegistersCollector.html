@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplares registrados</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<div class="modal fade" id="specimenDetailsModal" tabindex="-1" aria-labelledby="specimenDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="specimenDetailsModalLabel">Detalles del Ejemplar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Información del Ejemplar</h6>
+                        <p><strong>ID:</strong> <span id="detailSpecimenId"></span></p>
+                        <p><strong>Asociado:</strong> <span id="detailAssociated"></span></p>
+                        <p><strong>Tamaño:</strong> <span id="detailSize"></span></p>
+                        <p><strong>Ciclo de Vida:</strong> <span id="detailLifeCycle"></span></p>
+                        <p><strong>Duplicados:</strong> <span id="detailDuplicates"></span></p>
+                        <p><strong>Estado:</strong> <span id="detailSpecimenState"></span></p>
+                        <p><strong>Protegido:</strong> <span id="detailProtected"></span></p>
+                        <p><strong>Validado:</strong> <span id="detailValidated"></span></p>
+                        <p><strong>Correo del Colector:</strong> <span id="detailCollectorEmail"></span></p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Clasificación y Ambiente</h6>
+                        <p><strong>Forma Biológica:</strong> <span id="detailBiologicalFormName"></span></p>
+                        <p><strong>Tipo de Vegetación:</strong> <span id="detailVegetationTypeName"></span></p>
+                        <p><strong>Tipo de Suelo:</strong> <span id="detailSoilName"></span></p>
+                        <p><strong>Tipo de Flor:</strong> <span id="detailFlowerName"></span></p>
+                        <p><strong>Tipo de Fruto:</strong> <span id="detailFruitName"></span></p>
+                        <p><strong>Abundancia:</strong> <span id="detailAbundanceName"></span></p>
+                        <p><strong>Clasificación de Planta:</strong> <span id="detailPlantClassificationName"></span></p>
+                    </div>
+                </div>
+                <hr>
+                <h6>Descripción</h6>
+                <p><strong>Información Adicional:</strong> <span id="detailAdditionalData"></span></p>
+                <p><strong>Información Ambiental:</strong> <span id="detailEnvironmentalInformation"></span></p>
+                <hr>
+                <h6>Imagen del Ejemplar</h6>
+                <div class="text-center">
+                    <a id="viewImageLink" href="#" target="_blank" class="btn btn-secondary" style="display: none;">Ver Imagen</a>
+                    <p id="noImageMessage" class="text-muted" style="display: none;">Imagen no disponible</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<body class="bg-light">
+
+    <div class="container py-5">
+        <h1 class="text-center mb-4">Mis registros</h1>
+        
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered align-middle" id="protectedTable">
+                <thead class="table-success">
+                    <tr>
+                        <th>ID</th>
+                        <th>Asociado</th>
+                        <th>Tamaño</th>
+                        <th>Forma Biológica</th>
+                        <th>Tipo de Vegetación</th>
+                        <th>Clasificación</th>
+                        <th>Información Ambiental</th>
+                        <th>Detalles</th> </tr>
+                </thead>
+                <tbody id="protectedBody">
+                    <tr><td colspan="8" class="text-center">Cargando...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="JavaScript/myRegistersCollectorController.js"></script>
+</body>
+</html>

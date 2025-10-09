@@ -6,6 +6,6 @@ document.getElementById("registerPlant").addEventListener("click", function() {
     window.location.href = "RegisterSpecimens/registerSpecimens.html";
 });
 
-document.getElementById("adminCollectors").addEventListener("click", function(){
-    window.location.href = "adminCollectors.html"
-})
+document.getElementById("viewPlants").addEventListener("click", function() {
+    window.location.href = "specimensRegisteredCollectors.html"
+});

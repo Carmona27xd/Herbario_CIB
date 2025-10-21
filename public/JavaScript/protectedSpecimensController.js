@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 document.getElementById("requestForm").addEventListener("submit", async function (event) {
-
+    event.preventDefault();
     let statusAux = "Sin atender";
 
     const newRequest = {
@@ -85,12 +85,29 @@ document.getElementById("requestForm").addEventListener("submit", async function
         });
 
         const data = await response.json();
+
         if (data.success) {
-            alert("Solicitud de acceso enviada");
+            // **CAMBIO AQUÍ: Ocultamos el modal de formulario usando getInstance**
+            const accessModalElement = document.getElementById('accessRequestModal');
+            const accessModal = bootstrap.Modal.getInstance(accessModalElement);
+            accessModal.hide();
+
+            // **CAMBIO AQUÍ: Mostramos el modal de éxito usando new**
+            // Se usa "new" porque el modal de éxito no existe cuando se carga la página.
+            const successModalElement = document.getElementById('successModal');
+            const successModal = new bootstrap.Modal(successModalElement);
+            successModal.show();
+            
+            // Opcional: limpiar el formulario después de un envío exitoso
+            document.getElementById("requestForm").reset();
+
+        } else {
+            // Manejar errores
+            alert("Error: " + data.message);
         }
     } catch (error) {
         console.error("Error en php: ", error);
+        alert("Ocurrió un error al enviar la solicitud.");
     }
-
 });
 

@@ -94,30 +94,45 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     // --- Lógica del botón de validación ---
-    validateBtn.addEventListener('click', async () => {
-        const specimenId = validateBtn.getAttribute('data-specimen-id');
+validateBtn.addEventListener('click', async () => {
+    const specimenId = validateBtn.getAttribute('data-specimen-id');
 
-        try {
-            const response = await fetch('../backend/validateSpecimen.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ idSpecimen: specimenId })
+    try {
+        const response = await fetch('../backend/validateSpecimen.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ idSpecimen: specimenId })
+        });
+
+        const result = await response.json();
+        
+        if (result.success) {
+            // **CAMBIO AQUÍ: Ocultamos el modal de detalles y mostramos el de aprobación.**
+            // 1. Oculta el modal de los detalles del ejemplar.
+            const detailsModalInstance = bootstrap.Modal.getInstance(specimenDetailsModal);
+            if (detailsModalInstance) {
+                detailsModalInstance.hide();
+            }
+
+            // 2. Muestra el modal de "Ejemplar Aprobado".
+            const approvalModalElement = document.getElementById('approvalModal');
+            const approvalModalInstance = new bootstrap.Modal(approvalModalElement);
+            approvalModalInstance.show();
+
+            // Opcional: Recarga la página después de que el modal de aprobación se oculte.
+            // Esto asegura que la lista de ejemplares se actualice.
+            approvalModalElement.addEventListener('hidden.bs.modal', () => {
+                location.reload();
             });
 
-            const result = await response.json();
-            
-            if (result.success) {
-                alert("Ejemplar validado con éxito.");
-                bootstrap.Modal.getInstance(specimenDetailsModal).hide();
-                location.reload(); // Recargar la página para mostrar la tabla actualizada
-            } else {
-                alert("Error al validar el ejemplar: " + result.message);
-            }
-        } catch (error) {
-            console.error("Error al validar el ejemplar:", error);
-            alert("Ocurrió un error al validar el ejemplar.");
+        } else {
+            alert("Error al validar el ejemplar: " + result.message);
         }
+    } catch (error) {
+        console.error("Error al validar el ejemplar:", error);
+        alert("Ocurrió un error al validar el ejemplar.");
+    }
     });
 });

@@ -1994,3 +1994,91 @@ Array
     [validated] => 0
 >>>>>>> 2dcaf9d3d0048fdce78bbeb4caddba7a7474f9a4
 )
+Array
+(
+    [scientificName] => DSFSFD
+    [ejemplarId] => SDSDF
+    [family] => 1
+    [genre] => 1
+    [species] => 2
+    [biologicalForm] => 1
+    [typeVegetation] => 2
+    [soil] => 1
+    [fruit] => 3
+    [flower] => 3
+    [lifeCycle] => 12
+    [determinerName] => Martin
+    [determinerLastName] => Juan
+    [determinerLastName2] => cruz
+    [size] => 1
+    [plantClassification] => 1
+    [associated] => A nada
+    [protected] => false
+    [abundance] => 3
+    [numberDuplicates] => 1
+    [environmentalInformation] => CXVSDFDSF
+    [otherInformation] => DSDCSD
+    [collectDate] => 2025-10-03
+    [collectNumber] => 212
+    [microhabitat] => 1
+    [localName] => SVSD
+    [collectors] => 
+    [state] => 1
+    [municipality] => 1
+    [locality] => 1
+    [latitudeDegrees] => 12
+    [latitudeMinutes] => 12
+    [latitudeSeconds] => 12
+    [longitudeDegrees] => 12
+    [longitudeMinutes] => 012
+    [longitudeSeconds] => 12
+    [altitude] => 12
+    [latitude] => 12.203333
+    [longitude] => -12.203333
+    [email] => colector@gmail.com
+    [validated] => 0
+)
+Array
+(
+    [scientificName] => PLANTA
+    [ejemplarId] => SPECIMEN01
+    [family] => 1
+    [genre] => 1
+    [species] => 3
+    [biologicalForm] => 1
+    [typeVegetation] => 1
+    [soil] => 1
+    [fruit] => 3
+    [flower] => 3
+    [lifeCycle] => 12
+    [determinerName] => Martin
+    [determinerLastName] => Juan
+    [determinerLastName2] => cruz
+    [size] => 12
+    [plantClassification] => 1
+    [associated] => Ejemplo
+    [protected] => false
+    [abundance] => 3
+    [numberDuplicates] => 1
+    [environmentalInformation] => Texto
+    [otherInformation] => Texto
+    [collectDate] => 2025-10-11
+    [collectNumber] => 1
+    [microhabitat] => 2
+    [localName] => Ejemplo
+    [collectors] => 
+    [state] => 1
+    [municipality] => 1
+    [locality] => 1
+    [latitudeDegrees] => 12
+    [latitudeMinutes] => 12
+    [latitudeSeconds] => 12
+    [longitudeDegrees] => 12
+    [longitudeMinutes] => 12
+    [longitudeSeconds] => 12
+    [altitude] => 12121
+    [latitude] => 12.203333
+    [longitude] => -12.203333
+    [email] => colector@gmail.com
+    [validated] => 0
+)

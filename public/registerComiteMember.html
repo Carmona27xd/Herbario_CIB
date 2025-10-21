@@ -126,7 +126,7 @@
 </head>
 <body>
     <div class="centered-form">
-        <h2 class="form-title">Registro de Colector</h2>
+        <h2 class="form-title">Registrar miembro del comite</h2>
 
         <form id="registerForm">
             <!-- Primera fila: Nombre y Apellidos -->
@@ -153,17 +153,6 @@
                     <label for="email">Correo electrónico *</label>
                     <input type="email" class="form-control" name="email" id="email" required>
                 </div>
-
-                <div class="form-group">
-                    <label for="ascription">Adscripción *</label>
-                    <select class="form-control" name="ascription" id="ascription" required>
-                        <option value="" selected disabled>Seleccione una opción</option>
-                        <option value="CIB">CIB</option>
-                        <option value="Externo">Externo</option>
-                        <option value="Estudiante">Estudiante</option>
-                        <option value="Investigador">Investigador</option>
-                    </select>
-                </div>
             </div>
 
             <!-- Tercera fila: Contraseñas -->
@@ -178,8 +167,6 @@
                     <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" required>
                 </div>
             </div>
-
-            <!-- Sección de documentos -->
 
             <button type="submit" class="btn btn-primary">Registrar Colector</button>
         </form>
@@ -246,35 +233,20 @@
         </div>
     </div>
 
-    <!-- JavaScript -->
     <script>
-        // Manejo de la visualización de nombres de archivos
-        
-
-        // Validación del formulario
-        document.getElementById("registerForm").addEventListener("submit", function(e) {
+        document.getElementById("registerForm").addEventListener("submit", function(e){
             e.preventDefault();
             
             const password = document.getElementById("password").value;
             const confirmPassword = document.getElementById("confirmPassword").value;
-            const lettersFile = document.getElementById("pdfUpLoadLetters").files[0];
-            
-            if (password !== confirmPassword) {
+
+            if (password != confirmPassword) {
                 new bootstrap.Modal(document.getElementById('passwordMatch')).show();
                 return;
             }
-            
-            if (!lettersFile) {
-                new bootstrap.Modal(document.getElementById('missingDocuments')).show();
-                return;
-            }
-            
-            // Si todo está correcto, mostrar éxito
-            new bootstrap.Modal(document.getElementById('successfulRegistration')).show();
-        });
-    </script>
 
-    <script src="JavaScript/registerCollectorController.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+            new bootstrap.Modal(document.getElementById('successfulRegistration')).show();
+        })
+    </script>
 </body>
 </html>

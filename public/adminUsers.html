@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Usuarios</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<div class="modal fade" id="userDetailsModal" tabindex="-1" aria-labelledby="userDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="userDetailsModalLabel">Detalles del Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>ID:</strong> <span id="detailUserId"></span></p>
+                <p><strong>Nombre:</strong> <span id="detailUserName"></span></p>
+                <p><strong>Apellido Paterno:</strong> <span id="detailUserPaterno"></span></p>
+                <p><strong>Apellido Materno:</strong> <span id="detailUserMaterno"></span></p>
+                <p><strong>Correo:</strong> <span id="detailUserEmail"></span></p>
+                <p><strong>Rol:</strong> <span id="detailUserRole"></span></p> 
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="disableUserBtn">Deshabilitar usuario</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<body class="bg-light">
+
+    <div class="container py-5">
+        <h1 class="text-center mb-4">Consulta de Usuarios</h1>
+        
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <form id="filterForm" class="row g-3 align-items-end">
+                    <div class="col-md-8">
+                        <label for="userTypeSelect" class="form-label fw-bold">Tipo de Usuario:</label>
+                        <select class="form-select" id="userTypeSelect">
+                            <option value="comite">Comite</option>
+                            <option value="colectores">Colectores</option>
+                            <option value="publico">Publico General</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-primary w-100">Consultar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered align-middle" id="userTable">
+                <thead class="table-primary"> <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Apellido Paterno</th>
+                        <th>Apellido Materno</th>
+                        <th>Correo Electrónico</th>
+                        <th>Detalles</th> 
+                    </tr>
+                </thead>
+                <tbody id="userBody">
+                    <tr><td colspan="6" class="text-center">Cargando...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="JavaScript/userManagementController.js"></script> 
+</body>
+</html>

@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <td>${ejemplar.especie || ejemplar.species || ''}</td>
         <td>${ejemplar.registros || ejemplar.records || ''}</td>
         <td>
-          <img src="${esProtegido ? '../images/no-disponible.jpg' : `/SCEPIB_UV/uploads/${ruta}`}"
+          <img src="${esProtegido ? '../images/no-disponible.jpg' : `/Herbario/uploads/${ruta}`}"
           width="100" class="d-block mx-auto specimen-img"
           onerror="this.onerror=null;this.src='../images/no-disponible.jpg';">
         </td>
@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function descargarComoImagenes() {
     const token = localStorage.getItem('jwt');
     const role = localStorage.getItem('role');
-    if (!token || parseInt(role) !== 3) return mostrarModalLogin();
+    if (!token) return mostrarModalLogin();
     if (contieneProtegidoSeleccionado()) return mostrarModalInvestigador();
 
     document.querySelectorAll('.specimen-checkbox:checked').forEach(cb => {
@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
   async function descargarComoPDF() {
     const token = localStorage.getItem('jwt');
     const role = localStorage.getItem('role');
-    if (!token || parseInt(role) !== 3) return mostrarModalLogin();
+    if (!token) return mostrarModalLogin();
     if (contieneProtegidoSeleccionado()) return mostrarModalInvestigador();
 
     const { jsPDF } = window.jspdf;
@@ -286,7 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <em>Asociada:</em> ${data.associated || 'N/A'}<br>
       <em>Nombre local:</em> ${data.localName || 'N/A'}<br>
       <em>Info ambiental:</em> ${data.environmentalInformation || 'N/A'}<br>
-      ${data.specimenImage ? `<img src="/SCEPIB_UV/uploads/${data.specimenImage.replace(/^uploads\//,'')}" width="150"/>` : ''}
+      ${data.specimenImage ? `<img src="/Herbario/uploads/${data.specimenImage.replace(/^uploads\//,'')}" width="150"/>` : ''}
       <div class="mt-3 d-flex gap-2">
         <button class="btn btn-sm btn-outline-primary" onclick="downloadImage('${data.specimenImage}')">Descargar imagen</button>
         <button class="btn btn-sm btn-outline-success" onclick='downloadExcel(${JSON.stringify(data)})'>Descargar Excel</button>
@@ -311,14 +311,18 @@ function contieneProtegidoSeleccionado() {
 function mostrarModalLogin() { new bootstrap.Modal(document.getElementById('loginRequiredModal')).show(); }
 function downloadImage(imageName) {
   const token = localStorage.getItem('jwt'); const role = localStorage.getItem('role');
-  if (!token || parseInt(role) !== 3) return mostrarModalLogin();
+
+  if (!token) return mostrarModalLogin();
+
   if (!imageName) return;
-  const link = document.createElement('a'); link.href = `/SCEPIB_UV/uploads/${imageName.replace(/^uploads\//,'')}`;
+  const link = document.createElement('a'); link.href = `/Herbario/uploads/${imageName.replace(/^uploads\//,'')}`;
   link.download = imageName.split('/').pop(); link.click();
 }
 function downloadExcel(data) {
   const token = localStorage.getItem('jwt'); const role = localStorage.getItem('role');
-  if (!token || parseInt(role) !== 3) return mostrarModalLogin();
+
+  if (!token) return mostrarModalLogin();
+
   const ws_data = [
     ["Campo","Valor"],
     ["Nombre científico", data.scientificName || 'N/A'],

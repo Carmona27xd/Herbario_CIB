@@ -49,10 +49,12 @@ document.getElementById("logInForm").addEventListener("submit", async function (
             } else if (parseInt(data.role) === 2) {
                 window.location.href = "dashBoardAdmin.html";
             } else if (parseInt(data.role) === 3) {
-                window.location.href = "dashBoardCollector.html"
+                window.location.href = "dashBoardCollector.html";
             } else if (parseInt(data.role) == 4) {
-                window.location.href = "dashBoardComitteeMember.html"
-            } 
+                window.location.href = "dashBoardComitteeMember.html";
+            } else if (parseInt(data.role = 5)) {
+                window.location.href = "dashBoardResearcher.html";
+            }
         } else if (!data.jwt) {
             //alert("Usuario y/o contraseña incorrectos");
             const invalidCredentialsModal = new bootstrap.Modal(document.getElementById("invalidCredentials"));

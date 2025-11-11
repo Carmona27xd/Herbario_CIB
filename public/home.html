@@ -119,9 +119,10 @@
       // Momentario
       const roleNames = {
         1: 'Público General',
-        2: 'Colector',
-        3: 'Comité Académico',
-        4: 'Administrador'
+        3: 'Colector',
+        4: 'Comité Académico',
+        2: 'Administrador',
+        5: 'Investigador'
       };
 
       menu.innerHTML = '';
@@ -147,27 +148,31 @@
             <li><a class="dropdown-item" href="ConsultSpecimen/consultSpecimen.html">Consultar</a></li>
           `;
           break;
-        case 2: // Colector
+        case 3: // Colector
           menu.innerHTML += `
             <li><a class="dropdown-item" href="ConsultSpecimen/consultSpecimen.html">Consultar</a></li>
             <li><a class="dropdown-item" href="RegisterSpecimens/registerSpecimens.html">Registrar Ejemplar</a></li>
+            <li><a class="dropdown-item" href="../dashBoardCollector.html">Panel principal</a></li>
           `;
           break;
-        case 3: // Comité Académico
+        case 4: // Comité Académico
           menu.innerHTML += `
             <li><a class="dropdown-item" href="ConsultSpecimen/consultSpecimen.html">Consultar</a></li>
+            <li><a class="dropdown-item" href="../dashBoardComitteeMember.html">Panel principal</a></li>
           `;
           break;
-        case 4: // Administrador
+        case 2: // Administrador
           menu.innerHTML += `
             <li><a class="dropdown-item" href="ConsultSpecimen/consultSpecimen.html">Consultar</a></li>
             <li><a class="dropdown-item" href="RegisterSpecimens/registerSpecimens.html">Registrar Ejemplar</a></li>
-            <li><a class="dropdown-item" href="#">Generar Etiqueta</a></li>
-            <li><a class="dropdown-item" href="#">Gestionar Ejemplares</a></li>
+            <li><a class="dropdown-item" href="../public/dashBoardAdmin.html">Panel principal</a></li>
           `;
           break;
+        case 5:
+          menu.innerHTML += `
+            <li><a class="dropdown-item" href="../ConsultSpecimen/consultSpecimen.html">Consultar</a></li>
+          `;
         default:
-        menu.innerHTML += `<li><span class="dropdown-item-text text-muted">Rol desconocido</span></li>`;
       }
 
       menu.innerHTML += `

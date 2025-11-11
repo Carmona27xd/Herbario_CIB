@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnImagenes = document.getElementById('downloadImagesBtn');
   const btnPDF = document.getElementById('downloadPdfBtn');
 
+  //const btnCheckJWT = document.getElementById('checkJWT');
+
   let ejemplaresOriginal = [];
 
   fetch('../../backend/ConsultSpecimens/servicesFetchConsultSpecimens.php')
@@ -52,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <td>${ejemplar.especie}</td>
       <td>${ejemplar.registros}</td>
       <td>
-        <img src="/SCEPIB_UV/uploads/${ruta}" width="100" class="d-block mx-auto specimen-img"
+        <img src="/Herbario/uploads/${ruta}" width="100" class="d-block mx-auto specimen-img"
             onerror="this.onerror=null;this.src='../images/no-disponible.jpg';">
       </td>
       <td class="text-center">
@@ -139,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('jwt');
     const role = localStorage.getItem('role');
 
-    if (!token || parseInt(role) !== 3) {
+    if (!token) {
       mostrarModalLogin();
       return;
     }
@@ -166,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('jwt');
     const role = localStorage.getItem('role');
 
-    if (!token || parseInt(role) !== 3) {
+    if (!token) {
       mostrarModalLogin();
       return;
     }
@@ -274,7 +276,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <em>Asociada:</em> ${data.associated || 'N/A'}<br>
       <em>Nombre local:</em> ${data.localName || 'N/A'}<br>
       <em>Info ambiental:</em> ${data.environmentalInformation || 'N/A'}<br>
-      ${data.specimenImage ? `<img src="/SCEPIB_UV/uploads/${data.specimenImage.replace(/^uploads\//, '')}" width="150"/>` : ''}
+      ${data.specimenImage ? `<img src="/Herbario/uploads/${data.specimenImage.replace(/^uploads\//, '')}" width="150"/>` : ''}
       <div class="mt-3 d-flex gap-2">
         <button class="btn btn-sm btn-outline-primary" onclick="downloadImage('${data.specimenImage}')">
           Descargar imagen
@@ -323,14 +325,14 @@ function downloadImage(imageName) {
   const token = localStorage.getItem('jwt');
   const role = localStorage.getItem('role');
 
-  if (!token || parseInt(role) !== 3) {
+  if (!token) {
     mostrarModalLogin();
     return;
   }
 
   if (!imageName) return;
   const link = document.createElement('a');
-  link.href = `/SCEPIB_UV/uploads/${imageName.replace(/^uploads\//, '')}`;
+  link.href = `/Herbario/uploads/${imageName.replace(/^uploads\//, '')}`;
   link.download = imageName.split('/').pop();
   link.click();
 }
@@ -339,7 +341,7 @@ function downloadExcel(data) {
   const token = localStorage.getItem('jwt');
   const role = localStorage.getItem('role');
 
-  if (!token || parseInt(role) !== 3) {
+  if (!token) {
     mostrarModalLogin();
     return;
   }

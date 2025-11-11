@@ -67,8 +67,8 @@ try {
     // Datos de el nombre cientifico
     $scientificName = $_POST['scientificName']; 
     $familyID = $_POST['family']; 
-    $genreID = !empty($_POST['genreID']) ? trim($_POST['genreID']) : null; 
-    $speciesID = !empty($_POST['speciesID']) ? trim($_POST['speciesID']) : null;
+    $genreID = !empty($_POST['genre']) ? trim($_POST['genre']) : null; 
+    $speciesID = !empty($_POST['species']) ? trim($_POST['species']) : null;
 
     //DATOS PARA MIS CU
     $validated = $_POST['validated'];
@@ -160,8 +160,8 @@ try {
     $response = ["success" => true, "message" => "Ejemplar registrado correctamente."];
 
 } catch (Exception $e) {
-    http_response_code($e->getCode() ?: 500);
-    $response = ["success" => false, "error" => $e->getMessage()];
+    $code = $e->getCode();
+    http_response_code(is_int($code) && $code >= 400 ? $code : 500);
 }
 
 echo json_encode($response);

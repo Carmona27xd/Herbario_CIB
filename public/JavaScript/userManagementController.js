@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Referencia al modal y al nuevo botón
     const userModal = new bootstrap.Modal(document.getElementById('userDetailsModal'));
     const disableUserBtn = document.getElementById('disableUserBtn');
+    const enableUserBtn = document.getElementById('enableUserBtn');
     
     // Variable para guardar el ID del usuario que estamos viendo
     let currentUserId = null;
@@ -105,6 +106,40 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
+    enableUserBtn.addEventListener('click', async function () {
+        if (!currentUserId) {
+            alert("Error: no se ha seleccionado ningún usuario.");
+            return;
+        }
+
+        const confirmed = confirm(`¿Estás seguro de que deseas habilitar al usuario con ID ${currentUserId}?`);
+
+        if (confirmed) {
+            try {
+                const response = await fetch('../backend/enableUser.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }, 
+                    body: JSON.stringify({ user_id: currentUserId})
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    alert(data.message);
+                    userModal.hide();
+                    filterForm.dispatchEvent(new Event('submit'));
+                } else {
+                    alert(`Error: ${data.message}`);
+                }
+            } catch (error) {
+                console.error('Error al habilitar usuario:', error);
+                alert("Error de conexión al intentar deshabilitar el usuario.");
+            }
+        }
+    })
+
     // 4. --- ¡NUEVA LÓGICA! ---
     // Event Listener para el botón "Deshabilitar" en el modal
     disableUserBtn.addEventListener('click', async function() {
@@ -114,7 +149,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         // Pide confirmación antes de deshabilitar
-        const confirmed = confirm(`¿Estás seguro de que deseas deshabilitar al usuario con ID ${currentUserId}? Esta acción es irreversible desde esta interfaz.`);
+        const confirmed = confirm(`¿Estás seguro de que deseas deshabilitar al usuario con ID ${currentUserId}?`);
         
         if (confirmed) {
             try {

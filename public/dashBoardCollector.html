@@ -3,63 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Dashboard Colector - Herbario Virtual</title>
+    
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    
     <!-- Estilos personalizados -->
     <style>
         body {
-            background-color: #f8f9fa;
+            background-color: #f4f9f4; /* Fondo temático verde claro */
         }
-        .dashboard-container {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 20px;
+        
+        /* Barra de navegación */
+        .header-nav {
             background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
+
+        /* Encabezado de bienvenida */
+        .dashboard-header {
+            background-color: #2c5c3b; /* Verde oscuro */
+            color: white;
+            padding: 2.5rem 2rem;
+            border-radius: 0.8rem;
+        }
+
+        /* Tarjetas de acción */
+        .action-card {
+            border: none;
+            border-radius: 0.8rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Íconos de las tarjetas */
+        .card-icon {
+            font-size: 3rem;
+            color: #2c5c3b;
+        }
+        
+        /* Botones dentro de las tarjetas */
         .btn-custom {
-            margin: 5px;
+            margin-top: auto; /* Empuja el botón al final */
+            padding: 0.5rem 1.5rem;
         }
     </style>
 </head>
 <body>
-    <div class="dashboard-container text-center">
-        <!-- Título -->
-        <h1 class="mb-4">Bienvenido al Herbario</h1>
 
-        <!-- Información del usuario -->
-        <p id="userInfo" class="lead mb-4"></p>
+    <!-- Barra de Navegación Superior -->
+    <nav class="navbar navbar-expand-lg header-nav sticky-top">
+        <div class="container-fluid" style="max-width: 900px;">
+            <span class="navbar-brand fw-bold" href="#" style="color: #2c5c3b;">
+                <i class="bi bi-flower1"></i>
+                Herbario Virtual
+            </span>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <!-- Botón de Salir (mantiene el ID original) -->
+                    <button id="logoutButton" class="btn btn-outline-danger btn-sm">
+                        <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
-        <!-- Botón de búsqueda de ejemplares -->
-        <button id="searchButton" class="btn btn-primary btn-custom" onclick="location.href='ConsultSpecimen/consultSpecimen.html'">
-            Búsqueda de ejemplares
-        </button>
+    <!-- Contenedor Principal del Dashboard -->
+    <div class="container my-4" style="max-width: 900px;">
+        
+        <!-- 1. Encabezado de Bienvenida -->
+        <div class="dashboard-header text-center mb-4">
+            <h1 class="display-5 fw-bold">
+                <i class="bi bi-person"></i> Bienvenido Colector
+            </h1>
+            <p id="userInfo" class="lead mb-0"></p>
+        </div>
 
-        <button id="registerPlant" class="btn btn-primary btn-custom">
-            Registrar ejemplar 
-        </button>
+        <!-- 2. Cuadrícula de Acciones (2x2) -->
+        <div class="row g-4">
 
-        <button id="viewPlants" class="btn btn-primary btn-custom">
-            Consultar mis registros
-        </button>
+            <!-- Tarjeta 1: Búsqueda de ejemplares -->
+            <div class="col-lg-6">
+                <div class="card action-card">
+                    <div class="card-body text-center p-4 d-flex flex-column">
+                        <div class="card-icon mb-3"><i class="bi bi-search"></i></div>
+                        <h5 class="card-title fw-bold">Búsqueda de Ejemplares</h5>
+                        <p class="card-text text-muted small">Explora el catálogo completo de especímenes del herbario.</p>
+                        <!-- Botón original con su ID -->
+                        <button id="searchButton" class="btn btn-success btn-custom" onclick="location.href='ConsultSpecimen/consultSpecimen.html'">
+                            Buscar ejemplares
+                        </button>
+                    </div>
+                </div>
+            </div>
 
-        <button id="protectedSpecimens" class="btn btn-primary btn-custom">
-            Consultar ejemplares protegidos
-        </button>
+            <!-- Tarjeta 2: Registrar ejemplar -->
+            <div class="col-lg-6">
+                <div class="card action-card">
+                    <div class="card-body text-center p-4 d-flex flex-column">
+                        <div class="card-icon mb-3"><i class="bi bi-plus-circle-dotted"></i></div>
+                        <h5 class="card-title fw-bold">Registrar Ejemplar</h5>
+                        <p class="card-text text-muted small">Añade un nuevo espécimen de tu colecta al sistema.</p>
+                        <button id="registerPlant" class="btn btn-outline-dark btn-custom">
+                            Registrar ejemplar 
+                        </button>
+                    </div>
+                </div>
+            </div>
 
-        <!-- Botón de cerrar sesión -->
-        <button id="logoutButton" class="btn btn-danger btn-custom">
-            Cerrar Sesión
-        </button>
+            <!-- Tarjeta 3: Consultar mis registros -->
+            <div class="col-lg-6">
+                <div class="card action-card">
+                    <div class="card-body text-center p-4 d-flex flex-column">
+                        <div class="card-icon mb-3"><i class="bi bi-collection"></i></div>
+                        <h5 class="card-title fw-bold">Mis Registros</h5>
+                        <p class="card-text text-muted small">Revisa y edita los ejemplares que has registrado.</p>
+                        <button id="viewPlants" class="btn btn-outline-dark btn-custom">
+                            Consultar mis registros
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tarjeta 4: Consultar ejemplares protegidos -->
+            <div class="col-lg-6">
+                <div class="card action-card">
+                    <div class="card-body text-center p-4 d-flex flex-column">
+                        <div class="card-icon mb-3"><i class="bi bi-shield-shaded"></i></div>
+                        <h5 class="card-title fw-bold">Ejemplares Protegidos</h5>
+                        <p class="card-text text-muted small">Consulta la lista de especímenes bajo protección especial.</p>
+                        <button id="protectedSpecimens" class="btn btn-outline-dark btn-custom">
+                            Consultar protegidos
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- Fin de .row -->
     </div>
 
-    <!-- Bootstrap JS y dependencias -->
+    <!-- Scripts (Tus scripts originales, no necesitan cambios) -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
-    <!-- Scripts personalizados -->
     <script src="JavaScript/verifyJWT.js"></script>
     <script src="JavaScript/logOut.js"></script>
     <script src="JavaScript/dashBoardCollectorController.js"></script>

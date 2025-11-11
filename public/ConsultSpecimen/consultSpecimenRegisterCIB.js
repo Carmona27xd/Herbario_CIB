@@ -38,17 +38,20 @@ document.addEventListener('DOMContentLoaded', () => {
             row.setAttribute('data-protegido', esProtegido);
 
             row.innerHTML = `
-                <td>${ejemplar.familia}</td>
-                <td>${ejemplar.genero}</td>
-                <td>${ejemplar.especie}</td>
-                <td>${ejemplar.registros}</td>
-                <td><img src="/SCEPIB_UV/uploads/${ruta}" width="100" class="d-block mx-auto"></td>
-                <td class="text-center">
-                    <input type="checkbox" class="form-check-input mx-auto d-block specimen-checkbox" 
-                        data-id="${ejemplar.idSpecimen}" 
-                        data-protegido="${esProtegido}">
-                </td>
-            `;
+      <td>${ejemplar.familia}</td>
+      <td>${ejemplar.genero}</td>
+      <td>${ejemplar.especie}</td>
+      <td>${ejemplar.registros}</td>
+      <td>
+        <img src="/Herbario/uploads/${ruta}" width="100" class="d-block mx-auto specimen-img"
+            onerror="this.onerror=null;this.src='../images/no-disponible.jpg';">
+      </td>
+      <td class="text-center">
+        <input type="checkbox" class="form-check-input mx-auto d-block specimen-checkbox"
+          data-id="${ejemplar.idSpecimen}"
+          data-protegido="${esProtegido}">
+      </td>
+    `;
             tbody.appendChild(row);
         });
 
@@ -116,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const token = localStorage.getItem('jwt');
         const role = localStorage.getItem('role');
 
-        if (!token || parseInt(role) !== 3) {
+        if (!token) {
             mostrarModalLogin();
             return;
         }
@@ -142,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const token = localStorage.getItem('jwt');
         const role = localStorage.getItem('role');
 
-        if (!token || parseInt(role) !== 3) {
+        if (!token) {
             mostrarModalLogin();
             return;
         }
@@ -239,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <em>Asociada:</em> ${data.associated || 'N/A'}<br>
             <em>Nombre local:</em> ${data.localName || 'N/A'}<br>
             <em>Info ambiental:</em> ${data.environmentalInformation || 'N/A'}<br>
-            ${data.specimenImage ? `<img src="/SCEPIB_UV/uploads/${data.specimenImage.replace(/^uploads\//, '')}" width="150"/>` : ''}
+            ${data.specimenImage ? `<img src="/Herbario/uploads/${data.specimenImage.replace(/^uploads\//, '')}" width="150"/>` : ''}
             <div class="mt-3 d-flex gap-2">
                 <button class="btn btn-sm btn-outline-primary" onclick="downloadImage('${data.specimenImage}')">Descargar imagen</button>
                 <button class="btn btn-sm btn-outline-success" onclick='downloadExcel(${JSON.stringify(data)})'>Descargar Excel</button>
@@ -284,14 +287,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const token = localStorage.getItem('jwt');
         const role = localStorage.getItem('role');
 
-        if (!token || parseInt(role) !== 3) {
+        if (!token) {
             mostrarModalLogin();
             return;
         }
 
         if (!imageName) return;
         const link = document.createElement('a');
-        link.href = `/SCEPIB_UV/uploads/${imageName.replace(/^uploads\//, '')}`;
+        link.href = `/Herbario/uploads/${imageName.replace(/^uploads\//, '')}`;
         link.download = imageName.split('/').pop();
         link.click();
     };
@@ -300,7 +303,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const token = localStorage.getItem('jwt');
         const role = localStorage.getItem('role');
 
-        if (!token || parseInt(role) !== 3) {
+        if (!token) {
             mostrarModalLogin();
             return;
         }

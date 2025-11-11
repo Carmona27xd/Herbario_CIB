@@ -5,16 +5,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (parseInt(collector) === 3 ) {
         collectorBox = document.getElementById("collectorSelect");
-        registerCollectorButton = document.getElementById("registrarColectorBtn");
 
         if (collectorBox) {
             collectorBox.disabled = true;
+            collectorBox.style.visibility = 'hidden';
         }
              
-        if (registerCollectorButton) {
-            registerCollectorButton.disabled = true;
-        }
-        
     }
 
     nextButtons.forEach(button => {
@@ -254,6 +250,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         if (parseInt(roleAux) === 2) {
+            formData.append('email', email);
             validated = 1;
             formData.append('validated', validated);
         }
@@ -275,11 +272,25 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             console.log(data); 
             if (data.success) {
-                alert(data.message); 
+                //alert(data.message);
+                const successModal = new bootstrap.Modal(document.getElementById("successfulRegistration"));
+                successModal.show();
             } else {
                 alert("Error: " + data.error); 
             }
         })
         .catch(error => console.error('Error:', error));
     });
+});
+
+// Redirección tras éxito
+document.getElementById("successfulButton").addEventListener("click", function () {
+
+    let roleAux = localStorage.getItem('role');
+
+    if (parseInt(roleAux) === 3) {
+        window.location.href = "../dashBoardCollector.html";
+    } else if (parseInt(roleAux) === 2) {
+        window.location.href = "../dashBoardAdmin.html";
+    }
 });

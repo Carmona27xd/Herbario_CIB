@@ -10,7 +10,7 @@ try {
     $input = json_decode(file_get_contents("php://input"), true);
     $municipality = $input['idMunicipality'];
 
-    $sql = "SELECT name FROM Locality WHERE idMunicipality = ? ORDER BY name";
+    $sql = "SELECT idLocality, name FROM Locality WHERE idMunicipality = ? ORDER BY name";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$municipality]);
     $localities = $stmt->fetchAll(PDO::FETCH_ASSOC);

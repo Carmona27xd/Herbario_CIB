@@ -97,5 +97,5 @@ document.getElementById("registerForm").addEventListener("submit", async functio
 
 // Redirección tras éxito
 document.getElementById("successfulButton").addEventListener("click", function () {
-    window.location.href = "dashBoardComitteeMember.html";
+    window.location.href = "dashBoardAdmin.html";
 });

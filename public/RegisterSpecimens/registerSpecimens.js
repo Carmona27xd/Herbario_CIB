@@ -1,25 +1,23 @@
 document.addEventListener('DOMContentLoaded', function() {
+    
+    // --- 1. CONTROL DE PESTAÑAS Y ROL ---
     const nextButtons = document.querySelectorAll('.next-button');
+    let collector = localStorage.getItem("role");
 
-    collector = localStorage.getItem("role");
-
+    // Si es Colector (Rol 3), ocultar el select de colectores
     if (parseInt(collector) === 3 ) {
-        collectorBox = document.getElementById("collectorSelect");
-
+        let collectorBox = document.getElementById("collectorSelect");
         if (collectorBox) {
             collectorBox.disabled = true;
-            collectorBox.style.visibility = 'hidden';
-        }
-             
+            collectorBox.style.visibility = 'hidden'; 
+        }     
     }
 
+    // Navegación entre pestañas (Tabs)
     nextButtons.forEach(button => {
         button.addEventListener('click', function() {
             const currentTab = document.querySelector('.nav-link.active');
-            const currentTabId = currentTab.getAttribute('id');
-            
             let nextTab = currentTab.parentElement.nextElementSibling;
-
             if (nextTab) {
                 const nextTabButton = nextTab.querySelector('.nav-link');
                 nextTabButton.click();
@@ -27,27 +25,20 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Llenar los combo box con los datos desde el PHP
+    // --- 2. CARGA INICIAL DE DATOS (CATÁLOGOS FIJOS) ---
     function loadSelectData() {
         fetch('../../backend/RegisterSpecimens/servicesFetchRegister.php')
             .then(response => {
-                if (!response.ok) {
-                    throw new Error("Error en la respuesta del servidor");
-                }
+                if (!response.ok) throw new Error("Error en la respuesta del servidor");
                 return response.json();
             })
             .then(data => {
-                if (!data || Object.keys(data).length === 0) {
-                    console.error("El servidor no devolvió datos o la respuesta está vacía.");
-                    return;
-                }
+                if (!data || Object.keys(data).length === 0) return;
     
-                console.log("Datos recibidos del servidor:", data);
-    
+                // NOTA: Se eliminaron 'genreSelect' y 'specieSelect' de aquí
+                // porque ahora se cargan dinámicamente en cascada.
                 const selectMap = {
-                    "genreSelect": { key: "genus", idKey: "idGenus" },
                     "familySelect": { key: "family", idKey: "idFamily" },
-                    "specieSelect": { key: "species", idKey: "idSpecies" },
                     "biologicalFormSelect": { key: "biologicalForm", idKey: "idBiologicalForm" },
                     "typeVegetationSelect": { key: "vegetationType", idKey: "idVegetationType" },
                     "soilSelect": { key: "soil", idKey: "idSoil" },
@@ -55,9 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     "flowerSelect": { key: "flower", idKey: "idFlower" },
                     "plantClassificationSelect": { key: "plantClassification", idKey: "idPlantClassification" },
                     "abundanceSelect": { key: "abundance", idKey: "idAbundance" },
-                    "stateSelect": { key: "state", idKey: "idState" },
-                    "municipalitySelect": { key: "municipality", idKey: "idMunicipality" },
-                    "localitySelect": { key: "locality", idKey: "idLocality" },
+                    "stateSelect": { key: "state", idKey: "idState" }, 
                     "collectorSelect": { key: "collector", idKey: "id_collector" },
                     "microhabitatSelect": { key: "microhabitat", idKey: "idMicrohabitat" }
                 };
@@ -65,17 +54,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 Object.entries(selectMap).forEach(([selectId, { key, idKey }]) => {
                     const select = document.getElementById(selectId);
                     if (select && data[key]) {
-                        console.log(`Llenando ${selectId} con datos de ${key}`);
                         select.innerHTML = '<option value="">Seleccionar</option>'; 
-    
                         data[key].forEach(item => {
                             let option = document.createElement("option");
                             option.value = item[idKey];
                             option.textContent = key === "collector" ? item.names : item.name;
                             select.appendChild(option);
                         });
-                    } else {
-                        console.warn(`No se encontró ${key} en los datos o el select ${selectId} no existe.`);
                     }
                 });
             })
@@ -84,213 +69,424 @@ document.addEventListener('DOMContentLoaded', function() {
     
     loadSelectData();
 
-    //Evento del registro de los ejemplares
-    document.getElementById('registrarBtn').addEventListener('click', function() {
-        console.log('Botón de registrar clickeado'); 
+    // --- FUNCIÓN AUXILIAR PARA LIMPIAR SELECTS ---
+    function resetSelect(select, placeholder) {
+        if(select) {
+            select.innerHTML = `<option value="">${placeholder}</option>`;
+            select.disabled = true; 
+        }
+    }
 
-        //Validacion de los campos
-        const fieldsToValidate = [
-            { id: 'familySelect' },
-            { id: 'plantClassificationSelect' },
-            { id: 'abundanceSelect' },
-            { id: 'stateSelect' },
-            { id: 'municipalitySelect' },
-            { id: 'localitySelect' },
-            { id: 'especimenIdText' },
-            { id: 'scientificNameText' },
-            { id: 'lifeCycleNumber' },
-            { id: 'determinerNameText' },
-            { id: 'determinerLastNameText' },
-            { id: 'determinerLastName2Text' },
-            { id: 'sizeNumber' },
-            { id: 'numberDuplicates' },
-            { id: 'specimenImage' },
-            { id: 'collectDate' },
-            { id: 'collectNumber' },
-            { id: 'localNameText' },
-            { id: 'fieldBookImage' },
-            { id: 'latitudeDegreesNumber' },
-            { id: 'latitudeMinutesNumber' },
-            { id: 'latitudeSecondsNumber' },
-            { id: 'longitudeDegreesNumber' },
-            { id: 'longitudeMinutesNumber' },
-            { id: 'longitudeSecondsNumber' },
-            { id: 'altitudeNumber' },
-        ];
+    // --- 3. LÓGICA DE CASCADA UBICACIÓN (ESTADO -> MUNICIPIO -> LOCALIDAD) ---
 
-        const validateFields = () => {
-            let isValid = true;  // Variable para saber si todo es válido
-            let invalidFields = []; // Arreglo para almacenar los campos inválidos
+    const estadoSelect = document.getElementById('stateSelect');
+    const municipioSelect = document.getElementById('municipalitySelect');
+    const localidadSelect = document.getElementById('localitySelect');
 
-            fieldsToValidate.forEach(field => {
-                const element = document.getElementById(field.id);
+    // Inicializar selects dependientes
+    resetSelect(municipioSelect, 'Seleccione un estado primero');
+    resetSelect(localidadSelect, 'Seleccione un municipio primero');
 
-                if (element.tagName === 'SELECT' && !element.value) {
-                    element.style.borderColor = 'red';  
-                    invalidFields.push(field.id);  
-                    isValid = false;  
-                } else if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
-                    if (!element.value.trim()) {  
-                        element.style.borderColor = 'red';  
-                        invalidFields.push(field.id);  
-                        isValid = false;  
-                    } else {
-                        element.style.borderColor = '';  
-                    }
+    // Al cambiar ESTADO
+    if (estadoSelect) {
+        estadoSelect.addEventListener('change', () => {
+            const idState = estadoSelect.value;
+            resetSelect(municipioSelect, 'Cargando municipios...');
+            resetSelect(localidadSelect, 'Seleccione un municipio primero');
+    
+            if (!idState) {
+                 resetSelect(municipioSelect, 'Seleccione un estado primero');
+                 return;
+            }
+    
+            fetch('../../backend/ConsultSpecimens/serviceFetchMunicipalities.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ idState: idState })
+            })
+            .then(res => res.json())
+            .then(data => {
+                municipioSelect.innerHTML = '<option value="">Seleccionar Municipio</option>';
+                if (data.length > 0) {
+                    data.forEach(municipio => {
+                        const option = document.createElement('option');
+                        option.value = municipio.idMunicipality;
+                        option.textContent = municipio.name;
+                        municipioSelect.appendChild(option);
+                    });
+                    municipioSelect.disabled = false;
                 } else {
-                    element.style.borderColor = '';
+                    municipioSelect.innerHTML = '<option value="">No hay municipios disponibles</option>';
                 }
+            })
+            .catch(err => {
+                console.error('Error cargando municipios:', err);
+                resetSelect(municipioSelect, 'Error al cargar');
             });
+        });
+    }
 
-            if (!isValid) {
-                alert("Faltan campos por completar. Por favor, revisa los campos resaltados.");
+    // Al cambiar MUNICIPIO
+    if (municipioSelect) {
+        municipioSelect.addEventListener('change', () => {
+            const idMunicipality = municipioSelect.value;
+            resetSelect(localidadSelect, 'Cargando localidades...');
+    
+            if (!idMunicipality) {
+                resetSelect(localidadSelect, 'Seleccione un municipio primero');
+                return;
+            }
+    
+            fetch('../../backend/ConsultSpecimens/serviceFetchLocalities.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ idMunicipality: idMunicipality })
+            })
+            .then(res => res.json())
+            .then(data => {
+                localidadSelect.innerHTML = '<option value="">Seleccionar Localidad</option>';
+                if (data.length > 0) {
+                    data.forEach(localidad => {
+                        const option = document.createElement('option');
+                        // Busca ID robustamente
+                        const idKey = Object.keys(localidad).find(key => key.toLowerCase().includes('id') && (key.toLowerCase().includes('loc') || key === 'id'));
+                        const idVal = localidad[idKey] || localidad.idLocality; 
+                        
+                        option.value = idVal;
+                        option.textContent = localidad.name || localidad.nombre;
+                        localidadSelect.appendChild(option);
+                    });
+                    localidadSelect.disabled = false;
+                } else {
+                    localidadSelect.innerHTML = '<option value="">No hay localidades disponibles</option>';
+                }
+            })
+            .catch(err => {
+                console.error('Error cargando localidades:', err);
+                resetSelect(localidadSelect, 'Error al cargar');
+            });
+        });
+    }
+
+    // --- 4. LÓGICA DE CASCADA TAXONOMÍA (FAMILIA -> GÉNERO -> ESPECIE) ---
+    // [NUEVO CÓDIGO AÑADIDO]
+
+    const familySelect = document.getElementById('familySelect');
+    const genreSelect = document.getElementById('genreSelect');
+    const specieSelect = document.getElementById('specieSelect');
+
+    // Inicializar selects dependientes
+    resetSelect(genreSelect, 'Seleccione una familia primero');
+    resetSelect(specieSelect, 'Seleccione un género primero');
+
+    // 4.1 Al cambiar FAMILIA
+    if (familySelect) {
+        familySelect.addEventListener('change', () => {
+            const idFamily = familySelect.value;
+            resetSelect(genreSelect, 'Cargando géneros...');
+            resetSelect(specieSelect, 'Seleccione un género primero');
+
+            if (!idFamily) {
+                resetSelect(genreSelect, 'Seleccione una familia primero');
                 return;
             }
 
-            return isValid;
-        };
+            fetch('../../backend/RegisterSpecimens/serviceFetchGeneraByFamily.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ idFamily: idFamily })
+            })
+            .then(res => res.json())
+            .then(data => {
+                genreSelect.innerHTML = '<option value="">Seleccionar Género</option>';
+                if (data.length > 0) {
+                    data.forEach(item => {
+                        const option = document.createElement('option');
+                        option.value = item.idGenus; 
+                        option.textContent = item.name;
+                        genreSelect.appendChild(option);
+                    });
+                    genreSelect.disabled = false;
+                } else {
+                    genreSelect.innerHTML = '<option value="">No hay géneros asociados</option>';
+                }
+            })
+            .catch(err => {
+                console.error('Error cargando géneros:', err);
+                resetSelect(genreSelect, 'Error al cargar');
+            });
+        });
+    }
 
-        if (!validateFields()) {
-            return;  
-        }
+    // 4.2 Al cambiar GÉNERO
+    if (genreSelect) {
+        genreSelect.addEventListener('change', () => {
+            const idGenus = genreSelect.value;
+            resetSelect(specieSelect, 'Cargando especies...');
 
-        const formData = new FormData(document.getElementById('formularioEjemplar'));
-
-        function convertLatitudeToDecimal(degrees, minutes, seconds) {
-            let deg = parseFloat(degrees) || 0;
-            let min = parseFloat(minutes) || 0;
-            let sec = parseFloat(seconds) || 0;
-
-            let decimal = deg + (min / 60) + (sec / 3600);
-            return parseFloat(decimal.toFixed(6)); // Latitud norte (N), siempre positiva
-        }
-
-        function convertLongitudeToDecimal(degrees, minutes, seconds) {
-            let deg = parseFloat(degrees) || 0;
-            let min = parseFloat(minutes) || 0;
-            let sec = parseFloat(seconds) || 0;
-
-            let decimal = deg + (min / 60) + (sec / 3600);
-            decimal *= -1; // Longitud oeste (W), negativa
-            return parseFloat(decimal.toFixed(6));
-        }
-
-        let latitudeDegrees = document.getElementById('latitudeDegreesNumber').value;
-        let latitudeMinutes = document.getElementById('latitudeMinutesNumber').value;
-        let latitudeSeconds = document.getElementById('latitudeSecondsNumber').value;
-        let longitudeDegrees = document.getElementById('longitudeDegreesNumber').value;
-        let longitudeMinutes = document.getElementById('longitudeMinutesNumber').value;
-        let longitudeSeconds = document.getElementById('longitudeSecondsNumber').value;
-
-        let latitudeDecimal = convertLatitudeToDecimal(latitudeDegrees, latitudeMinutes, latitudeSeconds);
-        let longitudeDecimal = convertLongitudeToDecimal(longitudeDegrees, longitudeMinutes, longitudeSeconds);
-
-        //Tab de los datos generales del ejemplar
-        formData.append('ejemplarId', document.getElementById('especimenIdText').value);
-        formData.append('scientificName', document.getElementById('scientificNameText').value);
-        formData.append('family', document.getElementById('familySelect').value);
-        formData.append('genre', document.getElementById('genreSelect').value);
-        formData.append('species', document.getElementById('specieSelect').value);
-        formData.append('biologicalForm', document.getElementById('biologicalFormSelect').value);
-        formData.append('typeVegetation', document.getElementById('typeVegetationSelect').value);
-        formData.append('soil', document.getElementById('soilSelect').value);
-        formData.append('fruit', document.getElementById('fruitSelect').value);
-        formData.append('flower', document.getElementById('flowerSelect').value);
-        
-        //Tab de las caracteristicas del ejemplar
-        formData.append('lifeCycle', document.getElementById('lifeCycleNumber').value);
-        formData.append('determinerName', document.getElementById('determinerNameText').value);
-        formData.append('determinerLastName', document.getElementById('determinerLastNameText').value);
-        formData.append('determinerLastName2', document.getElementById('determinerLastName2Text').value); 
-        formData.append('size', document.getElementById('sizeNumber').value);
-        formData.append('plantClassification', document.getElementById('plantClassificationSelect').value);
-        formData.append('associated', document.getElementById('asociatedText').value);
-        formData.append('protected', document.getElementById('protectedCheckbox').checked);
-        formData.append('abundance', document.getElementById('abundanceSelect').value);
-        formData.append('numberDuplicates', document.getElementById('numberDuplicates').value);
-
-        //Tab de otras caracteristicas del ejemplar
-        formData.append('environmentalInformation', document.getElementById('environmentalInformationText').value);
-        formData.append('otherInformation', document.getElementById('otherInformationText').value);
-        formData.append('specimenImage', document.getElementById('specimenImage').files[0]);
-
-        //Tab de la colecta
-        formData.append('collectDate', document.getElementById('collectDate').value);
-        formData.append('collectNumber', document.getElementById('collectNumber').value);
-        formData.append('microhabitat', document.getElementById('microhabitatSelect').value);
-        formData.append('localName', document.getElementById('localNameText').value);
-        formData.append('collectors', document.getElementById('collectorSelect').value);
-        formData.append('fieldBookImage', document.getElementById('fieldBookImage').files[0]);
-  
-        //Tab de la direccion de la colecta
-        formData.append('state', document.getElementById('stateSelect').value);
-        formData.append('municipality', document.getElementById('municipalitySelect').value);
-        formData.append('locality', document.getElementById('localitySelect').value);
-        formData.append('latitudeDegrees', document.getElementById('latitudeDegreesNumber').value);
-        formData.append('latitudeMinutes', document.getElementById('latitudeMinutesNumber').value);
-        formData.append('latitudeSeconds', document.getElementById('latitudeSecondsNumber').value);
-        formData.append('longitudeDegrees', document.getElementById('longitudeDegreesNumber').value);
-        formData.append('longitudeMinutes', document.getElementById('longitudeMinutesNumber').value);
-        formData.append('longitudeSeconds', document.getElementById('longitudeSecondsNumber').value);
-        formData.append('altitude', document.getElementById('altitudeNumber').value);
-
-        //Coordenadas convertidas
-        formData.append('latitude', latitudeDecimal);
-        formData.append('longitude', longitudeDecimal);
-
-        //CONTENIDO PARA MIS CU
-        let email = localStorage.getItem('email');
-        let validated;
-        let roleAux = localStorage.getItem('role');
-
-        if (parseInt(roleAux) === 3) {
-            formData.append('email', email);
-            validated = 0;
-            formData.append('validated', validated);
-        }
-
-        if (parseInt(roleAux) === 2) {
-            formData.append('email', email);
-            validated = 1;
-            formData.append('validated', validated);
-        }
-
-        for (let pair of formData.entries()) {
-            console.log(pair[0] + ': ' + pair[1]);
-        }
-        
-        fetch('../../backend/RegisterSpecimens/servicesPostRegister.php', {
-            method: 'POST',
-            body: formData,
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Error en la respuesta del servidor");
+            if (!idGenus) {
+                resetSelect(specieSelect, 'Seleccione un género primero');
+                return;
             }
-            return response.json();
-        })
-        .then(data => {
-            console.log(data); 
-            if (data.success) {
-                //alert(data.message);
+
+            fetch('../../backend/RegisterSpecimens/serviceFetchSpeciesByGenus.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ idGenus: idGenus })
+            })
+            .then(res => res.json())
+            .then(data => {
+                specieSelect.innerHTML = '<option value="">Seleccionar Especie</option>';
+                if (data.length > 0) {
+                    data.forEach(item => {
+                        const option = document.createElement('option');
+                        option.value = item.idSpecies; 
+                        option.textContent = item.name;
+                        specieSelect.appendChild(option);
+                    });
+                    specieSelect.disabled = false;
+                } else {
+                    specieSelect.innerHTML = '<option value="">No hay especies asociadas</option>';
+                }
+            })
+            .catch(err => {
+                console.error('Error cargando especies:', err);
+                resetSelect(specieSelect, 'Error al cargar');
+            });
+        });
+    }
+
+
+    // --- 5. EVENTO REGISTRAR ---
+    const registrarBtn = document.getElementById('registrarBtn');
+    if (registrarBtn) {
+        registrarBtn.addEventListener('click', function() {
+            console.log('Botón de registrar clickeado'); 
+    
+            // Lista de campos a validar
+            const fieldsToValidate = [
+                { id: 'familySelect' },
+                { id: 'genreSelect' },  // AGREGADO: Validar Género
+                { id: 'specieSelect' }, // AGREGADO: Validar Especie
+                { id: 'plantClassificationSelect' },
+                { id: 'abundanceSelect' },
+                { id: 'stateSelect' },
+                { id: 'municipalitySelect' },
+                { id: 'localitySelect' },
+                { id: 'especimenIdText' },
+                { id: 'scientificNameText' },
+                { id: 'lifeCycleNumber' },
+                { id: 'determinerNameText' },
+                { id: 'determinerLastNameText' },
+                { id: 'sizeNumber' },
+                { id: 'numberDuplicates' },
+                { id: 'specimenImage' }, 
+                { id: 'collectDate' },
+                { id: 'collectNumber' },
+                { id: 'localNameText' },
+                { id: 'latitudeDegreesNumber' },
+                { id: 'latitudeMinutesNumber' },
+                { id: 'latitudeSecondsNumber' },
+                { id: 'longitudeDegreesNumber' },
+                { id: 'longitudeMinutesNumber' },
+                { id: 'longitudeSecondsNumber' },
+                { id: 'altitudeNumber' },
+            ];
+    
+            const validateFields = () => {
+                let isValid = true;
+                let invalidFields = [];
+    
+                fieldsToValidate.forEach(field => {
+                    const element = document.getElementById(field.id);
+                    if (!element) return; 
+    
+                    if (element.tagName === 'SELECT' && !element.value) {
+                        element.style.borderColor = 'red';  
+                        invalidFields.push(field.id);  
+                        isValid = false;  
+                    } else if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                        if (element.type === 'file') {
+                            if (element.files.length === 0) {
+                                element.style.borderColor = 'red';
+                                isValid = false;
+                            } else {
+                                element.style.borderColor = '';
+                            }
+                        } else {
+                            if (!element.value.trim()) {  
+                                element.style.borderColor = 'red';  
+                                invalidFields.push(field.id);  
+                                isValid = false;  
+                            } else {
+                                element.style.borderColor = '';  
+                            }
+                        }
+                    } else {
+                        element.style.borderColor = '';
+                    }
+                });
+    
+                if (!isValid) {
+                    alert("Faltan campos por completar. Por favor, revisa los campos resaltados en rojo.");
+                    return false;
+                }
+                return true;
+            };
+    
+            if (!validateFields()) return;
+    
+            // Preparar FormData
+            const formData = new FormData(document.getElementById('formularioEjemplar'));
+    
+            // Conversión de coordenadas
+            function convertLatitudeToDecimal(degrees, minutes, seconds) {
+                let deg = parseFloat(degrees) || 0;
+                let min = parseFloat(minutes) || 0;
+                let sec = parseFloat(seconds) || 0;
+                let decimal = deg + (min / 60) + (sec / 3600);
+                return parseFloat(decimal.toFixed(6));
+            }
+    
+            function convertLongitudeToDecimal(degrees, minutes, seconds) {
+                let deg = parseFloat(degrees) || 0;
+                let min = parseFloat(minutes) || 0;
+                let sec = parseFloat(seconds) || 0;
+                let decimal = deg + (min / 60) + (sec / 3600);
+                decimal *= -1; // Longitud Oeste es negativa
+                return parseFloat(decimal.toFixed(6));
+            }
+    
+            let latitudeDegrees = document.getElementById('latitudeDegreesNumber').value;
+            let latitudeMinutes = document.getElementById('latitudeMinutesNumber').value;
+            let latitudeSeconds = document.getElementById('latitudeSecondsNumber').value;
+            let longitudeDegrees = document.getElementById('longitudeDegreesNumber').value;
+            let longitudeMinutes = document.getElementById('longitudeMinutesNumber').value;
+            let longitudeSeconds = document.getElementById('longitudeSecondsNumber').value;
+    
+            let latitudeDecimal = convertLatitudeToDecimal(latitudeDegrees, latitudeMinutes, latitudeSeconds);
+            let longitudeDecimal = convertLongitudeToDecimal(longitudeDegrees, longitudeMinutes, longitudeSeconds);
+    
+            // Agregar datos manuales al FormData
+            formData.append('ejemplarId', document.getElementById('especimenIdText').value);
+            formData.append('scientificName', document.getElementById('scientificNameText').value);
+            
+            // Selects de Taxonomía
+            formData.append('family', document.getElementById('familySelect').value);
+            formData.append('genre', document.getElementById('genreSelect').value);
+            formData.append('species', document.getElementById('specieSelect').value);
+            
+            // Otros selects
+            formData.append('biologicalForm', document.getElementById('biologicalFormSelect').value);
+            formData.append('typeVegetation', document.getElementById('typeVegetationSelect').value);
+            formData.append('soil', document.getElementById('soilSelect').value);
+            formData.append('fruit', document.getElementById('fruitSelect').value);
+            formData.append('flower', document.getElementById('flowerSelect').value);
+            formData.append('plantClassification', document.getElementById('plantClassificationSelect').value);
+            formData.append('abundance', document.getElementById('abundanceSelect').value);
+            
+            // Ubicación
+            formData.append('state', document.getElementById('stateSelect').value);
+            formData.append('municipality', document.getElementById('municipalitySelect').value);
+            formData.append('locality', document.getElementById('localitySelect').value);
+            formData.append('latitude', latitudeDecimal);
+            formData.append('longitude', longitudeDecimal);
+    
+            // Otros campos
+            formData.append('lifeCycle', document.getElementById('lifeCycleNumber').value);
+            formData.append('determinerName', document.getElementById('determinerNameText').value);
+            formData.append('determinerLastName', document.getElementById('determinerLastNameText').value);
+            formData.append('determinerLastName2', document.getElementById('determinerLastName2Text').value);
+            formData.append('size', document.getElementById('sizeNumber').value);
+            formData.append('associated', document.getElementById('asociatedText').value);
+            
+            const protectedCheck = document.getElementById('protectedCheckbox');
+            formData.append('protected', protectedCheck.checked ? "true" : "false");
+    
+            formData.append('numberDuplicates', document.getElementById('numberDuplicates').value);
+            formData.append('environmentalInformation', document.getElementById('environmentalInformationText').value);
+            formData.append('otherInformation', document.getElementById('otherInformationText').value);
+            
+            formData.append('collectDate', document.getElementById('collectDate').value);
+            formData.append('collectNumber', document.getElementById('collectNumber').value);
+            formData.append('microhabitat', document.getElementById('microhabitatSelect').value);
+            formData.append('localName', document.getElementById('localNameText').value);
+            
+            const collectorSel = document.getElementById('collectorSelect');
+            if (collectorSel && !collectorSel.disabled) {
+                formData.append('collectors', collectorSel.value);
+            }
+    
+            formData.append('latitudeDegrees', latitudeDegrees);
+            formData.append('latitudeMinutes', latitudeMinutes);
+            formData.append('latitudeSeconds', latitudeSeconds);
+            formData.append('longitudeDegrees', longitudeDegrees);
+            formData.append('longitudeMinutes', longitudeMinutes);
+            formData.append('longitudeSeconds', longitudeSeconds);
+            formData.append('altitude', document.getElementById('altitudeNumber').value);
+    
+            const imgFile = document.getElementById('specimenImage');
+            if (imgFile.files.length > 0) {
+                formData.append('specimenImage', imgFile.files[0]);
+            }
+            const bookFile = document.getElementById('fieldBookImage');
+            if (bookFile && bookFile.files.length > 0) {
+                formData.append('fieldBookImage', bookFile.files[0]);
+            }
+    
+            // Datos de sesión
+            let email = localStorage.getItem('email');
+            let validated;
+            let roleAux = localStorage.getItem('role');
+    
+            if (parseInt(roleAux) === 3) { // Colector
+                formData.append('email', email);
+                validated = 0;
+                formData.append('validated', validated);
+            }
+    
+            if (parseInt(roleAux) === 2) { // Admin
+                formData.append('email', email);
+                validated = 1;
+                formData.append('validated', validated);
+            }
+            
+            // Enviar al backend
+            fetch('../../backend/RegisterSpecimens/servicesPostRegister.php', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => {
+                if (!response.ok) throw new Error("Error en la respuesta del servidor");
+                return response.json();
+            })
+            .then(data => {
+                console.log(data); 
+                if (data.success) {
+                    const successModal = new bootstrap.Modal(document.getElementById("successfulRegistration"));
+                    successModal.show();
+                } else {
+                    alert("Error: " + (data.error || data.message)); 
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
                 const successModal = new bootstrap.Modal(document.getElementById("successfulRegistration"));
                 successModal.show();
-            } else {
-                alert("Error: " + data.error); 
-            }
-        })
-        .catch(error => console.error('Error:', error));
-    });
-});
-
-// Redirección tras éxito
-document.getElementById("successfulButton").addEventListener("click", function () {
-
-    let roleAux = localStorage.getItem('role');
-
-    if (parseInt(roleAux) === 3) {
-        window.location.href = "../dashBoardCollector.html";
-    } else if (parseInt(roleAux) === 2) {
-        window.location.href = "../dashBoardAdmin.html";
+            });
+        });
     }
 });
+
+// --- 6. REDIRECCIÓN TRAS ÉXITO ---
+const successBtn = document.getElementById("successfulButton");
+if (successBtn) {
+    successBtn.addEventListener("click", function () {
+        let roleAux = localStorage.getItem('role');
+        if (parseInt(roleAux) === 3) {
+            window.location.href = "../dashBoardCollector.html";
+        } else if (parseInt(roleAux) === 2) {
+            window.location.href = "../dashBoardAdmin.html";
+        }
+    });
+}

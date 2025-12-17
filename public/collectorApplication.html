@@ -3,187 +3,254 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solicitud para la alta como colector del herbario CIB</title>
-    <!-- Bootstrap CSS -->
+    <title>Solicitud de Alta - Colector</title>
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Iconos de Bootstrap -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <!-- CSS personalizado -->
-    <link rel="stylesheet" href="CSS/collector_application.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            background-color: #f4f9f4; /* Fondo temático verde claro */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        /* Barra de navegación */
+        .header-nav {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* Encabezado temático */
+        .dashboard-header {
+            background-color: #2c5c3b; /* Verde oscuro */
+            color: white;
+            padding: 2.5rem 2rem;
+            border-radius: 0.8rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Estilos de tarjeta para el formulario */
+        .form-card {
+            border: none;
+            border-radius: 0.8rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            background-color: white;
+            padding: 2rem;
+        }
+
+        /* Títulos de sección dentro del formulario */
+        .section-title {
+            color: #2c5c3b;
+            font-weight: 600;
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e9ecef;
+            display: flex;
+            align-items: center;
+        }
+        .section-title i {
+            margin-right: 0.5rem;
+        }
+
+        /* Botones personalizados */
+        .btn-primary-custom {
+            background-color: #2c5c3b;
+            border-color: #2c5c3b;
+            color: white;
+        }
+        .btn-primary-custom:hover {
+            background-color: #1e402a;
+            border-color: #1e402a;
+        }
+
+        /* Estilo para botones de carga de archivos */
+        .btn-upload {
+            width: 100%;
+            text-align: left;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        /* Nombre del archivo seleccionado */
+        .file-name-display {
+            font-size: 0.85rem;
+            color: #6c757d;
+            margin-left: 0.5rem;
+            font-style: italic;
+        }
+    </style>
 </head>
 <body>
-    <!-- Barra de navegación -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
-        <div class="container">
-            <a class="navbar-brand" href="#">Herbario CIB</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Consulta</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Nosotros</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Contacto</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Login</a>
-                    </li>
-                </ul>
-            </div>
+
+    <nav class="navbar navbar-expand-lg header-nav sticky-top">
+        <div class="container-fluid" style="max-width: 900px;">
+            <a class="navbar-brand fw-bold" href="#" style="color: #2c5c3b;">
+                <i class="bi bi-flower1"></i> Herbario Virtual
+            </a>
         </div>
     </nav>
 
-    <!-- Contenido principal -->
-    <div class="container my-5">
-        <div class="form-container">
-            <h1 class="text-center mb-4">Solicitud para la alta como colector del herbario CIB</h1>
+    <div class="container my-5" style="max-width: 900px;">
+        
+        <div class="dashboard-header text-center">
+            <h1 class="display-5 fw-bold">
+                <i class="bi bi-person-plus-fill"></i> Solicitud de Alta
+            </h1>
+            <p class="lead mb-0">Registro como Colector del Herbario CIB</p>
+        </div>
 
-            <!-- Formulario de información personal -->
-            <h3 class="section-title">Información Personal</h3>
+        <div class="form-card">
             <form id="solicitudForm">
-                <div class="row">
-                    <div class="col-md-4 mb-3">
-                        <label for="nombres" class="form-label">Nombres*</label>
-                        <input type="text" class="form-control" id="names">
+                
+                <h3 class="section-title">
+                    <i class="bi bi-person-vcard"></i> Información Personal
+                </h3>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <label for="names" class="form-label fw-bold">Nombres*</label>
+                        <input type="text" class="form-control bg-light" id="names" required>
                     </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="apellidoPaterno" class="form-label">Apellido Paterno*</label>
-                        <input type="text" class="form-control" id="firstSurname">
+                    <div class="col-md-4">
+                        <label for="firstSurname" class="form-label fw-bold">Apellido Paterno*</label>
+                        <input type="text" class="form-control bg-light" id="firstSurname" required>
                     </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="apellidoMaterno" class="form-label">Apellido Materno*</label>
-                        <input type="text" class="form-control" id="secondSurname">
+                    <div class="col-md-4">
+                        <label for="secondSurname" class="form-label fw-bold">Apellido Materno*</label>
+                        <input type="text" class="form-control bg-light" id="secondSurname" required>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="correo" class="form-label">Correo Electrónico*</label>
-                        <input type="email" class="form-control" id="email">
+                    <div class="col-md-6">
+                        <label for="email" class="form-label fw-bold">Correo Electrónico*</label>
+                        <input type="email" class="form-control bg-light" id="email" required>
                     </div>
                 </div>
 
-                <!-- Documentos a adjuntar -->
-                <h3 class="section-title">Documentos Requeridos</h3>
-                <div class="row">
+                <h3 class="section-title">
+                    <i class="bi bi-folder2-open"></i> Documentos Requeridos
+                </h3>
+                <div class="row g-3 mb-4">
                     <div class="col-md-6">
-                        <button type="button" id="curriculumButton" class="btn btn-outline-primary btn-document">
-                            <i class="bi bi-file-earmark-pdf"></i> Adjuntar CV*
+                        <label class="form-label fw-bold">Curriculum Vitae*</label>
+                        <button type="button" id="curriculumButton" class="btn btn-outline-secondary btn-upload">
+                            <span><i class="bi bi-cloud-upload me-2"></i> Seleccionar archivo PDF</span>
                         </button>
                         <input type="file" id="cvFile" accept="application/pdf" style="display: none;">
-                        <p id="fileNameCurriculum"></p>
+                        <div id="fileNameCurriculum" class="file-name-display">No se ha seleccionado archivo</div>
                     </div>
                     <div class="col-md-6">
-                        <button type="button" id="permisoButton" class="btn btn-outline-primary btn-document">
-                            <i class="bi bi-file-earmark-pdf"></i> Adjuntar Permiso de Colecta o carta del resposable*
+                        <label class="form-label fw-bold">Permiso de Colecta / Carta*</label>
+                        <button type="button" id="permisoButton" class="btn btn-outline-secondary btn-upload">
+                            <span><i class="bi bi-cloud-upload me-2"></i> Seleccionar archivo PDF</span>
                         </button>
                         <input type="file" id="permisoFile" accept="application/pdf" style="display: none;">
-                        <p id="fileNamePermision"></p>
+                        <div id="fileNamePermision" class="file-name-display">No se ha seleccionado archivo</div>
                     </div>
                 </div>
 
-                <!-- Referencias personales -->
-                <div class="references-section">
-                    <h3 class="section-title">Referencias Personales</h3>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="refNombre" class="form-label">Nombre Completo*</label>
-                            <input type="text" class="form-control" id="refNames">
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="refCorreo" class="form-label">Apellido paterno*</label>
-                            <input type="text" class="form-control" id="refFirstSurname">
-                        </div>
+                <h3 class="section-title">
+                    <i class="bi bi-people"></i> Referencias Personales
+                </h3>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label for="refNames" class="form-label fw-bold">Nombre Completo*</label>
+                        <input type="text" class="form-control bg-light" id="refNames" required>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="refTelefono" class="form-label">Apellido materno*</label>
-                            <input type="text" class="form-control" id="refSecondSurname">
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="refProteccion" class="form-label">Correo Electrónico*</label>
-                            <input type="email" class="form-control" id="refEmail">
-                        </div>
+                    <div class="col-md-6">
+                        <label for="refFirstSurname" class="form-label fw-bold">Apellido Paterno*</label>
+                        <input type="text" class="form-control bg-light" id="refFirstSurname" required>
                     </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <button type="button" id="letterButton" class="btn btn-outline-success btn-document">
-                                <i class="bi bi-file-earmark-text"></i> Adjuntar Carta de Recomendación*
-                            </button>
-                            <input type="file" id="cartaFile" accept="application/pdf" style="display: none;">
-                            <p id="fileNameLetter"></p>
-                        </div>
-                        <div class="col-md-6">
-                            <button type="button" id="protocolButton" class="btn btn-outline-success btn-document">
-                                <i class="bi bi-file-earmark-text"></i> Adjuntar Protocolo o Proyecto
-                            </button>
-                            <input type="file" id="protocoloFile" accept="application/pdf" style="display: none;">
-                            <p id="fileNameProtocol"></p>
-                        </div>
+                    <div class="col-md-6">
+                        <label for="refSecondSurname" class="form-label fw-bold">Apellido Materno*</label>
+                        <input type="text" class="form-control bg-light" id="refSecondSurname" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="refEmail" class="form-label fw-bold">Correo Electrónico*</label>
+                        <input type="email" class="form-control bg-light" id="refEmail" required>
                     </div>
                 </div>
 
-                <!-- Botón de enviar -->
-                <div class="d-grid gap-2 mt-4">
-                    <button type="submit" class="btn btn-success btn-lg">Enviar Solicitud</button>
+                <h5 class="text-muted mb-3 fw-bold" style="font-size: 1rem;">Documentación de Apoyo</h5>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Carta de Recomendación*</label>
+                        <button type="button" id="letterButton" class="btn btn-outline-secondary btn-upload">
+                            <span><i class="bi bi-file-earmark-text me-2"></i> Adjuntar Carta PDF</span>
+                        </button>
+                        <input type="file" id="cartaFile" accept="application/pdf" style="display: none;">
+                        <div id="fileNameLetter" class="file-name-display">No se ha seleccionado archivo</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Protocolo o Proyecto</label>
+                        <button type="button" id="protocolButton" class="btn btn-outline-secondary btn-upload">
+                            <span><i class="bi bi-journal-text me-2"></i> Adjuntar Protocolo PDF</span>
+                        </button>
+                        <input type="file" id="protocoloFile" accept="application/pdf" style="display: none;">
+                        <div id="fileNameProtocol" class="file-name-display">No se ha seleccionado archivo</div>
+                    </div>
                 </div>
+
+                <div class="d-grid mt-5">
+                    <button type="submit" class="btn btn-primary-custom btn-lg shadow-sm">
+                        <i class="bi bi-send-fill me-2"></i> Enviar Solicitud
+                    </button>
+                </div>
+
             </form>
         </div>
     </div>
 
-    <!-- Missing documents -->
-    <div class="modal fade" id="missingDocuments" tabindex="-1" aria-labelledby="missingDocumentsLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal fade" id="missingDocuments" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="missingDocumentsLabel">Por favor adjunta los archivos necesarios.</h5>
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header bg-warning text-dark border-0">
+                    <h5 class="modal-title"><i class="bi bi-exclamation-triangle-fill me-2"></i>Atención</h5>
                 </div>
-                <div class="modal-body text-center">
-                    <button id="closeModalBtn" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+                <div class="modal-body text-center p-4">
+                    <p class="mb-0 fs-5">Por favor adjunta los archivos necesarios.</p>
+                </div>
+                <div class="modal-footer border-0 justify-content-center">
+                    <button id="closeModalBtn" class="btn btn-dark px-4" data-bs-dismiss="modal">Entendido</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Success -->
-    <div class="modal fade" id="successRequest" tabindex="-1" aria-labelledby="successRequestLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal fade" id="missingFields" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="successRequestLabel">Tu solicitud ha sido enviada, se te dará respuesta en tu correo electrónico.</h5>
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header bg-warning text-dark border-0">
+                    <h5 class="modal-title"><i class="bi bi-exclamation-circle-fill me-2"></i>Campos Vacíos</h5>
                 </div>
-                <div class="modal-body text-center">
-                    <button id="aceptModalBtn" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+                <div class="modal-body text-center p-4">
+                    <p class="mb-0 fs-5">Por favor completa toda la información requerida.</p>
+                </div>
+                <div class="modal-footer border-0 justify-content-center">
+                    <button class="btn btn-dark px-4" data-bs-dismiss="modal">Aceptar</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Missing documents -->
-    <div class="modal fade" id="missingFields" tabindex="-1" aria-labelledby="missingFieldsLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal fade" id="successRequest" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="missingFieldsLabel">Por favor completa la información.</h5>
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header bg-success text-white border-0">
+                    <h5 class="modal-title"><i class="bi bi-check-circle-fill me-2"></i>¡Solicitud Enviada!</h5>
                 </div>
-                <div class="modal-body text-center">
-                    <button id="afasffsasaf" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+                <div class="modal-body text-center p-4">
+                    <p class="lead mb-2">Tu solicitud ha sido recibida correctamente.</p>
+                    <p class="text-muted small">Se te dará respuesta a través de tu correo electrónico.</p>
+                </div>
+                <div class="modal-footer border-0 justify-content-center">
+                    <button id="aceptModalBtn" class="btn btn-success px-5" data-bs-dismiss="modal">Aceptar</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Bootstrap JS y dependencias -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- JS personalizado -->
     <script src="JavaScript/collectorApplicationController.js"></script>
 </body>
 </html>

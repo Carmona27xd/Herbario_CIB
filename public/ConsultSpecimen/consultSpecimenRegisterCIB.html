@@ -29,31 +29,64 @@
   <script src="../../public/ConsultSpecimen/consultSpecimenRegisterCIB.js" defer></script>
 
   <style>
-    body {
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-    .bg-uv-dark {
-      background-color: #27346b !important;
-    }
-    footer {
-      background-color: #2e7d3d;
-      color: white;
-    }
-    .dropdown-menu .dropdown-item:hover {
-      background-color: #2e7d3d;
-      color: white;
-    }
-    .nav-link.active {
-      background-color: #2e7d3d;
-      color: white !important;
-      border-radius: 5px;
-      padding-left: 10px;
-      padding-right: 10px;
-    }
-  </style>
+  body {
+    margin: 0;
+  }
+
+  .bg-uv-dark {
+    background-color: #27346b !important;
+  }
+
+  footer {
+    background-color: #2e7d3d;
+    color: white;
+  }
+
+  .dropdown-menu .dropdown-item:hover {
+    background-color: #2e7d3d;
+    color: white;
+  }
+
+  .nav-link.active {
+    background-color: #2e7d3d;
+    color: white !important;
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  /* --- ESTILOS DE LA TABLA CON SCROLL --- */
+
+  /* 1. Definimos la altura del contenedor y el scroll */
+  .data-table {
+    max-height: 500px; /* Ajusta este valor a la altura que desees mostrar */
+    overflow-y: auto;  /* Activa la barra de desplazamiento vertical */
+    border: 1px solid #dee2e6; /* Opcional: borde alrededor del contenedor */
+    display: block; /* Asegura que el contenedor respete el height */
+  }
+
+  /* 2. Hacemos que la tabla ocupe el 100% del contenedor */
+  .data-table table {
+    width: 100%;
+    margin-bottom: 0; /* Quita el margen inferior de Bootstrap */
+    border-collapse: collapse;
+  }
+
+  /* 3. "Pegamos" el encabezado arriba */
+  .data-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1; /* Asegura que el encabezado quede por encima de las filas */
+
+    /* IMPORTANTE: Debes ponerle color de fondo al encabezado, 
+       si no, las letras de las filas se verán a través de él al subir */
+    background-color: #27346b; /* Usé tu color 'bg-uv-dark' */
+    color: white; /* Texto blanco para que contraste */
+
+    /* Corrección visual para bordes en sticky */
+    box-shadow: 0 1px 0 #dee2e6;
+  }
+</style>
 </head>
 <body class="d-flex flex-column">
 
@@ -70,6 +103,7 @@
           <li class="nav-item mx-2"><a class="nav-link text-white active" href="../ConsultSpecimen/consultSpecimen.html">Consulta</a></li>
           <li class="nav-item mx-2"><a class="nav-link text-white" href="../PruebaHome/aboutUs.html">Sobre Nosotros</a></li>
           <li class="nav-item mx-2"><a class="nav-link text-white" href="../PruebaHome/background.html">Antecedentes</a></li>
+          <li class="nav-item mx-2"><a class="nav-link text-white" href="../logIn.html">Iniciar sesión</a></li>
         </ul>
       </div>
       <div class="dropdown">
@@ -123,6 +157,7 @@
 
     <!-- Botones de acción -->
     <div class="d-flex justify-content-end p-4">
+      <span id="counter" class="me-3 fw-bold text-muted">Ejemplares seleccionados: 0</span>
       <button id="btnMostrarUbicacion" class="btn btn-light border me-2" disabled>Mostrar ubicación</button>
       <button id="btnDescargarImagenes" class="btn btn-primary" disabled data-bs-toggle="modal" data-bs-target="#downloadModal">Descargar imágenes</button>
     </div>
@@ -142,6 +177,20 @@
         </div>
       </div>
     </div>
+
+    <!-- Modal investigador -->
+    <div class="modal fade" id="modalNotProtectedSelect" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header"><h5 class="modal-title">AVISO</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+          <div class="modal-body">No has seleccionado ningun registro protegido.</div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal">Aceptar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
 
     <!-- Modal mapa -->
     <div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
@@ -202,9 +251,10 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header"><h5 class="modal-title">Acceso restringido</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
-          <div class="modal-body">Los registros están protegidos, como investigador puedes solicitar el acceso desde tu panel de control</div>
+          <div class="modal-body">Los registros están protegidos, puedes solicitar acceso a través de un formulario.</div>
           <div class="modal-footer">
             <button class="btn btn-secondary" data-bs-dismiss="modal">Aceptar</button>
+            <button class="btn btn-outline-secondary" data-bs-dismiss="modal" id="accessButton">Solicitar acceso</button>
           </div>
         </div>
       </div>
@@ -221,8 +271,8 @@
         Dr. Luis Castelazo s/n, Rubi Animas.
       </div>
       <div class="text-end mt-3 mt-md-0">
-        <div><a href="https://uvmx.sharepoint.com/sites/rept/files/Forms/AllItems.aspx?id=%2Fsites%2Frept%2Ffiles%2F2023%2Favisos-privacidad%2FG-06%2Epdf" class="text-white text-decoration-underline" target="_blank">Aviso de Privacidad de Actividades Institucionales</a></div>
-        <div><a href="https://uvmx.sharepoint.com/sites/rept/files/Forms/AllItems.aspx?id=%2Fsites%2Frept%2Ffiles%2F2023%2Favisos-privacidad%2FG-19%2Epdf" class="text-white text-decoration-underline" target="_blank">Aviso de Privacidad de Participantes Externos</a></div>
+        <div><a href="../../documents/AVISO_UV.pdf" class="text-white text-decoration-underline" target="_blank">Aviso de Privacidad de Actividades Institucionales</a></div>
+        <div><a href="../../documents/AVISO_PRIVACIDAD.pdf" class="text-white text-decoration-underline" target="_blank">Aviso de Privacidad de Participantes Externos</a></div>
       </div>
     </div>
   </footer>

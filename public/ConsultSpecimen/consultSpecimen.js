@@ -5,14 +5,37 @@ document.addEventListener('DOMContentLoaded', () => {
   const modal = new bootstrap.Modal(document.getElementById('downloadModal'));
   const btnImagenes = document.getElementById('downloadImagesBtn');
   const btnPDF = document.getElementById('downloadPdfBtn');
+  const btnAccess = document.getElementById("btnPruebaAcceso");
 
   //const btnCheckJWT = document.getElementById('checkJWT');
 
   let ejemplaresOriginal = [];
 
+  document.addEventListener('change', function(event) {
+    if (event.target.classList.contains('specimen-checkbox')) {
+      updateText();
+    }
+  });
+
+  function updateText() {
+    const total = document.querySelectorAll('.specimen-checkbox:checked').length;
+    const textCounter = document.getElementById("counter");
+    if (textCounter) {
+      textCounter.textContent = `Ejemplares seleccionados: ${total}`;
+      if (total > 0 ) {
+        textoContador.classList.remove('text-muted');
+        textoContador.classList.add('text-primary');
+      } else {
+        textoContador.classList.add('text-muted');
+        textoContador.classList.remove('text-primary');
+      }
+    }
+  }
+
   fetch('../../backend/ConsultSpecimens/servicesFetchConsultSpecimens.php')
     .then(response => response.json())
     .then(data => {
+      console.log("Total de recibidos: ", data.length);
       ejemplaresOriginal = data;
       renderTabla(data);
     })
@@ -77,6 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const algunoSeleccionado = Array.from(document.querySelectorAll('.specimen-checkbox')).some(cb => cb.checked);
     btnMostrar.disabled = !algunoSeleccionado;
     btnDescargar.disabled = !algunoSeleccionado;
+    btnAccess.disabled = !algunoSeleccionado;
   }
 
   btnDescargar.addEventListener('click', () => {
@@ -262,6 +286,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     return `
+      ${data.specimenImage ? `<img src="/Herbario/uploads/${data.specimenImage.replace(/^uploads\//, '')}" width="150" class="d-block mb-2"/>` : ''}
+
+      <div class="mt-3 d-flex gap-2">
+        <button class="btn btn-sm btn-outline-primary" onclick="downloadImage('${data.specimenImage}')">
+          Descargar imagen
+        </button>
+        <button class="btn btn-sm btn-outline-success" onclick='downloadExcel(${JSON.stringify(data)})'>
+          Descargar registro
+        </button>
+      </div>
+
+      
       <strong>${data.scientificName}</strong><br>
       <em>Familia:</em> ${data.family || 'N/A'}<br>
       <em>Estado:</em> ${data.state || 'N/A'}<br>
@@ -276,15 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <em>Asociada:</em> ${data.associated || 'N/A'}<br>
       <em>Nombre local:</em> ${data.localName || 'N/A'}<br>
       <em>Info ambiental:</em> ${data.environmentalInformation || 'N/A'}<br>
-      ${data.specimenImage ? `<img src="/Herbario/uploads/${data.specimenImage.replace(/^uploads\//, '')}" width="150"/>` : ''}
-      <div class="mt-3 d-flex gap-2">
-        <button class="btn btn-sm btn-outline-primary" onclick="downloadImage('${data.specimenImage}')">
-          Descargar imagen
-        </button>
-        <button class="btn btn-sm btn-outline-success" onclick='downloadExcel(${JSON.stringify(data)})'>
-          Descargar Excel
-        </button>
-      </div>
+      
     `;
   }
 
@@ -375,3 +403,62 @@ function downloadExcel(data) {
 
 window.downloadImage = downloadImage;
 window.downloadExcel = downloadExcel;
+
+//////accessButton ------> MODAL
+
+document.getElementById("accessButton").addEventListener('click', () => {
+  const selectedSpecimens = document.querySelectorAll('.specimen-checkbox:checked');
+  const protectedID = [];
+
+  selectedSpecimens.forEach(checkbox => {
+    const val = checkbox.getAttribute('data-protegido');
+    const id = checkbox.getAttribute('data-id');
+
+    if (String(val).toLowerCase() === "true") {
+      protectedID.push(id);
+    }
+
+    if (protectedID.length == 0) {
+
+      const errorModal = new bootstrap.Modal(document.getElementById("modalNotProtectedSelect"));
+      errorModal.show();
+
+    } else {
+      window.location.href = "../newAccessRequest.html";
+    }
+  });
+
+  console.log("ID protegidos guardados", protectedID);
+  localStorage.setItem('idForAccess', JSON.stringify(protectedID));
+});
+
+///////////SEPARACION DE BOTONES//////////////////////////////// btnPruebaAcceso ----> PAGINA
+
+document.getElementById("btnPruebaAcceso").addEventListener('click', () => {
+  const selectedSpecimens = document.querySelectorAll('.specimen-checkbox:checked');
+  const protectedID = [];
+
+  selectedSpecimens.forEach(checkbox => {
+    const val = checkbox.getAttribute('data-protegido');
+    const id = checkbox.getAttribute('data-id');
+
+    if (String(val).toLowerCase() === "true") {
+      protectedID.push(id);
+    }
+
+    if (protectedID.length == 0) {
+
+      const errorModal = new bootstrap.Modal(document.getElementById("modalNotProtectedSelect"));
+      errorModal.show();
+
+    } else {
+      window.location.href = "../newAccessRequest.html";
+    }
+  });
+
+  console.log("ID protegidos guardados", protectedID);
+  localStorage.setItem('idForAccess', JSON.stringify(protectedID));
+});
+
+
+

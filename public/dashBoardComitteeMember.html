@@ -59,8 +59,8 @@
     <nav class="navbar navbar-expand-lg header-nav sticky-top">
         <div class="container-fluid" style="max-width: 900px;">
             <span class="navbar-brand fw-bold" style="color: #2c5c3b;">
-                <i class="bi bi-flower1"></i>
-                Herbario Virtual
+                <i></i>
+                Herbario CIB
             </span>
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
@@ -76,52 +76,12 @@
         
         <div class="dashboard-header text-center mb-4">
             <h1 class="display-5 fw-bold">
-                <i class="bi bi-person-circle"></i> Bienvenido Miembro del Comité
+                <i></i> Bienvenido Miembro del Comité
             </h1>
             <p id="userInfo" class="lead mb-0"></p>
         </div>
 
         <div class="row g-4">
-
-            <div class="col-lg-6">
-                <div class="card action-card">
-                    <div class="card-body text-center p-4 d-flex flex-column">
-                        <div class="card-icon mb-3"><i class="bi bi-person-add"></i></div>
-                        <h5 class="card-title fw-bold">Registrar Recolector</h5>
-                        <p class="card-text text-muted small">Crea nuevas cuentas para los colectores de ejemplares.</p>
-                        <button id="registerCollector" class="btn btn-success btn-custom">
-                            Registrar recolector
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-6">
-                <div class="card action-card">
-                    <div class="card-body text-center p-4 d-flex flex-column">
-                        <div class="card-icon mb-3"><i class="bi bi-people"></i></div>
-                        <h5 class="card-title fw-bold">Ver Colectores</h5>
-                        <p class="card-text text-muted small">Revisa y administra los detalles de los recolectores registrados.</p>
-                        <button id="adminCollectors" class="btn btn-outline-dark btn-custom">
-                            Ver colectores
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-6">
-                <div class="card action-card">
-                    <div class="card-body text-center p-4 d-flex flex-column">
-                        <div class="card-icon mb-3"><i class="bi bi-person-lines-fill"></i></div>
-                        <h5 class="card-title fw-bold">Solicitudes de Colector</h5>
-                        <p class="card-text text-muted small">Aprueba o rechaza solicitudes de nuevos recolectores.</p>
-                        <button id="viewRequests" class="btn btn-outline-dark btn-custom">
-                            Ver solicitudes
-                        </button>
-                    </div>
-                </div>
-            </div>
-
             <div class="col-lg-6">
                 <div class="card action-card">
                     <div class="card-body text-center p-4 d-flex flex-column">
@@ -130,6 +90,19 @@
                         <p class="card-text text-muted small">Gestiona las peticiones de acceso a ejemplares restringidos.</p>
                         <button id="specimenRequests" class="btn btn-outline-dark btn-custom">
                             Ver solicitudes de acceso
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card action-card">
+                    <div class="card-body text-center p-4 d-flex flex-column">
+                        <div class="card-icon mb-3"><i class="bi bi-search"></i></div>
+                        <h5 class="card-title fw-bold">Búsqueda de Ejemplares</h5>
+                        <p class="card-text text-muted small">Explora el catálogo completo de especímenes del herbario.</p>
+                        <button id="searchButton" class="btn btn-success btn-custom" onclick="location.href='ConsultSpecimen/consultSpecimen.html'">
+                            Buscar ejemplares
                         </button>
                     </div>
                 </div>

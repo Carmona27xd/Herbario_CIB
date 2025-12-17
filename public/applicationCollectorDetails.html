@@ -4,150 +4,208 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalles de la solicitud - Herbario CIB</title>
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Iconos de Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <!-- CSS personalizado -->
-    <link rel="stylesheet" href="CSS/collector_application_details.css">
+    
+    <style>
+        body {
+            background-color: #f4f9f4; /* Fondo temático */
+        }
+        .header-nav {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .dashboard-header {
+            background-color: #2c5c3b; 
+            color: white;
+            padding: 2.5rem 2rem;
+            border-radius: 0.8rem;
+        }
+        /* Estilos para los campos de solo lectura */
+        .info-display {
+            padding: 0.375rem 0.75rem;
+            background-color: #e9ecef;
+            border: 1px solid #ced4da;
+            border-radius: 0.375rem;
+            min-height: calc(1.5em + 0.75rem + 2px);
+        }
+        /* Estilo para los enlaces de documentos */
+        .document-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.35em 0.65em;
+            font-size: .9em;
+            font-weight: 700;
+            line-height: 1;
+            color: #2c5c3b;
+            background-color: #e6f0e9;
+            border-radius: 0.375rem;
+        }
+        .document-badge i {
+            margin-right: 0.4em;
+        }
+        .document-badge a {
+            color: #2c5c3b;
+            text-decoration: none;
+        }
+        .document-badge a:hover {
+            text-decoration: underline;
+        }
+        /* Clase para enlaces deshabilitados (JS) */
+        .disabled-link {
+            pointer-events: none;
+            color: #6c757d !important;
+            background-color: #e9ecef;
+        }
+        .disabled-link a {
+            color: #6c757d !important;
+            text-decoration: none !important;
+        }
+    </style>
 </head>
-<body>
-    <!-- Barra de navegación -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
-        <div class="container">
-            <a class="navbar-brand" href="#">Herbario CIB</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Consulta</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Nosotros</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Contacto</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Login</a>
-                    </li>
-                </ul>
-            </div>
+<body class="bg-light">
+
+    <nav class="navbar navbar-expand-lg header-nav sticky-top">
+        <div class="container-fluid" style="max-width: 900px;">
+            <span class="navbar-brand fw-bold" style="color: #2c5c3b;">
+                <i></i>
+                Herbario CIB
+            </span>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <button id="backButton" type="button" class="btn btn-outline-secondary btn-sm">
+                        <i class="bi bi-arrow-left"></i> Volver a Solicitudes
+                    </button>
+                </li>
+            </ul>
         </div>
     </nav>
 
-    <!-- Contenido principal -->
-    <div class="container my-5">
-        <div class="form-container">
-            <h1 class="text-center mb-4">Detalles de la solicitud</h1>
-            <div class="d-flex justify-content-end mb-4">
-                <span class="badge estado-badge">Estado: En revisión</span>
-            </div>
+    <div class="container my-4" style="max-width: 900px;">
+        
+        <div class="dashboard-header text-center mb-4">
+            <h1 class="display-5 fw-bold">
+                <i></i>
+                Detalles de la Solicitud
+            </h1>
+        </div>
 
-            <!-- Información personal -->
-            <h3 class="section-title">Información Personal</h3>
-            <div class="row">
-                <div class="col-md-4 mb-3">
-                    <label class="form-label">Nombres</label>
-                    <div id="infoNames" class="info-display">Juan Carlos</div>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <label class="form-label">Apellido Paterno</label>
-                    <div id="infoFirstSurname" class="info-display">Pérez</div>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <label class="form-label">Apellido Materno</label>
-                    <div id="infoSecondSurname" class="info-display">Gómez</div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Correo Electrónico</label>
-                    <div id="infoEmail" class="info-display">juan.perez@example.com</div>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Fecha de solicitud</label>
-                    <div id="infoDateApplication" class="info-display">15 de marzo, 2023</div>
-                </div>
-            </div>
+        <div class="card shadow-sm">
+            <div class="card-body p-4 p-md-5">
 
-            <!-- Documentos adjuntos -->
-            <h3 class="section-title">Documentos Adjuntos</h3>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">CV</label>
-                    <div>
-                        <span class="document-badge">
-                            <i class="bi bi-file-earmark-pdf"></i> 
-                            <a href="#" id="infoCurriculum" target="_blank">CV_Juan_Perez.pdf</a>
-                        </span>
+                <h3 class="h5 fw-bold border-bottom pb-2 mb-3" style="color: #2c5c3b;">
+                    <i class="bi bi-person-fill"></i> Información Personal
+                </h3>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-bold">Nombres</label>
+                        <div id="infoNames" class="info-display"></div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-bold">Apellido Paterno</label>
+                        <div id="infoFirstSurname" class="info-display"></div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-bold">Apellido Materno</label>
+                        <div id="infoSecondSurname" class="info-display"></div>
                     </div>
                 </div>
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Permiso de Colecta</label>
-                    <div>
-                        <span class="document-badge">
-                            <i class="bi bi-file-earmark-pdf"></i> 
-                            <a href="#" id="infoPermit" target="_blank">Permiso_Colecta.pdf</a>
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Referencias personales -->
-            <div class="references-section">
-                <h3 class="section-title">Referencias Personales</h3>
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label class="form-label">Nombre Completo</label>
-                        <div id="referenceName" class="info-display">María González López</div>
+                        <label class="form-label fw-bold">Correo Electrónico</label>
+                        <div id="infoEmail" class="info-display"></div>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label class="form-label">Correo Electrónico</label>
-                        <div id="referenceEmail" class="info-display">maria.gonzalez@example.com</div>
+                        <label class="form-label fw-bold">Fecha de solicitud</label>
+                        <div id="infoDateApplication" class="info-display"></div>
                     </div>
                 </div>
-                
 
+                <h3 class="h5 fw-bold border-bottom pb-2 mt-4 mb-3" style="color: #2c5c3b;">
+                    <i class="bi bi-paperclip"></i> Documentos Adjuntos
+                </h3>
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label class="form-label">Carta de Recomendación</label>
+                        <label class="form-label fw-bold">CV</label>
                         <div>
                             <span class="document-badge">
-                                <i class="bi bi-file-earmark-text"></i> 
-                                <a href="#" id="letterName" target="_blank">Carta_Recomendacion.pdf</a>
+                                <i class="bi bi-file-earmark-pdf"></i> 
+                                <a href="#" id="infoCurriculum" target="_blank">Cargando...</a>
                             </span>
                         </div>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label class="form-label">Protocolo o Proyecto</label>
+                        <label class="form-label fw-bold">Permiso de Colecta</label>
                         <div>
                             <span class="document-badge">
-                                <i class="bi bi-file-earmark-text"></i> 
-                                <a href="#" id="proyectName" target="_blank">Protocolo_Investigacion.pdf</a>
+                                <i class="bi bi-file-earmark-pdf"></i> 
+                                <a href="#" id="infoPermit" target="_blank">Cargando...</a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="h5 fw-bold border-bottom pb-2 mt-4 mb-3" style="color: #2c5c3b;">
+                    <i class="bi bi-person-check-fill"></i> Referencias Personales
+                </h3>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Nombre Completo</label>
+                        <div id="referenceName" class="info-display"></div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Correo Electrónico</label>
+                        <div id="referenceEmail" class="info-display"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Carta de Recomendación</label>
+                        <div>
+                            <span class="document-badge">
+                                <i class="bi bi-file-earmark-pdf"></i> 
+                                <a href="#" id="letterName" target="_blank">Cargando...</a>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Protocolo o Proyecto</label>
+                        <div>
+                            <span class="document-badge">
+                                <i class="bi bi-file-earmark-pdf"></i> 
+                                <a href="#" id="proyectName" target="_blank">Cargando...</a>
                             </span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Botones de acción -->
-            <div class="action-buttons">
-                <button id="backButton" type="button" class="btn btn-outline-secondary back-button">
-                    <i class="bi bi-arrow-left"></i> Volver
+            <div class="mt-5 pt-4 border-top d-flex justify-content-end gap-3" id="actionButtonsContainer">
+                <button type="button" class="btn btn-outline-danger px-4" id="btnReject">
+                    <i class="bi bi-x-circle me-2"></i> Rechazar solicitud
+                </button>
+                <button type="button" class="btn btn-success px-4" id="btnAccept">
+                    <i class="bi bi-check-circle me-2"></i> Aceptar solicitud
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Bootstrap JS y dependencias -->
+    <div class="modal fade" id="missingLetters" tabindex="-1" aria-labelledby="missingLettersLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="missingLettersLabel">Solicitud atendida.</h5>
+            </div>
+            <div class="modal-body text-center">
+                <button id="closeModalBtn" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="JavaScript/applicationCollectorDetailsController.js"></script>
-    <script src="JavaScript/verifyJWTComitteeMember.js"></script>
+    <!--<script src="JavaScript/verifyJWTComitteeMember.js"></script>-->
 </body>
 </html>

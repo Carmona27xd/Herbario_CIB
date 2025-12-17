@@ -49,7 +49,18 @@
       background-color: #aaa;
       width: 100%;
       aspect-ratio: 1/1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
+
+    .card-foto-base {
+      margin: 0 auto 15px auto;
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+    }
+
   </style>
 </head>
 
@@ -58,7 +69,7 @@
   <!-- NAVBAR -->
   <nav class="navbar navbar-expand-lg bg-uv-dark">
     <div class="container-fluid">
-      <a class="navbar-brand text-white fw-bold" href="PruebaHome/index.html">Herbario CIB</a>
+      <a class="navbar-brand text-white fw-bold" href="index.html">Herbario CIB</a>
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -107,8 +118,9 @@
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="card h-100 shadow-sm">
                     <div class="card-body text-center">
-                        <div class="collaborator-card mb-3"></div>
-                        <h5 class="card-title">Dr. Marco Antonio Espinoza-Guzmán</h5>
+                        <div class="collaborator-card mb-3 card-foto-base" 
+                        style="background-image: url('../../public/images/espinoza.jpg');"></div>
+                        <a class="card-title" href="https://www.uv.mx/personal/maespinoza/datos-generales/">Dr. Marco Antonio Espinoza-Guzmán</a>
                         <p class="card-text">Facultad de Biología, región Xalapa, Universidad Veracruzana</p>
                     </div>
                 </div>
@@ -117,8 +129,9 @@
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="card h-100 shadow-sm">
                     <div class="card-body text-center">
-                        <div class="collaborator-card mb-3"></div>
-                        <h5 class="card-title">Dr. Fernando Nicolalde-Morejón</h5>
+                        <div class="collaborator-card mb-3 card-foto-base" 
+                        style="background-image: url('../../public/images/nicolaide.jpg');"></div>
+                        <a class="card-title" href="https://www.uv.mx/personal/enicolalde/">Dr. Fernando Nicolalde-Morejón</a>
                         <p class="card-text">Instituto de Investigaciones Biológicas, Herbario CIB, UV</p>
                     </div>
                 </div>
@@ -127,8 +140,9 @@
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="card h-100 shadow-sm">
                     <div class="card-body text-center">
-                        <div class="collaborator-card mb-3"></div>
-                        <h5 class="card-title">Dra. Lilí Martínez Domínguez</h5>
+                        <div class="collaborator-card mb-3 card-foto-base" 
+                        style="background-image: url('../../public/images/lili.webp');"></div>
+                        <a class="card-title" href="https://www.uv.mx/herbariocib/2021/06/23/lili-martinez-dominguez/">Dra. Lilí Martínez Domínguez</a>
                         <p class="card-text">Instituto de Investigaciones Biológicas, Herbario CIB, UV</p>
                     </div>
                 </div>
@@ -137,8 +151,9 @@
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="card h-100 shadow-sm">
                     <div class="card-body text-center">
-                        <div class="collaborator-card mb-3"></div>
-                        <h5 class="card-title">Mtra. Ana Luz Polo Estrella</h5>
+                        <div class="collaborator-card mb-3 card-foto-base"
+                        style="background-image: url('../../public/images/polo.jpg');"></div>
+                        <a class="card-title" href="https://www.uv.mx/personal/apolo/">Mtra. Ana Luz Polo Estrella</a>
                         <p class="card-text">Facultad de Estadística e Informática, UV</p>
                     </div>
                 </div>
@@ -147,8 +162,9 @@
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="card h-100 shadow-sm">
                     <div class="card-body text-center">
-                        <div class="collaborator-card mb-3"></div>
-                        <h5 class="card-title">Mtro. Christian Pérez Salazar</h5>
+                        <div class="collaborator-card mb-3 card-foto-base" 
+                        style="background-image: url('../../public/images/christian.jpg');"></div>
+                        <a class="card-title" href="https://www.uv.mx/personal/chperez/author/chperez/">Mtro. Christian Pérez Salazar</a>
                         <p class="card-text">Facultad de Estadística e Informática, UV</p>
                     </div>
                 </div>
@@ -157,8 +173,9 @@
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="card h-100 shadow-sm">
                     <div class="card-body text-center">
-                        <div class="collaborator-card mb-3"></div>
-                        <h5 class="card-title">Mtro. Carlos Alberto Ochoa Rivera</h5>
+                        <div class="collaborator-card mb-3 card-foto-base"
+                        style="background-image: url('../../public/images/ochoa.jpg');"></div>
+                        <a class="card-title" href="https://www.uv.mx/personal/cochoa/">Mtro. Carlos Alberto Ochoa Rivera</a>
                         <p class="card-text">Facultad de Estadística e Informática, UV</p>
                     </div>
                 </div>
@@ -167,8 +184,9 @@
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="card h-100 shadow-sm">
                     <div class="card-body text-center">
-                        <div class="collaborator-card mb-3"></div>
-                        <h5 class="card-title">Dra. María del Rosario Pineda López</h5>
+                        <div class="collaborator-card mb-3 card-foto-base" 
+                        style="background-image: url('../../public/images/pineda.jpg');"></div>
+                        <a class="card-title" href="https://www.uv.mx/personal/rpineda/">Dra. María del Rosario Pineda López</a>
                         <p class="card-text">Centro de Ecoalfabetización y Diálogo de Saberes, UV</p>
                     </div>
                 </div>
@@ -183,7 +201,8 @@
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="card h-100 shadow-sm">
                     <div class="card-body text-center">
-                        <div class="collaborator-card mb-3"></div>
+                        <div class="collaborator-card mb-3"
+                        style="background-image: url('../../public/images/hannia.jpeg');"></div>
                         <h5 class="card-title">Hannia Galán Enríquez</h5>
                         <p class="card-text">Estudiante de Biología, Facultad de Biología, Xalapa</p>
                     </div>
@@ -193,7 +212,8 @@
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="card h-100 shadow-sm">
                     <div class="card-body text-center">
-                        <div class="collaborator-card mb-3"></div>
+                        <div class="collaborator-card mb-3 card-foto-base" 
+                        style="background-image: url('../../public/images/victoria.jpeg');"></div>
                         <h5 class="card-title">Victoria Priscilla Moyano Arguelles</h5>
                         <p class="card-text">Estudiante de Ingeniería de Software, FEI</p>
                     </div>
@@ -203,7 +223,8 @@
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="card h-100 shadow-sm">
                     <div class="card-body text-center">
-                        <div class="collaborator-card mb-3"></div>
+                        <div class="collaborator-card mb-3" 
+                         style="background-image: url('../../public/images/mifoto.jpeg');" ></div>
                         <h5 class="card-title">Martin Emmanuel Cruz Carmona</h5>
                         <p class="card-text">Estudiante de Ingeniería de Software, FEI</p>
                     </div>
@@ -224,8 +245,8 @@
       </div>
 
       <div class="text-end mt-3 mt-md-0">
-        <div><a href="https://uvmx.sharepoint.com/sites/rept/files/Forms/AllItems.aspx?id=%2Fsites%2Frept%2Ffiles%2F2023%2Favisos-privacidad%2FG-06%2Epdf&parent=%2Fsites%2Frept%2Ffiles%2F2023%2Favisos-privacidad&p=true&ga=1" target="_blank" class="text-white text-decoration-underline">Aviso de Privacidad de Actividades Institucionales</a></div>
-        <div><a href="https://uvmx.sharepoint.com/sites/rept/files/Forms/AllItems.aspx?id=%2Fsites%2Frept%2Ffiles%2F2023%2Favisos-privacidad%2FG-19%2Epdf&parent=%2Fsites%2Frept%2Ffiles%2F2023%2Favisos-privacidad&p=true&ga=1" target="_blank" class="text-white text-decoration-underline">Aviso de Privacidad de Participantes Externos en Actividades Institucionales de la UV.</a></div>
+        <div><a href="../../documents/AVISO_UV.pdf" target="_blank" class="text-white text-decoration-underline">Aviso de Privacidad de Actividades Institucionales</a></div>
+        <div><a href="../../documents/AVISO_PRIVACIDAD.pdf" target="_blank" class="text-white text-decoration-underline">Aviso de Privacidad de Participantes Externos en Actividades Institucionales de la UV.</a></div>
       </div>
     </div>
   </footer>

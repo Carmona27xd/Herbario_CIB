@@ -1,92 +1,100 @@
-document.addEventListener("DOMContentLoaded", function () {
-    fetch("../backend/adminRequestsCollector.php")
-    .then(response => response.json())
-    .then(data => {
-        console.log("Datos recibidos: ", data);
-        const tableBody = document.getElementById("requestsCollectorTableBody");
-        tableBody.innerHTML = "";
+document.addEventListener("DOMContentLoaded", async () => {
+    const tbody = document.getElementById("requestsCollectorTableBody");
 
-        if (data.length == 0) {
-            tableBody.innerHTML = `<tr><td colspan="5" class="text-center">No se han registrado solicitudes</td></tr>`;
-            return;
-        }
+    // --- FUNCIÓN 1: Cargar datos del Backend ---
+    try {
+        // Asegúrate que la ruta al PHP sea correcta desde donde está este HTML
+        const response = await fetch("../backend/adminRequestsCollector.php"); 
+        const result = await response.json();
 
-        data.forEach(request => {
-            const row = document.createElement("tr");
+        tbody.innerHTML = ""; // Limpiar spinner de carga
 
-            row.innerHTML = `
-                <td>${request.name}</td>
-                <td>${request.first_surname}</td>
-                <td>${request.second_surname}</td>
-                <td>${request.email}</td>
-                <td> 
-                    <button class="btn btn-warning btn-sm edit-btn" 
-                    data-id="${request.id_request}"
-                    data-name="${request.name}"
-                    data-first_surname="${request.first_surname}"
-                    data-second_surname="${request.second_surname}"
-                    data-email="${request.email}"
-                    data-ref_name="${request.ref_name}"
-                    data-ref_first_surname="${request.ref_first_surname}"
-                    data-ref_second_surname="${request.ref_second_surname}"
-                    data-ref_email="${request.ref_email}"
-                    data-curriculum_name="${request.curriculum_name}"
-                    data-permit_name="${request.permit_name}"
-                    data-letter_name="${request.letter_name}"
-                    data-proyect_name="${request.proyect_name}">
-                    <i class="bi bi-eye"></i> Ver detalles
-                    </button>
-                </td>
-            `;
+        if (result.success && result.data.length > 0) {
+            result.data.forEach(request => {
+                const row = document.createElement("tr");
 
-            tableBody.appendChild(row);
-        });
+                // 1. Concatenar Nombre Completo
+                // (Usamos trim() para quitar espacios si no hay segundo apellido)
+                const nombreCompleto = `${request.name} ${request.first_surname} ${request.second_surname || ''}`.trim();
 
-        //Agregar eventos al boton de descargar documentos
-        document.querySelectorAll(".edit-btn").forEach(button => {
-            button.addEventListener("click", function () {
-                const row = this.closest("tr");
-                const request = {
-                    id_request: this.dataset.id,
-                    name: row.cells[0].innerText,
-                    first_surname: row.cells[1].innerText,
-                    second_surname: row.cells[2].innerText,
-                    email: row.cells[3].innerText,
-                    
+                // 2. Definir Color del Estado (Badge)
+                let badgeClass = 'bg-secondary'; // Por defecto
+                if (request.status === 'Pendiente') {
+                    badgeClass = 'bg-warning text-dark';
+                } else if (request.status === 'Aceptada') {
+                    badgeClass = 'bg-success';
+                } else if (request.status === 'Rechazada') {
+                    badgeClass = 'bg-danger';
                 }
 
-                console.log(this.dataset);
-
-                const application = {
-
-                    id_request: this.dataset.id,
-                    name: this.dataset.name,
-                    first_surname: this.dataset.first_surname,
-                    second_surname: this.dataset.second_surname,
-                    email: this.dataset.email,
-                    ref_name: this.dataset.ref_name,
-                    ref_first_surname: this.dataset.ref_first_surname,
-                    ref_second_surname: this.dataset.ref_second_surname,
-                    ref_email: this.dataset.ref_email,
-                    curriculum_name: this.dataset.curriculum_name,
-                    permit_name: this.dataset.permit_name,
-                    letter_name: this.dataset.letter_name,
-                    proyect_name: this.dataset.proyect_name
-                };
-
-                localStorage.setItem("selectedRequest", JSON.stringify(application));
-
-                window.location.href = "applicationCollectorDetails.html";
+                // 3. Construir HTML de la fila
+                // IMPORTANTE: Guardamos TODOS los datos en los atributos data-* del botón
+                // aunque no se muestren en la tabla, para usarlos en "Detalles".
+                row.innerHTML = `
+                    <td class="ps-4">${request.created_at}</td>
+                    <td class="fw-bold text-secondary">${nombreCompleto}</td>
+                    <td><span class="badge ${badgeClass} rounded-pill">${request.status}</span></td>
+                    <td class="text-center">
+                        <button class="btn btn-custom-details btn-sm btn-detalles shadow-sm" 
+                            data-id="${request.id_request}"
+                            data-name="${request.name}"
+                            data-first-surname="${request.first_surname}"
+                            data-second-surname="${request.second_surname}"
+                            data-email="${request.email}"
+                            data-curriculum-name="${request.curriculum_name}"
+                            data-letter-name="${request.letter_name}"
+                            data-permit-name="${request.permit_name}"
+                            data-proyect-name="${request.proyect_name}"
+                            data-ref-email="${request.ref_email}"
+                            data-ref-first-surname="${request.ref_first_surname}"
+                            data-ref-name="${request.ref_name}"
+                            data-ref-second-surname="${request.ref_second_surname}"
+                            data-date="${request.created_at}"
+                            data-status="${request.status}"> 
+                            <i class="bi bi-eye-fill me-1"></i> Detalles
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
             });
-        });
-    })
-    .catch(error => {
-        console.error("Error al obtener los datos: ", error);
-        document.getElementById("collectorsTableBody").innerHTML = 
-        `<tr><td colspan="5" class="text-center text-danger">Error al cargar los datos</td></tr>`;
-    })
-});
+        } else {
+            tbody.innerHTML = `<tr><td colspan="4" class="text-center p-4 text-muted">No se encontraron solicitudes.</td></tr>`;
+        }
+    } catch (error) {
+        console.error("Error cargando solicitudes:", error);
+        tbody.innerHTML = `<tr><td colspan="4" class="text-center p-4 text-danger"><i class="bi bi-exclamation-triangle"></i> Error al cargar los datos.</td></tr>`;
+    }
 
-document.getElementById("backButton").addEventListener("click", function () {
-    window.location.href = "dashBoardComitteeMember.html";
+    // --- FUNCIÓN 2: Manejar clic en "Detalles" ---
+    tbody.addEventListener('click', event => {
+        // Usamos .closest() para que funcione el clic aunque toques el ícono <i>
+        const button = event.target.closest('.btn-detalles');
+        
+        if (button) {
+            // Recopilar todos los datos guardados en el botón
+            const requestData = {
+                id_request: button.dataset.id,
+                name: button.dataset.name,
+                first_surname: button.dataset.firstSurname,
+                second_surname: button.dataset.secondSurname,
+                email: button.dataset.email,
+                curriculum_name: button.dataset.curriculumName,
+                letter_name: button.dataset.letterName,
+                permit_name: button.dataset.permitName,
+                proyect_name: button.dataset.proyectName,
+                ref_email: button.dataset.refEmail,
+                ref_first_surname: button.dataset.refFirstSurname,
+                ref_name: button.dataset.refName,
+                ref_second_surname: button.dataset.refSecondSurname,
+                created_at: button.dataset.date,
+                status: button.dataset.status
+            };
+
+            // Guardar en LocalStorage
+            localStorage.setItem("selectedRequest", JSON.stringify(requestData));
+            
+            // Redirigir a la página de detalles
+            window.location.href = 'applicationCollectorDetails.html';
+        }
+    });
 });

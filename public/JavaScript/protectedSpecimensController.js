@@ -61,13 +61,24 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 document.getElementById("requestForm").addEventListener("submit", async function (event) {
     event.preventDefault();
+
+    const fileInput = document.getElementById("attachment");
     let statusAux = "Sin atender";
+
+    if(fileInput.files.length === 0) {
+        alert("Por favor adjunta el documento PDF de justificación.");
+        return;
+    }
+
+    const pdfFile = fileInput.files[0];
+
 
     const newRequest = {
         idSpecimen: document.getElementById("specimenId").value.trim(),
         name: document.getElementById("requesterName").value.trim(),
         email: document.getElementById("requesterEmail").value.trim(),
         description: document.getElementById("reason").value.trim(),
+
         status: statusAux
     };
 
@@ -78,6 +89,7 @@ document.getElementById("requestForm").addEventListener("submit", async function
         requestFormData.append("email", newRequest.email);
         requestFormData.append("description", newRequest.description);
         requestFormData.append("status", newRequest.status);
+        requestFormData.append("attachment", pdfFile, pdfFile.name);
 
         const response = await fetch("../backend/registerRequestProtected.php", {
             method: "POST",

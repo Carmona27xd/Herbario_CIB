@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const modal = new bootstrap.Modal(document.getElementById('downloadModal'));
     const btnImagenes = document.getElementById('downloadImagesBtn');
     const btnPDF = document.getElementById('downloadPdfBtn');
+    const btnAccess = document.getElementById("accessButton");
 
     let ejemplaresOriginal = [];
 
@@ -25,6 +26,27 @@ document.addEventListener('DOMContentLoaded', () => {
         );
         renderTabla(filtrados);
     });
+
+    document.addEventListener('change', function(event) {
+    if (event.target.classList.contains('specimen-checkbox')) {
+      updateText();
+    }
+  });
+
+  function updateText() {
+    const total = document.querySelectorAll('.specimen-checkbox:checked').length;
+    const textCounter = document.getElementById("counter");
+    if (textCounter) {
+      textCounter.textContent = `Ejemplares seleccionados: ${total}`;
+      if (total > 0 ) {
+        textoContador.classList.remove('text-muted');
+        textoContador.classList.add('text-primary');
+      } else {
+        textoContador.classList.add('text-muted');
+        textoContador.classList.remove('text-primary');
+      }
+    }
+  }
 
     function renderTabla(datos) {
         const tbody = document.querySelector("table tbody");
@@ -64,6 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const algunoSeleccionado = Array.from(document.querySelectorAll('.specimen-checkbox')).some(cb => cb.checked);
         btnMostrar.disabled = !algunoSeleccionado;
         btnDescargar.disabled = !algunoSeleccionado;
+        btnAccess.disabled = !algunoSeleccionado;
     }
 
     btnDescargar.addEventListener('click', () => modal.show());
@@ -331,4 +354,58 @@ document.addEventListener('DOMContentLoaded', () => {
         XLSX.utils.book_append_sheet(wb, ws, "Ejemplar");
         XLSX.writeFile(wb, `ejemplar_${data.idSpecimen || "detalle"}.xlsx`);
     };
+});
+
+document.getElementById("accessButton").addEventListener('click', () => {
+  const selectedSpecimens = document.querySelectorAll('.specimen-checkbox:checked');
+  const protectedID = [];
+
+  selectedSpecimens.forEach(checkbox => {
+    const val = checkbox.getAttribute('data-protegido');
+    const id = checkbox.getAttribute('data-id');
+
+    if (String(val).toLowerCase() === "true") {
+      protectedID.push(id);
+    }
+    if (protectedID.length == 0) {
+
+      const errorModal = new bootstrap.Modal(document.getElementById("modalNotProtectedSelect"));
+      errorModal.show();
+
+    } else {
+      window.location.href = "../newAccessRequest.html";
+    }
+  });
+
+  console.log("ID protegidos guardados", protectedID);
+  localStorage.setItem('idForAccess', JSON.stringify(protectedID));
+  
+});
+
+///////////SEPARACION DE BOTONES////////////////////////////////
+
+document.getElementById("btnPruebaAcceso").addEventListener('click', () => {
+  const selectedSpecimens = document.querySelectorAll('.specimen-checkbox:checked');
+  const protectedID = [];
+
+  selectedSpecimens.forEach(checkbox => {
+    const val = checkbox.getAttribute('data-protegido');
+    const id = checkbox.getAttribute('data-id');
+
+    if (String(val).toLowerCase() === "true") {
+      protectedID.push(id);
+    }
+    if (protectedID.length == 0) {
+
+      const errorModal = new bootstrap.Modal(document.getElementById("modalNotProtectedSelect"));
+      errorModal.show();
+
+    } else {
+      window.location.href = "../newAccessRequest.html";
+    }
+  });
+
+  console.log("ID protegidos guardados", protectedID);
+  localStorage.setItem('idForAccess', JSON.stringify(protectedID));
+  
 });

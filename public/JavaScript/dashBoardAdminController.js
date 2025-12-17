@@ -14,3 +14,15 @@ document.getElementById("registerComiteMember").addEventListener("click", functi
 document.getElementById("adminUsers").addEventListener("click", function() {
     window.location.href = "adminUsers.html";
 });
+
+document.getElementById("registerCollector").addEventListener("click", function() {
+    window.location.href = "registerCollector.html";
+});
+
+document.getElementById("adminCollectors").addEventListener("click", function() {
+    window.location.href = "adminCollectors.html";
+});
+
+document.getElementById("viewRequests").addEventListener("click", function () {
+    window.location.href = "adminRequestsCollector.html"
+})

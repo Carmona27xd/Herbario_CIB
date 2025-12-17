@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitud de Acceso - Herbario Virtual</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            background-color: #f4f9f4;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .header-nav {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* Encabezado Principal */
+        .page-title {
+            color: #2c5c3b; /* Azul/Verde corporativo de la imagen */
+            font-weight: 600;
+            text-align: center;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-card {
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Estilo para las zonas de carga de archivos (Cuadros punteados) */
+        .file-upload-zone {
+            border: 2px dashed #ccc;
+            border-radius: 0.8rem;
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: row; /* Icono al lado del texto como en tu imagen */
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .file-upload-zone:hover {
+            border-color: #2c5c3b;
+            background-color: #eef7f1;
+        }
+
+        .file-upload-zone i {
+            font-size: 2.5rem;
+            color: #6c757d;
+        }
+        
+        .file-upload-zone span {
+            font-weight: 600;
+            color: #495057;
+            text-align: left;
+        }
+
+        /* Sección de Referencias */
+        .references-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            color: #2c5c3b; /* Color del título azulado/verde */
+        }
+
+        .reference-card {
+            background-color: white;
+            border: 1px solid #e9ecef;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .reference-title {
+            color: #6c757d;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Botón de Enviar Flotante/Estilizado */
+        .btn-submit-container {
+            text-align: right;
+            margin-top: 2rem;
+        }
+        
+        .btn-submit {
+            background-color: #28a745; /* Verde brillante como en la imagen */
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
+            transition: transform 0.2s;
+        }
+        
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            background-color: #218838;
+            color: white;
+        }
+
+        /* Inputs estilo "linea" o caja suave */
+        .form-control {
+            border: 1px solid #ced4da;
+            padding: 0.6rem 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Barra de Navegación -->
+    <nav class="navbar navbar-expand-lg header-nav sticky-top">
+        <div class="container-fluid" style="max-width: 1100px;">
+            <span class="navbar-brand fw-bold" style="color: #2c5c3b;">
+                <i></i> Herbario Virtual
+            </span>
+        </div>
+    </nav>
+
+    <div class="container" style="max-width: 1100px;">
+        
+        <!-- Título de la Página -->
+        <h2 class="page-title">Enviar solicitud de acceso a registros protegidos</h2>
+
+        <form id="accessRequestForm" class="form-card">
+            
+            <!-- 1. Datos Personales -->
+            <div class="row g-3 mb-5">
+                <div class="col-md-4">
+                    <input type="text" class="form-control" placeholder="Nombre" name="nombre" required>
+                </div>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" placeholder="Apellidos" name="apellidos" required>
+                </div>
+                <div class="col-md-4">
+                    <input type="email" class="form-control" placeholder="Correo" name="correo" required>
+                </div>
+            </div>
+
+            <!-- 2. Documentos Grupo A (Carta, CV, Permiso) -->
+            <div class="row g-4 mb-5">
+                <!-- Carta Compromiso -->
+                <div class="col-md-4">
+                    <label class="file-upload-zone" for="fileCartaCompromiso">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                        <span>Carta compromiso</span>
+                        <input type="file" id="fileCartaCompromiso" accept="application/pdf" hidden>
+                    </label>
+                </div>
+                
+                <!-- CV -->
+                <div class="col-md-4">
+                    <label class="file-upload-zone" for="fileCV">
+                        <i class="bi bi-file-earmark-person"></i>
+                        <span>CV</span>
+                        <input type="file" id="fileCV" accept="application/pdf" hidden>
+                    </label>
+                </div>
+
+                <!-- Permiso Colecta -->
+                <div class="col-md-4">
+                    <label class="file-upload-zone" for="filePermiso">
+                        <i class="bi bi-file-earmark-check"></i>
+                        <span>Permiso colecta</span>
+                        <input type="file" id="filePermiso" accept="application/pdf" hidden>
+                    </label>
+                </div>
+            </div>
+
+            <!-- 3. Referencias Personales (Estáticas: Solo 2) -->
+            <div class="mb-5">
+                <div class="references-header">
+                    <h5 class="mb-0 fw-bold">Referencias personales</h5>
+                </div>
+
+                <div id="referencesContainer">
+                    <!-- Referencia 1 -->
+                    <div class="reference-card">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" placeholder="Nombre Completo" required>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="email" class="form-control" placeholder="Correo" required>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="tel" class="form-control" placeholder="Teléfono" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Referencia 2 -->
+                    <div class="reference-card">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" placeholder="Nombre Completo" required>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="email" class="form-control" placeholder="Correo" required>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="tel" class="form-control" placeholder="Teléfono" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Documentos Grupo B (Cartas rec, Protocolo) -->
+            <div class="row g-4 mb-4">
+                <!-- Carta Recomendación 1 -->
+                <div class="col-md-4">
+                    <label class="file-upload-zone" for="fileRecomendacion1">
+                        <i class="bi bi-file-earmark-text"></i>
+                        <span>Carta de recomendación</span>
+                        <input type="file" id="fileRecomendacion1" accept="application/pdf" hidden>
+                    </label>
+                </div>
+
+                <!-- Carta Recomendación 2 -->
+                <div class="col-md-4">
+                    <label class="file-upload-zone" for="fileRecomendacion2">
+                        <i class="bi bi-file-earmark-text"></i>
+                        <span>Carta de recomendación</span>
+                        <input type="file" id="fileRecomendacion2" accept="application/pdf" hidden>
+                    </label>
+                </div>
+
+                <!-- Protocolo -->
+                <div class="col-md-4">
+                    <label class="file-upload-zone" for="fileProtocolo">
+                        <i class="bi bi-journal-text"></i>
+                        <span>Protocolo o proyecto</span>
+                        <input type="file" id="fileProtocolo" accept="application/pdf" hidden>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Botón Enviar -->
+            <div class="btn-submit-container d-flex align-items-center justify-content-end">
+                <span class="me-3 text-muted">
+                    ¿Tienes dudas con el formulario? Contacta con el administrador a través de administrador@uv.mx
+                </span>
+                <button type="submit" class="btn-submit btn btn-primary">
+                    Enviar solicitud <i class="bi bi-send"></i>
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- Scripts Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="JavaScript/newRequestController.js"></script>
+</body>
+</html>
